@@ -5,19 +5,22 @@ namespace MauticPlugin\MauticFocusBundle\EventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Mautic\LeadBundle\Model\CompanyReportData;
 use Mautic\ReportBundle\ReportEvents;
+use Mautic\ReportBundle\Event\ReportBuilderEvent;
+use Mautic\ReportBundle\Event\ReportDataEvent;
+use Mautic\ReportBundle\Event\ReportGeneratorEvent;
+use Symfony\Component\Routing\RouterInterface;
+
 
 class ReportSubscriber implements EventSubscriberInterface
 {
     const CONTEXT_FOCUS_STATS = 'focus_stats';
-    /**
-     * @var CompanyReportData
-     */
-    private $companyReportData;
+    const FOCUS_GROUP = 'focus';
+    const   PREFIX_FOCUS = 'f';
+    const PREFIX_STATS = 'fs';
+    const PREFIX_REDIRECTS = 'r';
+    const PREFIX_TRACKABLES = 't';
 
-    public function __construct(CompanyReportData $companyReportData)
-    {
-        $this->companyReportData = $companyReportData;
-    }
+
 
     /**
      * @return array
@@ -40,52 +43,41 @@ class ReportSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $prefix = 'f.'; //soft coden
-        $prefixStats = 'fs.';
-        $prefixRedirects = 'r.';
-        $prefixTrackables = 't.';
+
         $columns = [
-            $prefix . 'name' => [
+            self::PREFIX_FOCUS . '.name' => [
                 'label' => 'mautic.core.name',
                 'type' => 'html',
             ],
-            $prefix . 'description' => [
+            self::PREFIX_FOCUS . '.description' => [
                 'label' => 'mautic.core.description',
                 'type' => 'html',
             ],
-            $prefix . 'focus_type' => [
+            self::PREFIX_FOCUS . '.focus_type' => [
                 'label' => 'mautic.focus.thead.type',
                 'type' => 'html',
             ],
-            $prefix . 'style' => [
+            self::PREFIX_FOCUS . '.style' => [
                 'label' => 'mautic.focus.tab.focus_style',
                 'type' => 'html',
             ],
-            $prefixStats . 'type' => [
+            self::PREFIX_STATS . '.type' => [
                 'label' => 'mautic.focus.interaction',
                 'type' => 'html',
             ],
-            $prefixTrackables . 'hits' => [
+            self::PREFIX_TRACKABLES . '.hits' => [
                 'label' => 'pagehits',
                 'type' => 'html',
             ],
-            $prefixTrackables . 'unique_hits' => [
+            self::PREFIX_TRACKABLES . '.unique_hits' => [
                 'label' => 'uniquehits',
                 'type' => 'html',
             ],
-            $prefixRedirects . 'url' => [
+            self::PREFIX_REDIRECTS . '.url' => [
                 'label' => 'url',
                 'type' => 'html',
             ]
         ];
-
-        $event->addTable(
-            self::CONTEXT_FOCUS,
-            [
-                'display_name' => 'mautic.focus',
-                'columns' => $columns,
-            ]
-        );
 
         if ($event->checkContext(self::CONTEXT_FOCUS_STATS)) {
 
@@ -96,7 +88,41 @@ class ReportSubscriber implements EventSubscriberInterface
             $context = self::CONTEXT_FOCUS_STATS;
 
             // Register table
-            $event->addTable($context, $data, self::CONTEXT_FOCUS);
+            $event->addTable($context, $data, self::FOCUS_GROUP);
         }
+    }
+    /**
+     * Initialize the QueryBuilder object to generate reports from.
+     */
+    public function onReportGenerate(ReportGeneratorEvent $event)
+    {
+        if ($event->checkContext([self::CONTEXT_FOCUS_STATS])) {
+            $queryBuilder = $event->getQueryBuilder();
+            $queryBuilder->from(MAUTIC_TABLE_PREFIX . 'focus_stats', self::PREFIX_STATS)
+                ->leftJoin('fs', MAUTIC_TABLE_PREFIX . 'focus', self::PREFIX_FOCUS, 'f.id = fs.focus_id')
+                ->leftJoin('fs', MAUTIC_TABLE_PREFIX . 'channel_url_trackables', self::PREFIX_TRACKABLES, 't.channel_id = fs.focus_id')
+                ->leftJoin('fs', MAUTIC_TABLE_PREFIX . 'page_redirects', self::PREFIX_REDIRECTS, 'r.id = t.redirect_id');
+            $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
+            $event->setQueryBuilder($queryBuilder);
+        }
+    }
+
+    public function onReportDisplay(ReportDataEvent $event)
+    {
+        $data = $event->getData();
+        if ($event->checkContext([self::CONTEXT_FOCUS_STATS])) {
+            if (isset($data[0]['channel']) && isset($data[0]['channel_id'])) {
+                foreach ($data as &$row) {
+                    $href = 'bla';
+                    if (isset($row['channel'])) {
+                        $row['channel'] = '<a href="' . $href . '">' . $row['channel'] . '</a>';
+                    }
+                    unset($row);
+                }
+            }
+        }
+
+        $event->setData($data);
+        unset($data);
     }
 }
