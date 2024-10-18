@@ -1359,6 +1359,7 @@
   -webkit-animation: ri-spin 2s infinite linear;
   animation: ri-spin 2s infinite linear;
   display: inline-flex;
+  line-height: normal;
 }
 @-webkit-keyframes ri-spin {
   0% {
@@ -2554,6 +2555,7 @@ kbd {
   right: 3px !important;
 }
 .btn {
+  --btn-height: var(--spacing-08);
   transition: var(--transition-all-productive);
   border: 1px solid transparent;
   outline: 2px var(--outline-style) transparent;
@@ -2561,13 +2563,15 @@ kbd {
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  height: var(--spacing-08);
-  line-height: var(--spacing-08);
+  height: var(--btn-height);
+  line-height: var(--btn-height);
   font-size: 14px;
   padding: 0 var(--spacing-05);
   gap: var(--spacing-03);
   justify-content: space-between;
   width: fit-content;
+  min-width: var(--btn-height);
+  position: relative;
 }
 .btn:hover {
   outline: 2px var(--outline-style) transparent;
@@ -2597,19 +2601,28 @@ kbd {
   outline: 2px solid transparent;
 }
 .btn span {
-  display: flex;
-  align-items: center;
-  min-width: 0;
+  display: block;
 }
-.btn span > span {
-  margin-right: 8px;
+.btn:not(:has(span)):has(i) {
+  padding-right: var(--spacing-09);
+}
+.btn > span:not(:has(span)),
+.btn > span > span {
+  padding-right: var(--spacing-07);
 }
 .btn i {
-  min-width: 13px;
+  position: absolute;
+  right: calc(var(--btn-height) / 3);
   order: 2;
   line-height: inherit;
   font-size: 12px;
   vertical-align: -0.05em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.btn .ri-spin {
+  line-height: 12px;
+  top: 12px;
 }
 .btn > .caret {
   margin-top: -1px;
@@ -2953,7 +2966,6 @@ fieldset[disabled] .btn-secondary.focus {
   border: 1px solid var(--button-tertiary);
   outline: 2px var(--outline-style) transparent;
   outline-offset: -2px;
-  margin-left: -1px;
 }
 .btn-tertiary:hover,
 .btn-tertiary + .dropdown-toggle:hover,
@@ -3441,13 +3453,6 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
 .btn-secondary,
 .btn-tertiary {
   padding-left: var(--spacing-05);
-  padding-right: var(--spacing-10);
-  gap: var(--spacing-07);
-}
-.btn-primary:has(i),
-.btn-secondary:has(i),
-.btn-tertiary:has(i) {
-  padding-right: var(--spacing-05);
 }
 .btn-primary.btn-icon,
 .btn-secondary.btn-icon,
@@ -3458,13 +3463,6 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
 .btn-secondary.btn-icon span,
 .btn-tertiary.btn-icon span {
   width: initial;
-}
-.btn-primary span,
-.btn-secondary span,
-.btn-tertiary span {
-  justify-content: space-between;
-  gap: var(--spacing-07);
-  width: 100%;
 }
 .btn-ghost {
   background-color: transparent;
@@ -3732,6 +3730,10 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   aspect-ratio: 1 / 1;
   border-radius: 20px;
 }
+.btn-icon i {
+  position: relative;
+  right: 0;
+}
 .btn-toggletip {
   height: auto;
   line-height: 1em;
@@ -3755,29 +3757,23 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   outline-color: transparent;
 }
 .btn-xs {
-  height: var(--spacing-06);
-  line-height: var(--spacing-06);
+  --btn-height: var(--spacing-06);
 }
 .btn-sm {
-  height: var(--spacing-07);
-  line-height: var(--spacing-07);
+  --btn-height: var(--spacing-07);
 }
 .btn-md {
-  height: var(--spacing-08);
-  line-height: var(--spacing-08);
+  --btn-height: var(--spacing-08);
 }
 .btn-lg {
-  height: var(--spacing-09);
-  line-height: var(--spacing-09);
+  --btn-height: var(--spacing-09);
 }
 .btn-xl {
-  height: var(--spacing-10);
-  line-height: var(--spacing-08);
+  --btn-height: var(--spacing-10);
   align-items: flex-start;
 }
 .btn-2xl {
-  height: var(--spacing-11);
-  line-height: var(--spacing-08);
+  --btn-height: var(--spacing-11);
   align-items: flex-start;
 }
 .btn.active,
