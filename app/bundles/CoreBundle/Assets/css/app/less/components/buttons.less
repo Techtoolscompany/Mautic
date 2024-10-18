@@ -6,22 +6,19 @@
 // Base styles
 // ---------------------
 .btn {
-  --btn-height: var(--spacing-08);
   transition: var(--transition-all-productive);
   border: 1px solid transparent;
   .outline();
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  height: var(--btn-height);
-  line-height: var(--btn-height);
+  height: var(--spacing-08);
+  line-height: var(--spacing-08);
   font-size: 14px;
   padding: 0 var(--spacing-05);
   gap: var(--spacing-03);
   justify-content: space-between;
   width: fit-content;
-  min-width: var(--btn-height);
-  position: relative;
   &:hover {
     border: 1px solid transparent;
     color: var(--text-primary);
@@ -38,33 +35,19 @@
   }
 
   span {
-    display: block;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    > span {margin-right: 8px;}
   }
 
-  &:not(:has(span)):has(i) {
-    padding-right: var(--spacing-09);
-  }
-
-  // Makes buttons symmetric on mobile
-  > span:not(:has(span)),
-  > span > span {
-    padding-right: var(--spacing-07);
-  }
-
+  // reset font awesome width
   i {
-    position: absolute;
-    right: calc(var(--btn-height) / 3);
+    min-width: 13px;
     order: 2;
     line-height: inherit;
     font-size: 12px;
     vertical-align: -.05em;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .ri-spin {
-    line-height: 12px;
-    top: 12px;
   }
 
   // caret
@@ -173,6 +156,7 @@
     @disabled-background: transparent,
     @disabled-text-color: var(--text-disabled)
   );
+  margin-left: -1px;
 
   /// Tertiary danger
   &.btn-danger {
@@ -193,9 +177,17 @@
 .btn-secondary,
 .btn-tertiary {
   padding-left: var(--spacing-05);
+  padding-right: var(--spacing-10);
+  gap: var(--spacing-07);
+  &:has(i) {padding-right: var(--spacing-05);}
   &.btn-icon {
     padding-right: 0;
     span { width: initial;}
+  }
+  span {
+    justify-content: space-between;
+    gap: var(--spacing-07);
+    width: 100%;
   }
 }
 
@@ -254,10 +246,6 @@
   align-items: center;
   aspect-ratio: 1 / 1;
   border-radius: 20px;
-  i {
-    position: relative;
-    right: 0;
-  }
 }
 
 .btn-toggletip {
@@ -291,12 +279,12 @@
 }
 
 // Standard sizes
-.btn-xs  { --btn-height: var(--spacing-06); }
-.btn-sm  { --btn-height: var(--spacing-07); }
-.btn-md  { --btn-height: var(--spacing-08); }
-.btn-lg  { --btn-height: var(--spacing-09); }
-.btn-xl  { --btn-height: var(--spacing-10); align-items: flex-start; }
-.btn-2xl { --btn-height: var(--spacing-11); align-items: flex-start; }
+.btn-xs { height: var(--spacing-06); line-height: var(--spacing-06);}
+.btn-sm { height: var(--spacing-07); line-height: var(--spacing-07);}
+.btn-md { height: var(--spacing-08); line-height: var(--spacing-08);}
+.btn-lg { height: var(--spacing-09); line-height: var(--spacing-09);}
+.btn-xl { height: var(--spacing-10); line-height: var(--spacing-08); align-items: flex-start;}
+.btn-2xl { height: var(--spacing-11); line-height: var(--spacing-08); align-items: flex-start;}
 
 // Fix for outline
 .btn.active,

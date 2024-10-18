@@ -1359,7 +1359,6 @@
   -webkit-animation: ri-spin 2s infinite linear;
   animation: ri-spin 2s infinite linear;
   display: inline-flex;
-  line-height: normal;
 }
 @-webkit-keyframes ri-spin {
   0% {
@@ -2555,7 +2554,6 @@ kbd {
   right: 3px !important;
 }
 .btn {
-  --btn-height: var(--spacing-08);
   transition: var(--transition-all-productive);
   border: 1px solid transparent;
   outline: 2px var(--outline-style) transparent;
@@ -2563,15 +2561,13 @@ kbd {
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  height: var(--btn-height);
-  line-height: var(--btn-height);
+  height: var(--spacing-08);
+  line-height: var(--spacing-08);
   font-size: 14px;
   padding: 0 var(--spacing-05);
   gap: var(--spacing-03);
   justify-content: space-between;
   width: fit-content;
-  min-width: var(--btn-height);
-  position: relative;
 }
 .btn:hover {
   outline: 2px var(--outline-style) transparent;
@@ -2601,28 +2597,19 @@ kbd {
   outline: 2px solid transparent;
 }
 .btn span {
-  display: block;
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
-.btn:not(:has(span)):has(i) {
-  padding-right: var(--spacing-09);
-}
-.btn > span:not(:has(span)),
-.btn > span > span {
-  padding-right: var(--spacing-07);
+.btn span > span {
+  margin-right: 8px;
 }
 .btn i {
-  position: absolute;
-  right: calc(var(--btn-height) / 3);
+  min-width: 13px;
   order: 2;
   line-height: inherit;
   font-size: 12px;
   vertical-align: -0.05em;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.btn .ri-spin {
-  line-height: 12px;
-  top: 12px;
 }
 .btn > .caret {
   margin-top: -1px;
@@ -2966,6 +2953,7 @@ fieldset[disabled] .btn-secondary.focus {
   border: 1px solid var(--button-tertiary);
   outline: 2px var(--outline-style) transparent;
   outline-offset: -2px;
+  margin-left: -1px;
 }
 .btn-tertiary:hover,
 .btn-tertiary + .dropdown-toggle:hover,
@@ -3453,6 +3441,13 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
 .btn-secondary,
 .btn-tertiary {
   padding-left: var(--spacing-05);
+  padding-right: var(--spacing-10);
+  gap: var(--spacing-07);
+}
+.btn-primary:has(i),
+.btn-secondary:has(i),
+.btn-tertiary:has(i) {
+  padding-right: var(--spacing-05);
 }
 .btn-primary.btn-icon,
 .btn-secondary.btn-icon,
@@ -3463,6 +3458,13 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
 .btn-secondary.btn-icon span,
 .btn-tertiary.btn-icon span {
   width: initial;
+}
+.btn-primary span,
+.btn-secondary span,
+.btn-tertiary span {
+  justify-content: space-between;
+  gap: var(--spacing-07);
+  width: 100%;
 }
 .btn-ghost {
   background-color: transparent;
@@ -3730,10 +3732,6 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   aspect-ratio: 1 / 1;
   border-radius: 20px;
 }
-.btn-icon i {
-  position: relative;
-  right: 0;
-}
 .btn-toggletip {
   height: auto;
   line-height: 1em;
@@ -3757,23 +3755,29 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   outline-color: transparent;
 }
 .btn-xs {
-  --btn-height: var(--spacing-06);
+  height: var(--spacing-06);
+  line-height: var(--spacing-06);
 }
 .btn-sm {
-  --btn-height: var(--spacing-07);
+  height: var(--spacing-07);
+  line-height: var(--spacing-07);
 }
 .btn-md {
-  --btn-height: var(--spacing-08);
+  height: var(--spacing-08);
+  line-height: var(--spacing-08);
 }
 .btn-lg {
-  --btn-height: var(--spacing-09);
+  height: var(--spacing-09);
+  line-height: var(--spacing-09);
 }
 .btn-xl {
-  --btn-height: var(--spacing-10);
+  height: var(--spacing-10);
+  line-height: var(--spacing-08);
   align-items: flex-start;
 }
 .btn-2xl {
-  --btn-height: var(--spacing-11);
+  height: var(--spacing-11);
+  line-height: var(--spacing-08);
   align-items: flex-start;
 }
 .btn.active,
