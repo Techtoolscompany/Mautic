@@ -53,7 +53,7 @@
     {% if button.href is defined %}
         <a class="{{ button_classes|join(' ') }}" href="{{ button.href }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
-                <i class="{{ button.icon }}"></i>
+                <i class="{{ button.icon }}" aria-hidden="true" focusable="false"></i>
             {% endif %}
             {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
                 <span>{{ button.label|trans }}</span>
@@ -62,7 +62,7 @@
     {% else %}
         <button type="button" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
-                <i class="{{ button.icon }}"></i>
+                <i class="{{ button.icon }}" aria-hidden="true" focusable="false"></i>
             {% endif %}
             {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
                 <span>{{ button.label|trans }}</span>
