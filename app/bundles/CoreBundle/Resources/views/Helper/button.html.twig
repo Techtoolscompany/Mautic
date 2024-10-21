@@ -60,7 +60,8 @@
             {% endif %}
         </a>
     {% else %}
-        <button type="button" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
+        {% set button_type = button.attributes.type is defined ? button.attributes.type : (button.onclick is defined and button.onclick != '' ? 'button' : 'submit') %}
+        <button type="{{ button_type }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
                 <i class="{{ button.icon }}" aria-hidden="true" focusable="false"></i>
             {% endif %}
