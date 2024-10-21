@@ -147,9 +147,29 @@
 
                     </div>
                     <div class="panel-footer">
-                        <a id="EventInsertButton" data-toggle="ajax" data-target="CampaignEvent_" data-ignore-formexit="true" data-method="POST" data-hide-loadingbar="true" href="{{ path(route, {'objectAction': 'insert', 'campaignId': campaignId, 'anchor': 'none', 'anchorEventType': 'none'}) }}"  class="btn btn-md btn-ghost">
-                            {{ 'mautic.campaign.event.clone.insert'|trans }}
-                        </a>
+                        {% include '@MauticCore/Helper/button.html.twig' with {
+                            buttons: [
+                                {
+                                    label: 'mautic.campaign.event.clone.insert',
+                                    size: 'md',
+                                    href: path(route, {
+                                        'objectAction': 'insert',
+                                        'campaignId': campaignId,
+                                        'anchor': 'none',
+                                        'anchorEventType': 'none'
+                                    }),
+                                    variant: 'ghost',
+                                    attributes: {
+                                        'id': 'EventInsertButton',
+                                        'data-toggle': 'ajax',
+                                        'data-target': 'CampaignEvent_',
+                                        'data-ignore-formexit': 'true',
+                                        'data-method': 'POST',
+                                        'data-hide-loadingbar': 'true'
+                                    }
+                                }
+                            ]
+                        } %}
                     </div>
                 </div>
             </div>
