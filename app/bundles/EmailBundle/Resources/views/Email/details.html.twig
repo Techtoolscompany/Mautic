@@ -88,6 +88,10 @@
     'entity': email,
     'status': 'available'
 }) -}}
+
+    <span class="label label-warm-gray">
+        {{ emailType == 'list' ? 'mautic.email.type.list.header' | trans : (emailType == 'template' ? 'mautic.email.type.template.header' | trans : type) }}
+    </span>
   {% endif %}
 {% endblock %}
 
