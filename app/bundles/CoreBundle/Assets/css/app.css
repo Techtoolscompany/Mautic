@@ -2430,11 +2430,7 @@ a.text-danger:focus {
   color: #f6421e;
 }
 .text-info {
-  color: #35B4B9;
-}
-a.text-info:hover,
-a.text-info:focus {
-  color: #2a8d91;
+  color: var(--support-info);
 }
 .text-twitter {
   color: #55acee;
