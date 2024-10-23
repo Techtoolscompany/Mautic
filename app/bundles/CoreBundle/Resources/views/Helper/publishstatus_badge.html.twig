@@ -1,17 +1,23 @@
 {% set statusColors = {
     'published': {'icon': 'success', 'text': 'green'},
     'unpublished': {'icon': 'danger', 'text': 'red'},
-    'expired': {'icon': 'danger', 'text': 'red'},
-    'pending': {'icon': 'warning', 'text': 'yellow'}
+    'expired': {'icon': 'info', 'text': 'blue'},
+    'pending': {'icon': 'info', 'text': 'blue'}
 } %}
 
-{% if status is not defined %}
-    {% set labelText = ('mautic.core.form.' ~ (entity.getPublishStatus() == 'published' ? 'active' : 'inactive'))|trans %}
+{% set publishStatus = entity.getPublishStatus() %}
+{% if publishStatus == 'published' %}
+    {% set labelText = (status is not defined ? 'mautic.core.form.active' : 'mautic.core.form.available')|trans %}
+{% elseif publishStatus == 'pending' %}
+    {% set labelText = 'mautic.core.form.pending'|trans %}
+{% elseif publishStatus == 'expired' %}
+    {% set labelText = 'mautic.core.form.expired'|trans %}
 {% else %}
-    {% set labelText = ('mautic.core.form.' ~ (entity.getPublishStatus() == 'published' ? 'available' : 'unavailable'))|trans %}
+    {% set labelText = (status is not defined ? 'mautic.core.form.inactive' : 'mautic.core.form.unavailable')|trans %}
 {% endif %}
 
-<div class="label label-{{ statusColors[entity.getPublishStatus()].text }} d-flex ai-center gap-xs fw-b">
-    <span title="{{ labelText }}" aria-label="{{ labelText }}" class="bg-{{ statusColors[entity.getPublishStatus()].icon }} publishstatus_pulse"> </span>
-{{ labelText }}
+
+<div class="label label-{{ statusColors[publishStatus].text }} d-flex ai-center gap-xs fw-b">
+    <span title="{{ labelText }}" aria-label="{{ labelText }}" class="bg-{{ statusColors[publishStatus].icon }} publishstatus_pulse"> </span>
+    {{ labelText }}
 </div>
