@@ -3935,6 +3935,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
 .alert.alert-warning.notification,
 .alert.alert-danger.notification {
   position: relative;
+  border-radius: 0;
 }
 .alert.alert-success.notification:before,
 .alert.alert-info.notification:before,
@@ -3951,7 +3952,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
 .alert.alert-danger.notification .close {
   position: absolute;
   top: 10px;
-  right: 0;
+  right: 5px;
 }
 .alert .close {
   font-size: 13px;
