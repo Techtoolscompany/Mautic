@@ -2582,7 +2582,6 @@ kbd {
 }
 .btn:hover {
   border: 1px solid transparent;
-  color: var(--text-primary);
 }
 .btn,
 .btn:active,
@@ -3839,6 +3838,9 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
 }
 .btn-link {
   font-weight: normal;
+  height: auto;
+  line-height: normal;
+  padding: 0;
 }
 .btn-link:hover,
 .btn-link:focus {
