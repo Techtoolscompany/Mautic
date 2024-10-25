@@ -6037,9 +6037,12 @@ ul.dropdown-menu-form {
   width: 50px;
   aspect-ratio: 1 / 1;
   background-color: var(--layer-alternate);
+  border-top-left-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
 }
 .notes > .note-single .tile {
   background-color: var(--layer-alternate);
+  border-top-left-radius: 0;
 }
 .bullet {
   display: inline-block;
