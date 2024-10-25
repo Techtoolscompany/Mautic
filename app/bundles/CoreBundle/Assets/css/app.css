@@ -9734,9 +9734,6 @@ table.table > tbody > tr > td.long-text {
   word-wrap: break-word;
   white-space: normal;
 }
-.dynamicContentFilterContainer .btn-primary:hover {
-  color: #5d6c7c;
-}
 #dynamicContentContainer .remove-item {
   display: block;
 }
