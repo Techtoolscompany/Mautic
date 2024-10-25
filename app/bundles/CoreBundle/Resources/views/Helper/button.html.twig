@@ -47,13 +47,15 @@
 
     {% if button.icon_only is defined and button.icon_only %}
         {% set tooltip_placement = button.tooltip_placement is defined ? button.tooltip_placement : 'top' %}
-        {% set custom_attributes = custom_attributes ~ ' data-toggle="tooltip" title="' ~ button.label|trans ~ '" data-placement="' ~ tooltip_placement ~ '"' %}
+        {% set icon_attributes = ' data-toggle="tooltip" title="' ~ button.label|trans ~ '" data-placement="' ~ tooltip_placement ~ '"' %}
+    {% else %}
+        {% set icon_attributes = '' %}
     {% endif %}
 
     {% if button.href is defined %}
-        <a class="{{ button_classes|join(' ') }}" href="{{ button.href }}"{{ custom_attributes|raw }}>
+        <a class="{{ button_classes|join(' ') }}" aria-label="{{ button.label|trans }}" href="{{ button.href }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
-                <i class="{{ button.icon }}" aria-hidden="true" focusable="false"></i>
+                <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
             {% endif %}
             {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
                 <span>{{ button.label|trans }}</span>
@@ -61,9 +63,9 @@
         </a>
     {% else %}
         {% set button_type = button.attributes.type is defined ? button.attributes.type : (button.onclick is defined and button.onclick != '' ? 'button' : 'submit') %}
-        <button type="{{ button_type }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
+        <button type="{{ button_type }}" aria-label="{{ button.label|trans }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
-                <i class="{{ button.icon }}" aria-hidden="true" focusable="false"></i>
+                <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
             {% endif %}
             {% if button.label is defined and not (button.icon_only is defined and button.icon_only) %}
                 <span>{{ button.label|trans }}</span>
