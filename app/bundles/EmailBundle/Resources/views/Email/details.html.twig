@@ -405,9 +405,21 @@
                               </div>
                               <input id="content_preview_url" data-route="email/preview" onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly value="{{ previewUrl|escape }}"/>
                               <span class="input-group-btn">
-                              <button id="content_preview_url_button" class="btn btn-ghost btn-icon btn-sm btn-md btn-nospin" onclick="window.open('{{ previewUrl }}', '_blank');">
-                                  <i class="ri-external-link-line"></i>
-                              </button>
+                                {% include '@MauticCore/Helper/button.html.twig' with {
+                                    buttons: [
+                                        {
+                                            label: 'mautic.core.open_link',
+                                            variant: 'ghost',
+                                            icon_only: true,
+                                            icon: 'ri-external-link-line',
+                                            attributes: {
+                                                'id': 'content_preview_url_button',
+                                                'type': 'button'
+                                            },
+                                            onclick: 'window.open("' ~ previewUrl ~ '", "_blank");'
+                                        }
+                                    ]
+                                } %}
                           </span>
                               <input type="hidden" id="content_preview_settings_object_id" value="{{ email.id }}">
                               <input type="hidden" id="content_preview_settings_contact_id" value="">
@@ -429,7 +441,6 @@
 
           <!-- activity feed -->
           {{- include('@MauticCore/Helper/recentactivity.html.twig', {'logs': logs}) -}}
-
 
       </div>
       <!-- right section -->
