@@ -2764,6 +2764,12 @@ kbd {
 .btn-primary + .dropdown-toggle.focus i {
   color: var(--text-on-color);
 }
+.btn-primary[disabled],
+.btn-primary + .dropdown-toggle[disabled],
+.btn-primary.disabled,
+.btn-primary + .dropdown-toggle.disabled,
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-primary + .dropdown-toggle,
 .btn-primary[disabled]:hover,
 .btn-primary + .dropdown-toggle[disabled]:hover,
 .btn-primary.disabled:hover,
@@ -2786,6 +2792,12 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.focus {
   color: var(--text-on-color-disabled);
   border: 1px solid var(--button-disabled);
 }
+.btn-primary[disabled] i,
+.btn-primary + .dropdown-toggle[disabled] i,
+.btn-primary.disabled i,
+.btn-primary + .dropdown-toggle.disabled i,
+fieldset[disabled] .btn-primary i,
+fieldset[disabled] .btn-primary + .dropdown-toggle i,
 .btn-primary[disabled]:hover i,
 .btn-primary + .dropdown-toggle[disabled]:hover i,
 .btn-primary.disabled:hover i,
@@ -2917,6 +2929,12 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.focus i {
 .btn-primary + .dropdown-toggle.btn-danger.focus i {
   color: var(--text-inverse);
 }
+.btn-primary.btn-danger[disabled],
+.btn-primary + .dropdown-toggle.btn-danger[disabled],
+.btn-primary.btn-danger.disabled,
+.btn-primary + .dropdown-toggle.btn-danger.disabled,
+fieldset[disabled] .btn-primary.btn-danger,
+fieldset[disabled] .btn-primary + .dropdown-toggle.btn-danger,
 .btn-primary.btn-danger[disabled]:hover,
 .btn-primary + .dropdown-toggle.btn-danger[disabled]:hover,
 .btn-primary.btn-danger.disabled:hover,
@@ -2939,6 +2957,12 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.btn-danger.focus {
   color: var(--text-on-color-disabled);
   border: 1px solid var(--button-disabled);
 }
+.btn-primary.btn-danger[disabled] i,
+.btn-primary + .dropdown-toggle.btn-danger[disabled] i,
+.btn-primary.btn-danger.disabled i,
+.btn-primary + .dropdown-toggle.btn-danger.disabled i,
+fieldset[disabled] .btn-primary.btn-danger i,
+fieldset[disabled] .btn-primary + .dropdown-toggle.btn-danger i,
 .btn-primary.btn-danger[disabled]:hover i,
 .btn-primary + .dropdown-toggle.btn-danger[disabled]:hover i,
 .btn-primary.btn-danger.disabled:hover i,
@@ -3033,6 +3057,9 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.btn-danger.focus i {
 .btn-secondary.focus i {
   color: var(--button-secondary-text);
 }
+.btn-secondary[disabled],
+.btn-secondary.disabled,
+fieldset[disabled] .btn-secondary,
 .btn-secondary[disabled]:hover,
 .btn-secondary.disabled:hover,
 fieldset[disabled] .btn-secondary:hover,
@@ -3046,6 +3073,9 @@ fieldset[disabled] .btn-secondary.focus {
   color: var(--text-on-color-disabled);
   border: 1px solid var(--button-disabled);
 }
+.btn-secondary[disabled] i,
+.btn-secondary.disabled i,
+fieldset[disabled] .btn-secondary i,
 .btn-secondary[disabled]:hover i,
 .btn-secondary.disabled:hover i,
 fieldset[disabled] .btn-secondary:hover i,
@@ -3316,6 +3346,24 @@ fieldset[disabled] .btn-secondary.focus i {
 .open > .btn-tertiary + .dropdown-toggle.btn-primary.focus i {
   color: var(--text-on-color);
 }
+.btn-tertiary[disabled],
+.btn-tertiary + .dropdown-toggle[disabled],
+.btn-primary + .btn-primary:not(.dropdown-toggle)[disabled],
+.btn-primary + .btn-primary + .btn-primary[disabled],
+.btn-primary + .btn-primary + .btn-secondary[disabled],
+.open > .btn-tertiary + .dropdown-toggle.btn-primary[disabled],
+.btn-tertiary.disabled,
+.btn-tertiary + .dropdown-toggle.disabled,
+.btn-primary + .btn-primary:not(.dropdown-toggle).disabled,
+.btn-primary + .btn-primary + .btn-primary.disabled,
+.btn-primary + .btn-primary + .btn-secondary.disabled,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.disabled,
+fieldset[disabled] .btn-tertiary,
+fieldset[disabled] .btn-tertiary + .dropdown-toggle,
+fieldset[disabled] .btn-primary + .btn-primary:not(.dropdown-toggle),
+fieldset[disabled] .btn-primary + .btn-primary + .btn-primary,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-secondary,
+fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary,
 .btn-tertiary[disabled]:hover,
 .btn-tertiary + .dropdown-toggle[disabled]:hover,
 .btn-primary + .btn-primary:not(.dropdown-toggle)[disabled]:hover,
@@ -3374,6 +3422,24 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.focus {
   color: var(--text-disabled);
   border: 1px solid transparent;
 }
+.btn-tertiary[disabled] i,
+.btn-tertiary + .dropdown-toggle[disabled] i,
+.btn-primary + .btn-primary:not(.dropdown-toggle)[disabled] i,
+.btn-primary + .btn-primary + .btn-primary[disabled] i,
+.btn-primary + .btn-primary + .btn-secondary[disabled] i,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary[disabled] i,
+.btn-tertiary.disabled i,
+.btn-tertiary + .dropdown-toggle.disabled i,
+.btn-primary + .btn-primary:not(.dropdown-toggle).disabled i,
+.btn-primary + .btn-primary + .btn-primary.disabled i,
+.btn-primary + .btn-primary + .btn-secondary.disabled i,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.disabled i,
+fieldset[disabled] .btn-tertiary i,
+fieldset[disabled] .btn-tertiary + .dropdown-toggle i,
+fieldset[disabled] .btn-primary + .btn-primary:not(.dropdown-toggle) i,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-primary i,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-secondary i,
+fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary i,
 .btn-tertiary[disabled]:hover i,
 .btn-tertiary + .dropdown-toggle[disabled]:hover i,
 .btn-primary + .btn-primary:not(.dropdown-toggle)[disabled]:hover i,
@@ -3689,6 +3755,24 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.focus i 
 .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger.focus i {
   color: var(--text-inverse);
 }
+.btn-tertiary.btn-danger[disabled],
+.btn-tertiary + .dropdown-toggle.btn-danger[disabled],
+.btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger[disabled],
+.btn-primary + .btn-primary + .btn-primary.btn-danger[disabled],
+.btn-primary + .btn-primary + .btn-secondary.btn-danger[disabled],
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger[disabled],
+.btn-tertiary.btn-danger.disabled,
+.btn-tertiary + .dropdown-toggle.btn-danger.disabled,
+.btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger.disabled,
+.btn-primary + .btn-primary + .btn-primary.btn-danger.disabled,
+.btn-primary + .btn-primary + .btn-secondary.btn-danger.disabled,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger.disabled,
+fieldset[disabled] .btn-tertiary.btn-danger,
+fieldset[disabled] .btn-tertiary + .dropdown-toggle.btn-danger,
+fieldset[disabled] .btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-primary.btn-danger,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-secondary.btn-danger,
+fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger,
 .btn-tertiary.btn-danger[disabled]:hover,
 .btn-tertiary + .dropdown-toggle.btn-danger[disabled]:hover,
 .btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger[disabled]:hover,
@@ -3747,6 +3831,24 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
   color: var(--text-disabled);
   border: 1px solid var(--button-disabled);
 }
+.btn-tertiary.btn-danger[disabled] i,
+.btn-tertiary + .dropdown-toggle.btn-danger[disabled] i,
+.btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger[disabled] i,
+.btn-primary + .btn-primary + .btn-primary.btn-danger[disabled] i,
+.btn-primary + .btn-primary + .btn-secondary.btn-danger[disabled] i,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger[disabled] i,
+.btn-tertiary.btn-danger.disabled i,
+.btn-tertiary + .dropdown-toggle.btn-danger.disabled i,
+.btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger.disabled i,
+.btn-primary + .btn-primary + .btn-primary.btn-danger.disabled i,
+.btn-primary + .btn-primary + .btn-secondary.btn-danger.disabled i,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger.disabled i,
+fieldset[disabled] .btn-tertiary.btn-danger i,
+fieldset[disabled] .btn-tertiary + .dropdown-toggle.btn-danger i,
+fieldset[disabled] .btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger i,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-primary.btn-danger i,
+fieldset[disabled] .btn-primary + .btn-primary + .btn-secondary.btn-danger i,
+fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger i,
 .btn-tertiary.btn-danger[disabled]:hover i,
 .btn-tertiary + .dropdown-toggle.btn-danger[disabled]:hover i,
 .btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger[disabled]:hover i,
@@ -3908,6 +4010,9 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
 .btn-ghost.focus i {
   color: var(--link-primary-hover);
 }
+.btn-ghost[disabled],
+.btn-ghost.disabled,
+fieldset[disabled] .btn-ghost,
 .btn-ghost[disabled]:hover,
 .btn-ghost.disabled:hover,
 fieldset[disabled] .btn-ghost:hover,
@@ -3921,6 +4026,9 @@ fieldset[disabled] .btn-ghost.focus {
   color: var(--text-disabled);
   border: 1px solid transparent;
 }
+.btn-ghost[disabled] i,
+.btn-ghost.disabled i,
+fieldset[disabled] .btn-ghost i,
 .btn-ghost[disabled]:hover i,
 .btn-ghost.disabled:hover i,
 fieldset[disabled] .btn-ghost:hover i,
@@ -4046,6 +4154,12 @@ fieldset[disabled] .btn-ghost.focus i {
 .btn-ghost.btn-danger.btn-icon.focus i {
   color: var(--text-inverse);
 }
+.btn-ghost.btn-danger[disabled],
+.btn-ghost.btn-danger.btn-icon[disabled],
+.btn-ghost.btn-danger.disabled,
+.btn-ghost.btn-danger.btn-icon.disabled,
+fieldset[disabled] .btn-ghost.btn-danger,
+fieldset[disabled] .btn-ghost.btn-danger.btn-icon,
 .btn-ghost.btn-danger[disabled]:hover,
 .btn-ghost.btn-danger.btn-icon[disabled]:hover,
 .btn-ghost.btn-danger.disabled:hover,
@@ -4068,6 +4182,12 @@ fieldset[disabled] .btn-ghost.btn-danger.btn-icon.focus {
   color: var(--text-disabled);
   border: 1px solid transparent;
 }
+.btn-ghost.btn-danger[disabled] i,
+.btn-ghost.btn-danger.btn-icon[disabled] i,
+.btn-ghost.btn-danger.disabled i,
+.btn-ghost.btn-danger.btn-icon.disabled i,
+fieldset[disabled] .btn-ghost.btn-danger i,
+fieldset[disabled] .btn-ghost.btn-danger.btn-icon i,
 .btn-ghost.btn-danger[disabled]:hover i,
 .btn-ghost.btn-danger.btn-icon[disabled]:hover i,
 .btn-ghost.btn-danger.disabled:hover i,
@@ -4162,6 +4282,9 @@ fieldset[disabled] .btn-ghost.btn-danger.btn-icon.focus i {
 .btn-ghost.btn-icon.focus i {
   color: var(--icon-primary);
 }
+.btn-ghost.btn-icon[disabled],
+.btn-ghost.btn-icon.disabled,
+fieldset[disabled] .btn-ghost.btn-icon,
 .btn-ghost.btn-icon[disabled]:hover,
 .btn-ghost.btn-icon.disabled:hover,
 fieldset[disabled] .btn-ghost.btn-icon:hover,
@@ -4175,6 +4298,9 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   color: var(--icon-disabled);
   border: 1px solid transparent;
 }
+.btn-ghost.btn-icon[disabled] i,
+.btn-ghost.btn-icon.disabled i,
+fieldset[disabled] .btn-ghost.btn-icon i,
 .btn-ghost.btn-icon[disabled]:hover i,
 .btn-ghost.btn-icon.disabled:hover i,
 fieldset[disabled] .btn-ghost.btn-icon:hover i,
