@@ -146,3 +146,5 @@ tests/**/*.sql
 !/themes/blank-big.png
 
 /translations
+.aider*
+.env
