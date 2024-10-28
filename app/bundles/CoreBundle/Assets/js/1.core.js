@@ -223,6 +223,12 @@ var Mautic = {
             // Remove any inline display styles and show the element
             dismissibleElement.css('display', '');
         });
+
+        // Create the flash message
+        const flashMessage = Mautic.addInfoFlashMessage(
+            Mautic.translate('mautic.user.config.title.experience_and_learning.reset_confirmation')
+        );
+        Mautic.setFlashes(flashMessage);
     },
 
     /**
