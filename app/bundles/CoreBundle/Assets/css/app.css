@@ -5854,6 +5854,11 @@ input[style] {
 input[style]:hover {
   background-color: var(--field-hover) !important;
 }
+.btn-datepicker + input {
+  background-color: transparent !important;
+  color: var(--text-disabled);
+  cursor: default;
+}
 .form-control,
 .chosen-container .chosen-single,
 .form-control.search.tt-input {
