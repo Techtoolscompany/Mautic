@@ -86,9 +86,13 @@ class ReportSubscriber implements EventSubscriberInterface
         if ($event->checkContext([self::CONTEXT_FOCUS_STATS])) {
             $queryBuilder = $event->getQueryBuilder();
             $queryBuilder->from(MAUTIC_TABLE_PREFIX.'focus_stats', self::PREFIX_STATS)
-                ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS, self::PREFIX_FOCUS.'.id = '.self::PREFIX_STATS.'.focus_id')
-                ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'channel_url_trackables', self::PREFIX_TRACKABLES, self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id')
-                ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS, self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
+                ->innerJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS,
+                    self::PREFIX_FOCUS.'.id = '.self::PREFIX_STATS.'.focus_id')
+                ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'channel_url_trackables', self::PREFIX_TRACKABLES,
+                    self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
+                    self::PREFIX_TRACKABLES.'.channel = "focus"')
+                ->leftJoin(self::PREFIX_TRACKABLES, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
+                    self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
             $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
             $event->setQueryBuilder($queryBuilder);
         }
