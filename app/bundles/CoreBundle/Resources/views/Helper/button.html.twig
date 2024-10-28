@@ -36,9 +36,17 @@
     {% if button.attributes is defined %}
         {% for attribute, value in button.attributes %}
             {% if attribute != 'class' %}
-                {% set custom_attributes = custom_attributes ~ ' ' ~ attribute ~ '="' ~ value ~ '"' %}
+                {% set custom_attributes = custom_attributes ~ ' ' ~ attribute ~ '="' ~ value|e('html_attr') ~ '"' %}
             {% endif %}
         {% endfor %}
+    {% endif %}
+
+    {# Add generated ID if not defined in attributes #}
+    {% if button.attributes is not defined or button.attributes.id is not defined %}
+        {% set label_split = button.label|split('.') %}
+        {% set last_two = label_split|slice(-2, 2) %}
+        {% set id = last_two|join('-')|replace({'_': '-'}) %}
+        {% set custom_attributes = custom_attributes ~ ' id="' ~ id ~ '"' %}
     {% endif %}
 
     {% if button.size is defined %}
@@ -63,7 +71,7 @@
         </a>
     {% else %}
         {% set button_type = button.attributes.type is defined ? button.attributes.type : (button.onclick is defined and button.onclick != '' ? 'button' : 'submit') %}
-        <button type="{{ button_type }}" aria-label="{{ button.label|trans }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick : '' }}"{{ custom_attributes|raw }}>
+        <button type="{{ button_type }}" aria-label="{{ button.label|trans }}" class="{{ button_classes|join(' ') }}" onclick="{{ button.onclick is defined ? button.onclick|e('html_attr') : '' }}"{{ custom_attributes|raw }}>
             {% if button.icon is defined %}
                 <i class="{{ button.icon }}" aria-hidden="true" focusable="false" {{ icon_attributes|raw }}></i>
             {% endif %}
