@@ -488,16 +488,14 @@ id="{{ id|escape }}" name="{{ full_name|escape }}"
 {{ disabled|default(false) ? 'disabled="disabled"' : '' }}
 {{ required|default(false) ? 'required="required"' : '' }}
 
+{# Adjust the filter to exclude specific attributes but allow data-* #}
 {% for k,v in attr|filter((v,k) => k not in ['tooltip', 'preaddon', 'preaddon_attr', 'postaddon_attr', 'help_icon']) %}
     {% if k in ['placeholder', 'title'] %}
         {{ '%s="%s" '|format(k|escape, v|trans({}, translation_domain)|escape)|raw }}
-    {% elseif k is same as 'data-order' and v is string %}
-        {{ k }}="{{ v|raw }}"
+    {% elseif k starts with 'data-' %}
+        {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
     {% elseif v is same as true %}
         {{ '%s="%s" '|format(k|escape, k|escape)|raw }}
-    {% elseif v is iterable %}
-        {% set v = formFieldFormatList(constant('Mautic\\FormBundle\\Helper\\FormFieldHelper::FORMAT_BAR'), v) %}
-        {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
     {% elseif v is not same as false %}
         {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
     {% endif %}
@@ -507,7 +505,12 @@ id="{{ id|escape }}" name="{{ full_name|escape }}"
 
 {# Twig version of MauticCoreBundle:Views:FormTheme:Custom:yesno_button_group_widget.html.php #}
 {% block yesno_button_group_widget %}
-    {% set attr = form.vars.attr|merge({'onchange': (form.vars.attr.onchange|default('') ~ ' Mautic.toggleYesNo(this);')|trim}) %}
+    {# Merge 'attr' passed from 'form_widget' and 'form.vars.attr' #}
+    {% set attr = attr|default({})|merge(form.vars.attr|default({})) %}
+    {# Update 'onchange' in 'attr' #}
+    {% set attr = attr|merge({
+        'onchange': (attr.onchange|default('') ~ '; Mautic.toggleYesNo(this);')|trim
+    }) %}
     {% set id = form.vars.id %}
     {% set name = form.vars.full_name %}
     {% set value = form.vars.value %}
@@ -522,11 +525,11 @@ id="{{ id|escape }}" name="{{ full_name|escape }}"
          data-yes-value="{{ yes_choice.value }}"
          data-no-value="{{ no_choice.value }}"
          {% if id is defined and 'Publish' in id %}
-             data-none="{{ 'mautic.core.form.unavailable_regardless_of_scheduling'|trans }}"
-             data-start="{{ 'mautic.core.form.available_on_scheduled_date'|trans }}"
-             data-both="{{ 'mautic.core.form.available_during_scheduled_period'|trans }}"
-             data-end="{{ 'mautic.core.form.available_until_scheduled_end'|trans }}"
-         {% endif %}>
+            data-none="{{ attr['data-none']|default('mautic.core.form.inactive_regardless_of_scheduling') |trans }}"
+            data-start="{{ attr['data-start']|default('mautic.core.form.active_on_scheduled_date') |trans }}"
+            data-both="{{ attr['data-both']|default('mautic.core.form.active_during_scheduled_period') |trans }}"
+            data-end="{{ attr['data-end']|default('mautic.core.form.active_until_scheduled_end') |trans }}"
+        {% endif %} >
 
         {# Hidden radio inputs #}
         {% for choice in [yes_choice, no_choice] %}
