@@ -35,9 +35,14 @@ input[style] {
 }
 
 .btn-datepicker + input {
-  background-color: transparent !important;
-    color: var(--text-disabled);
+  &,
+  &:hover {
+    background-color: transparent;
+    padding-left: 6px;
+    color: var(--text-secondary);
     cursor: default;
+    font-size: 92%;
+  }
 }
 
 .form-control, .chosen-container .chosen-single, .form-control.search.tt-input {
@@ -79,6 +84,11 @@ input[style] {
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   color: var(--text-disabled);
+}
+
+.form-control[disabled] {
+  cursor: not-allowed;
+  border-bottom-color: transparent;
 }
 
 //Search

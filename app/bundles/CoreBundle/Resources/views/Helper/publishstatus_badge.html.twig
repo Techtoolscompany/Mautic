@@ -9,13 +9,12 @@
 {% if publishStatus == 'published' %}
     {% set labelText = (status is not defined ? 'mautic.core.form.active' : 'mautic.core.form.available')|trans %}
 {% elseif publishStatus == 'pending' %}
-    {% set labelText = 'mautic.core.form.pending'|trans %}
+    {% set labelText = (status is not defined ? 'mautic.core.form.pending' : 'mautic.core.form.not_yet_available')|trans %}
 {% elseif publishStatus == 'expired' %}
-    {% set labelText = 'mautic.core.form.expired'|trans %}
+    {% set labelText = (status is not defined ? 'mautic.core.form.expired' : 'mautic.core.form.no_longer_available')|trans %}
 {% else %}
     {% set labelText = (status is not defined ? 'mautic.core.form.inactive' : 'mautic.core.form.unavailable')|trans %}
 {% endif %}
-
 
 <div class="label label-{{ statusColors[publishStatus].text }} d-flex ai-center gap-xs fw-b">
     <span title="{{ labelText }}" aria-label="{{ labelText }}" class="bg-{{ statusColors[publishStatus].icon }} publishstatus_pulse"> </span>
