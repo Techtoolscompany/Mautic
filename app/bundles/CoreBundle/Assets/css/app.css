@@ -5858,6 +5858,7 @@ input[style]:hover {
 .btn-datepicker + input,
 .btn-datepicker + input:hover {
   background-color: transparent;
+  border-color: transparent;
   padding-left: 6px;
   color: var(--text-secondary);
   cursor: default;
