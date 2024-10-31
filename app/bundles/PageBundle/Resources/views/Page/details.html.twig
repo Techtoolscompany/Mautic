@@ -21,6 +21,18 @@
 
 {% block mauticContent %}page{% endblock %}
 
+{% block indexButton %}
+{{ include('@MauticCore/Helper/page_actions.html.twig', {
+    'item': activePage,
+    'customButtons': customButtons|default([]),
+    'templateButtons': {
+        'close': securityHasEntityAccess( permissions['page:pages:viewown'], permissions['page:pages:viewother'], activePage.createdBy),
+    },
+    'routeBase': 'page',
+    'targetLabel': 'mautic.page.pages'|trans
+}) }}
+{% endblock %}
+
 {% block headerTitle %}{{ activePage.title }}{% endblock %}
 
 {% block actions %}
@@ -32,7 +44,6 @@
                 'abtest': allowAbTest and permissions['page:pages:create'],
                 'clone': permissions['page:pages:create'],
                 'delete': securityHasEntityAccess(permissions['page:pages:deleteown'], permissions['page:pages:deleteown'], activePage.createdBy),
-                'close': securityHasEntityAccess( permissions['page:pages:viewown'], permissions['page:pages:viewother'], activePage.createdBy),
             },
             'routeBase': 'page',
     }) }}
