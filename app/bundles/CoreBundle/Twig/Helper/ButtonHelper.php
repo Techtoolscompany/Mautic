@@ -270,7 +270,7 @@ final class ButtonHelper
     {
         $buttons = '';
 
-        // Wrap links in a tag
+        // Wrap links in <li> if necessary
         if (self::TYPE_DROPDOWN == $this->groupType || (self::TYPE_BUTTON_DROPDOWN == $this->groupType && $buttonCount >= $this->listMarker)) {
             $this->wrapOpeningTag = "<li>\n";
             $this->wrapClosingTag = "</li>\n";
@@ -280,6 +280,7 @@ final class ButtonHelper
             $button['attr'] = [];
         }
 
+        // Add or remove button classes as needed
         if (self::TYPE_GROUP == $this->groupType || (self::TYPE_BUTTON_DROPDOWN == $this->groupType && $buttonCount < $this->listMarker)) {
             $this->addButtonClasses($button);
         } elseif (in_array($this->groupType, [self::TYPE_BUTTON_DROPDOWN, self::TYPE_DROPDOWN])) {
@@ -288,8 +289,7 @@ final class ButtonHelper
 
         if (isset($button['confirm'])) {
             $button['confirm']['btnTextAttr'] = $this->generateTextAttributes($button);
-            $buttons .= $this->wrapOpeningTag.$this->twig->render('@MauticCore/Helper/confirm.html.twig', $button['confirm']).
-                "{$this->wrapClosingTag}\n";
+            $buttons .= $this->wrapOpeningTag.$this->twig->render('@MauticCore/Helper/confirm.html.twig', $button['confirm'])."{$this->wrapClosingTag}\n";
         } else {
             $attr = $this->menuLink;
 
@@ -297,18 +297,28 @@ final class ButtonHelper
                 $button['attr']['data-toggle'] = 'ajax';
             }
 
+            $button['attr']['aria-label'] = $this->translator->trans($button['btnText'] ?? '');
+
+            foreach ($button['attr'] as $k => $v) {
+                $attr .= " $k=\"$v\"";
+            }
+
+            $icon = '';
+            if (isset($button['iconClass'])) {
+                $icon = '<i class="'.$button['iconClass'].'" aria-hidden="true" focusable="false"></i>';
+            }
+
             $btnTextAttr = $this->generateTextAttributes($button);
             $tooltip     = $this->generateTooltipAttributes($button);
 
-            foreach ($button['attr'] as $k => $v) {
-                $attr .= " $k=".'"'.$v.'"';
+            $buttonContent = $icon;
+            if (!empty($button['btnText'])) {
+                $buttonContent .= '<span'.$btnTextAttr.$tooltip.'>'.$this->translator->trans($button['btnText']).'</span>';
+            } else {
+                $buttonContent = '<i class="'.$button['iconClass'].'" aria-hidden="true" focusable="false" '.$tooltip.'></i>';
             }
 
-            $buttonContent = (isset($button['iconClass'])) ? '<i class="'.$button['iconClass'].'"></i> ' : '';
-            if (!empty($button['btnText'])) {
-                $buttonContent .= '<span'.$btnTextAttr.'>'.$this->translator->trans($button['btnText']).'</span>';
-            }
-            $buttons .= "{$this->wrapOpeningTag}<a{$attr}><span{$tooltip}>{$buttonContent}</span></a>{$this->wrapClosingTag}\n";
+            $buttons .= "{$this->wrapOpeningTag}<a{$attr}>{$buttonContent}</a>{$this->wrapClosingTag}\n";
         }
 
         return $buttons;
