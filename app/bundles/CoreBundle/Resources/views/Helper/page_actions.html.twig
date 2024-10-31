@@ -20,7 +20,7 @@
     {% include '@MauticCore/Helper/button.html.twig' with {
         buttons: [
             {
-                label: 'mautic.core.close_back'|trans({'%target%': targetLabel}),
+                label: 'mautic.core.close_back'|trans({'%target%': targetLabel|default('mautic.core.close_back.fallback'|trans)}),
                 size: 'xs',
                 variant: 'tertiary',
                 icon: 'ri-arrow-left-line',
