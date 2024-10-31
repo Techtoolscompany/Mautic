@@ -1,37 +1,65 @@
 {% set item = item is defined ? item : null %}
 {% set tooltip = tooltip is defined ? tooltip : null %}
+
 {{ buttonReset(
     constant('Mautic\\CoreBundle\\Twig\\Helper\\ButtonHelper::LOCATION_PAGE_ACTIONS'),
     constant('Mautic\\CoreBundle\\Twig\\Helper\\ButtonHelper::TYPE_BUTTON_DROPDOWN'),
-    item) }}
+    item
+) }}
+
 {{- include('@MauticCore/Helper/action_button_helper.html.twig') -}}
 
-{# Workaround to get variables from action_button_helper here #}
+{# Restore variables from action_button_helper #}
 {{ restore('action_button_helper') }}
-{% if templateButtons is not empty %}
-    {{ buttonsAddFromTemplate(
-        templateButtons,
-        query,
-        actionRoute,
-        indexRoute,
-        langVar,
-        nameGetter,
-        editAttr,
-        routeVars,
-        item,
-        tooltip
-    ) }}
+
+{% set isCloseEnabled = templateButtons.close|default(false) %}
+{% set nonCloseButtons = templateButtons|filter((value, key) => key != 'close') %}
+
+{# Render the 'close' button separately if enabled #}
+{% if isCloseEnabled %}
+    {% include '@MauticCore/Helper/button.html.twig' with {
+        buttons: [
+            {
+                label: 'mautic.core.close_back'|trans({'%target%': targetLabel}),
+                size: 'xs',
+                variant: 'tertiary',
+                icon: 'ri-arrow-left-line',
+                href: path(indexRoute, routeVars.close|default({})),
+                attributes: {
+                    'data-toggle': 'ajax',
+                    'class': 'btn-back mb-lg'
+                }
+            }
+        ]
+    } %}
 {% endif %}
 
-<div class="std-toolbar btn-group">
+{# Only render std-toolbar if there are non-close buttons to display #}
+{% if nonCloseButtons is not empty %}
+    <div class="std-toolbar">
+        {{ buttonsAddFromTemplate(
+            nonCloseButtons,
+            query,
+            actionRoute,
+            indexRoute,
+            langVar,
+            nameGetter,
+            editAttr,
+            routeVars,
+            item,
+            tooltip
+        ) }}
 
-    {{ buttonsRender(
-        (
-            '<button type="button" class="btn btn-primary btn-nospin dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="ri-arrow-down-s-line"></i></button>\n'
-            ~ '<ul class="dropdown-menu dropdown-menu-right" role="menu">'
-        )
-        , '</ul>'
-    )|raw }}
-</div>
+        {{ buttonsRender(
+            (
+                '<button type="button" class="btn btn-primary btn-nospin dropdown-toggle" data-toggle="dropdown" aria-expanded="false">'
+                ~ '<i class="ri-arrow-down-s-line"></i>'
+                ~ '</button>'
+                ~ '<ul class="dropdown-menu dropdown-menu-right" role="menu">'
+            ),
+            '</ul>'
+        )|raw }}
+    </div>
+{% endif %}
 
 {{ extraHtml|raw }}

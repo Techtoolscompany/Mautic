@@ -1592,6 +1592,8 @@ body > #app-wrapper {
   float: left;
   border: 1px solid #eee;
   border: 1px solid rgba(0, 0, 0, 0.06);
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
 }
@@ -4438,6 +4440,13 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
 }
 .btn-info:hover {
   color: #3c4650;
+}
+.btn-back {
+  gap: var(--spacing-02);
+  font-size: 92%;
+}
+.btn-back i {
+  order: unset;
 }
 .modal-footer .modal-form-buttons {
   display: flex;
