@@ -1,5 +1,21 @@
 {% extends '@MauticCore/Default/content.html.twig' %}
 
+{% block indexButton %}
+{{- include(
+    '@MauticCore/Helper/page_actions.html.twig', {
+        item: item,
+        templateButtons: {
+            'close': securityHasEntityAccess(
+                permissions['webhook:webhooks:viewown'],
+                permissions['webhook:webhooks:viewother'],
+                item.getCreatedBy()
+            ),
+        },
+        routeBase: 'webhook',
+        'targetLabel': 'mautic.webhook.webhooks'|trans
+}) -}}
+{% endblock %}
+
 {% block headerTitle %}{{ item.getName() }}{% endblock %}
 {% block mauticContent %}mauticWebhook{% endblock %}
 
