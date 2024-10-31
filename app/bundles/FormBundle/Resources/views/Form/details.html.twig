@@ -17,6 +17,18 @@
 
 {% block mauticContent %}form{% endblock %}
 
+{% block indexButton %}
+{{ include('@MauticCore/Helper/page_actions.html.twig', {
+    'item': activeForm,
+    'templateButtons': {
+        'close': securityHasEntityAccess(permissions['form:forms:viewown'], permissions['form:forms:viewother'], activeForm.createdBy),
+    },
+    'routeBase': 'form',
+    'langVar': 'form',
+    'targetLabel': 'mautic.form.forms'|trans
+}) }}
+{% endblock %}
+
 {% block headerTitle %}{{ activeForm.name }}{% endblock %}
 
 {% block actions %}
@@ -26,7 +38,6 @@
                 'edit': securityHasEntityAccess(permissions['form:forms:editown'], permissions['form:forms:editother'], activeForm.createdBy),
                 'clone': permissions['form:forms:create'],
                 'delete': securityHasEntityAccess(permissions['form:forms:deleteown'], permissions['form:forms:deleteother'], activeForm.createdBy),
-                'close': securityHasEntityAccess(permissions['form:forms:viewown'], permissions['form:forms:viewother'], activeForm.createdBy),
             },
             'routeBase': 'form',
             'langVar': 'form',
