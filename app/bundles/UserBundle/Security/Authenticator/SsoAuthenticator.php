@@ -80,7 +80,8 @@ final class SsoAuthenticator extends AbstractAuthenticator implements Interactiv
             return $request->request->has($this->options['integration_parameter']);
         }
 
-        return $request->query->has($this->options['integration_parameter']);
+        return $request->query->has($this->options['integration_parameter'])
+            || $request->request->has($this->options['integration_parameter']);
     }
 
     public function authenticate(Request $request): Passport
@@ -121,12 +122,13 @@ final class SsoAuthenticator extends AbstractAuthenticator implements Interactiv
                 );
 
                 if ($this->dispatcher->hasListeners(UserEvents::USER_FORM_AUTHENTICATION)) {
-                    $this->dispatcher->dispatch($authEvent, UserEvents::USER_FORM_AUTHENTICATION);
+                    $authEvent = $this->dispatcher->dispatch($authEvent, UserEvents::USER_FORM_AUTHENTICATION);
                 }
 
                 if ($authEvent->isAuthenticated()) {
                     $user = $authEvent->getUser();
 
+                    // This line is most likely will never happen. Keep it until this is thoroughly tested manually.
                     if (null !== $user && !$user instanceof User) {
                         return null;
                     }
