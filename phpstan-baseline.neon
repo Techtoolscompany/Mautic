@@ -750,16 +750,6 @@ parameters:
 			path: app/bundles/AssetBundle/Entity/Download.php
 
 		-
-			message: "#^Call to method execute\\(\\) on an unknown class Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 3
-			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
-
-		-
-			message: "#^Call to method select\\(\\) on an unknown class Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 3
-			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
-
-		-
 			message: "#^Method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getDownloadCountsByEmail\\(\\) has parameter \\$emailId with no type specified\\.$#"
 			count: 1
 			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
@@ -835,21 +825,6 @@ parameters:
 			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
 
 		-
-			message: "#^Parameter \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getHttpStatuses\\(\\) has invalid type Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
-
-		-
-			message: "#^Parameter \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getMostDownloaded\\(\\) has invalid type Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
-
-		-
-			message: "#^Parameter \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getTopReferrers\\(\\) has invalid type Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/Entity/DownloadRepository.php
-
-		-
 			message: "#^Method Mautic\\\\AssetBundle\\\\EventListener\\\\BuilderSubscriber\\:\\:generateTokensFromContent\\(\\) has parameter \\$source with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: app/bundles/AssetBundle/EventListener/BuilderSubscriber.php
@@ -901,21 +876,6 @@ parameters:
 			message: "#^Variable \\$ids in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: app/bundles/AssetBundle/EventListener/DetermineWinnerSubscriber.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getHttpStatuses\\(\\) expects Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder, Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder given\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/EventListener/ReportSubscriber.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getMostDownloaded\\(\\) expects Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder, Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder given\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/EventListener/ReportSubscriber.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Mautic\\\\AssetBundle\\\\Entity\\\\DownloadRepository\\:\\:getTopReferrers\\(\\) expects Mautic\\\\AssetBundle\\\\Entity\\\\QueryBuilder, Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder given\\.$#"
-			count: 1
-			path: app/bundles/AssetBundle/EventListener/ReportSubscriber.php
 
 		-
 			message: "#^Parameter \\#2 \\$maxUploadSizeMB of method Mautic\\\\CoreBundle\\\\Validator\\\\FileUploadValidator\\:\\:checkFileSize\\(\\) expects string, float given\\.$#"
@@ -8383,11 +8343,6 @@ parameters:
 			path: app/bundles/CoreBundle/Helper/Chart/ChartInterface.php
 
 		-
-			message: "#^Cannot call method execute\\(\\) on string\\.$#"
-			count: 1
-			path: app/bundles/CoreBundle/Helper/Chart/ChartQuery.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 2
 			path: app/bundles/CoreBundle/Helper/Chart/ChartQuery.php
@@ -12620,21 +12575,6 @@ parameters:
 			path: app/bundles/EmailBundle/Entity/StatDeviceRepository.php
 
 		-
-			message: "#^Call to method execute\\(\\) on an unknown class Mautic\\\\EmailBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 2
-			path: app/bundles/EmailBundle/Entity/StatRepository.php
-
-		-
-			message: "#^Call to method select\\(\\) on an unknown class Mautic\\\\EmailBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/EmailBundle/Entity/StatRepository.php
-
-		-
-			message: "#^Call to method setMaxResults\\(\\) on an unknown class Mautic\\\\EmailBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/EmailBundle/Entity/StatRepository.php
-
-		-
 			message: "#^Method Mautic\\\\EmailBundle\\\\Entity\\\\StatRepository\\:\\:checkContactsSentEmail\\(\\) has parameter \\$contacts with no type specified\\.$#"
 			count: 1
 			path: app/bundles/EmailBundle/Entity/StatRepository.php
@@ -12791,16 +12731,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$y of method Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\ExpressionBuilder\\:\\:in\\(\\) expects array\\<string\\>\\|string, array\\<int\\> given\\.$#"
-			count: 1
-			path: app/bundles/EmailBundle/Entity/StatRepository.php
-
-		-
-			message: "#^Parameter \\$query of method Mautic\\\\EmailBundle\\\\Entity\\\\StatRepository\\:\\:getIgnoredReadFailed\\(\\) has invalid type Mautic\\\\EmailBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/EmailBundle/Entity/StatRepository.php
-
-		-
-			message: "#^Parameter \\$query of method Mautic\\\\EmailBundle\\\\Entity\\\\StatRepository\\:\\:getMostEmails\\(\\) has invalid type Mautic\\\\EmailBundle\\\\Entity\\\\QueryBuilder\\.$#"
 			count: 1
 			path: app/bundles/EmailBundle/Entity/StatRepository.php
 
@@ -15368,11 +15298,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$prefix of function uniqid expects string, int\\<0, max\\> given\\.$#"
 			count: 1
 			path: app/bundles/FormBundle/Controller/ActionController.php
-
-		-
-			message: "#^Method Mautic\\\\FormBundle\\\\Controller\\\\AjaxController\\:\\:reorderFieldsAction\\(\\) has parameter \\$bundle with no type specified\\.$#"
-			count: 1
-			path: app/bundles/FormBundle/Controller/AjaxController.php
 
 		-
 			message: """
@@ -20813,11 +20738,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$value of method Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: app/bundles/LeadBundle/Entity/CompanyLeadRepository.php
-
-		-
-			message: "#^Call to an undefined method Doctrine\\\\ORM\\\\QueryBuilder\\:\\:execute\\(\\)\\.$#"
-			count: 1
-			path: app/bundles/LeadBundle/Entity/CompanyRepository.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with int will always evaluate to false\\.$#"
@@ -27093,16 +27013,6 @@ parameters:
 			path: app/bundles/NotificationBundle/Entity/Stat.php
 
 		-
-			message: "#^Call to method execute\\(\\) on an unknown class Mautic\\\\NotificationBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/NotificationBundle/Entity/StatRepository.php
-
-		-
-			message: "#^Call to method setMaxResults\\(\\) on an unknown class Mautic\\\\NotificationBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/NotificationBundle/Entity/StatRepository.php
-
-		-
 			message: "#^Method Mautic\\\\NotificationBundle\\\\Entity\\\\StatRepository\\:\\:deleteStat\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: app/bundles/NotificationBundle/Entity/StatRepository.php
@@ -27188,11 +27098,6 @@ parameters:
 			path: app/bundles/NotificationBundle/Entity/StatRepository.php
 
 		-
-			message: "#^Parameter \\$query of method Mautic\\\\NotificationBundle\\\\Entity\\\\StatRepository\\:\\:getMostNotifications\\(\\) has invalid type Mautic\\\\NotificationBundle\\\\Entity\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/NotificationBundle/Entity/StatRepository.php
-
-		-
 			message: "#^Method Mautic\\\\NotificationBundle\\\\Event\\\\NotificationClickEvent\\:\\:__construct\\(\\) has parameter \\$request with no type specified\\.$#"
 			count: 1
 			path: app/bundles/NotificationBundle/Event/NotificationClickEvent.php
@@ -27214,11 +27119,6 @@ parameters:
 			"""
 			count: 1
 			path: app/bundles/NotificationBundle/EventListener/CampaignConditionSubscriber.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Mautic\\\\NotificationBundle\\\\Entity\\\\StatRepository\\:\\:getMostNotifications\\(\\) expects Mautic\\\\NotificationBundle\\\\Entity\\\\QueryBuilder, Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder given\\.$#"
-			count: 3
-			path: app/bundles/NotificationBundle/EventListener/ReportSubscriber.php
 
 		-
 			message: "#^Property Mautic\\\\NotificationBundle\\\\Exception\\\\MissingApiKeyException\\:\\:\\$message has no type specified\\.$#"
@@ -31142,11 +31042,6 @@ parameters:
 			path: app/bundles/PointBundle/Controller/TriggerController.php
 
 		-
-			message: "#^Parameter \\#1 \\$prefix of function uniqid expects string, int\\<1, 9223372036854775807\\> given\\.$#"
-			count: 1
-			path: app/bundles/PointBundle/Controller/TriggerController.php
-
-		-
 			message: """
 				#^Class Mautic\\\\PointBundle\\\\Controller\\\\TriggerEventController extends deprecated class Mautic\\\\CoreBundle\\\\Controller\\\\FormController\\:
 				2\\.3 \\- to be removed in 3\\.0; use AbstractFormController instead$#
@@ -32103,16 +31998,6 @@ parameters:
 			path: app/bundles/ReportBundle/Event/ReportQueryEvent.php
 
 		-
-			message: "#^Method Mautic\\\\ReportBundle\\\\Event\\\\ReportQueryEvent\\:\\:getQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Event/ReportQueryEvent.php
-
-		-
-			message: "#^Method Mautic\\\\ReportBundle\\\\Event\\\\ReportQueryEvent\\:\\:getQuery\\(\\) should return array but returns Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Event/ReportQueryEvent.php
-
-		-
 			message: "#^PHPDoc type string of property Mautic\\\\ReportBundle\\\\EventListener\\\\DashboardSubscriber\\:\\:\\$types is not covariant with PHPDoc type array of overridden property Mautic\\\\DashboardBundle\\\\EventListener\\\\DashboardSubscriber\\:\\:\\$types\\.$#"
 			count: 1
 			path: app/bundles/ReportBundle/EventListener/DashboardSubscriber.php
@@ -32198,26 +32083,6 @@ parameters:
 			path: app/bundles/ReportBundle/Model/ReportExporter.php
 
 		-
-			message: "#^Cannot call method execute\\(\\) on array\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Model/ReportModel.php
-
-		-
-			message: "#^Cannot call method getParameters\\(\\) on array\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Model/ReportModel.php
-
-		-
-			message: "#^Cannot call method getSQL\\(\\) on array\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Model/ReportModel.php
-
-		-
-			message: "#^Cannot call method setFirstResult\\(\\) on array\\.$#"
-			count: 1
-			path: app/bundles/ReportBundle/Model/ReportModel.php
-
-		-
 			message: "#^Method Mautic\\\\ReportBundle\\\\Model\\\\ReportModel\\:\\:buildAvailableReports\\(\\) has parameter \\$context with no type specified\\.$#"
 			count: 1
 			path: app/bundles/ReportBundle/Model/ReportModel.php
@@ -32289,11 +32154,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @property has invalid value \\(filterList\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 31$#"
-			count: 1
-			path: app/bundles/ReportBundle/Model/ReportModel.php
-
-		-
-			message: "#^Parameter \\#1 \\$qb of method Mautic\\\\ReportBundle\\\\Model\\\\ReportModel\\:\\:getTotalCount\\(\\) expects Doctrine\\\\DBAL\\\\Query\\\\QueryBuilder, array given\\.$#"
 			count: 1
 			path: app/bundles/ReportBundle/Model/ReportModel.php
 
