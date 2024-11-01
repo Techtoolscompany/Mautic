@@ -60,7 +60,7 @@ final class PluginAuthenticator extends AbstractAuthenticator
         if ($this->dispatcher->hasListeners(UserEvents::USER_PRE_AUTHENTICATION)) {
             $integrations = $this->integrationHelper->getIntegrationObjects($authenticatingService, ['sso_service'], false, null, true);
 
-            $loginCheck = ('mautic_sso_login_check' === $request->attributes->get('_route'));
+            $loginCheck = 'mautic_sso_login_check' === $request->attributes->get('_route');
             $authEvent  = new AuthenticationEvent(
                 null,
                 $token,
@@ -70,7 +70,8 @@ final class PluginAuthenticator extends AbstractAuthenticator
                 $authenticatingService,
                 $integrations
             );
-            $this->dispatcher->dispatch($authEvent, UserEvents::USER_PRE_AUTHENTICATION);
+            $authEvent = $this->dispatcher->dispatch($authEvent, UserEvents::USER_PRE_AUTHENTICATION);
+            \assert($authEvent instanceof AuthenticationEvent);
 
             if ($authenticated = $authEvent->isAuthenticated()) {
                 $eventToken            = $authEvent->getToken();
@@ -122,21 +123,21 @@ final class PluginAuthenticator extends AbstractAuthenticator
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $apiBadgeBadge = $passport->getBadge(PluginBadge::class);
-        \assert($apiBadgeBadge instanceof PluginBadge);
+        $pluginBadge = $passport->getBadge(PluginBadge::class);
+        \assert($pluginBadge instanceof PluginBadge);
         $userBadge = $passport->getBadge(UserBadge::class);
         \assert($userBadge instanceof UserBadge);
 
         // A custom token has been set by the plugin so just return it
-        if (null === $token = $apiBadgeBadge->getPreAuthenticatedToken()) {
+        if (null === $token = $pluginBadge->getPreAuthenticatedToken()) {
             $user  = $userBadge->getUser();
             $token = new PluginToken(
                 $this->firewallName,
-                $apiBadgeBadge->getAuthenticatingService(),
+                $pluginBadge->getAuthenticatingService(),
                 $user,
                 ($user instanceof User) ? $user->getPassword() : '',
                 ($user instanceof User) ? $user->getRoles() : [],
-                $apiBadgeBadge->getPluginResponse()
+                $pluginBadge->getPluginResponse()
             );
         }
 
