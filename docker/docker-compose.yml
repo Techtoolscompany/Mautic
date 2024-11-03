@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  mautic:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - database
+      - mautic
+    depends_on:
+      - mauticMysql
+    ports:
+      - 8080:80
+    environment:
+      - MAUTIC_DB_HOST=mauticMysql
+      - MAUTIC_DB_USER=docker
+      - MAUTIC_DB_PASSWORD=docker
+      - MAUTIC_DB_NAME=mautic
+      - MAUTIC_RUN_CRON_JOBS=true
+      - DDEV_TLD=1
+    volumes:
+      - "../:/var/www/html:cached"
+    container_name: mautic
+
+  mauticMysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - database
+    environment:
+      - MYSQL_DATABASE=mautic
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=docker
+    volumes:
+      - ./.storage/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  mauticMailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+    networks:
+      - mautic
+
+networks:
+  database:
+  mautic:
