@@ -492,9 +492,13 @@ class FieldType extends AbstractType
                         return $field && !$field->isFixed() && $field->getObject() === $options['data']->getObject();
                     }),
                     'label_attr'    => ['class' => 'control-label'],
-                    'attr'          => ['class' => 'form-control', 'tooltip' => 'mautic.core.order.field.tooltip'],
+                    'attr'          => [
+                        'class'   => 'form-control',
+                        'tooltip' => $disabled ? 'mautic.core.order.field.tooltip.disabled' : 'mautic.core.order.field.tooltip',
+                    ],
                     'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('f')->orderBy('f.order', \Doctrine\Common\Collections\Criteria::ASC),
                     'required'      => false,
+                    'disabled'      => $disabled,
                 ]
             )->addModelTransformer($transformer)
         );
