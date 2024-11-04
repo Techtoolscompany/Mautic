@@ -5,18 +5,32 @@
     'pending': {'icon': 'info', 'text': 'blue'}
 } %}
 
-{% set publishStatus = entity.getPublishStatus() %}
-{% if publishStatus == 'published' %}
-    {% set labelText = (status is not defined ? 'mautic.core.form.active' : 'mautic.core.form.available')|trans %}
-{% elseif publishStatus == 'pending' %}
-    {% set labelText = (status is not defined ? 'mautic.core.form.pending' : 'mautic.core.form.not_yet_available')|trans %}
-{% elseif publishStatus == 'expired' %}
-    {% set labelText = (status is not defined ? 'mautic.core.form.expired' : 'mautic.core.form.no_longer_available')|trans %}
-{% else %}
-    {% set labelText = (status is not defined ? 'mautic.core.form.inactive' : 'mautic.core.form.unavailable')|trans %}
-{% endif %}
+{# Define the labels based on the combination of status and publishStatus #}
+{% set labelMappings = {
+    'available': {
+        'published': 'mautic.core.form.available',
+        'pending': 'mautic.core.form.not_yet_available',
+        'expired': 'mautic.core.form.no_longer_available',
+        'unpublished': 'mautic.core.form.unavailable'
+    },
+    'sending': {
+        'published': 'mautic.core.form.sending',
+        'pending': 'mautic.core.form.scheduled_to_send',
+        'expired': 'mautic.core.form.sending_expired',
+        'unpublished': 'mautic.core.form.unavailable'
+    },
+    'default': {
+        'published': 'mautic.core.form.active',
+        'pending': 'mautic.core.form.pending',
+        'expired': 'mautic.core.form.expired',
+        'unpublished': 'mautic.core.form.inactive'
+    }
+} %}
 
-<div class="label label-{{ statusColors[publishStatus].text }} d-flex ai-center gap-xs fw-b">
-    <span title="{{ labelText }}" aria-label="{{ labelText }}" class="bg-{{ statusColors[publishStatus].icon }} publishstatus_pulse"> </span>
-    {{ labelText }}
+<div class="label label-{{ statusColors[entity.getPublishStatus()].text }} d-flex ai-center gap-xs fw-b">
+    <span title="{{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}"
+          aria-label="{{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}"
+          class="bg-{{ statusColors[entity.getPublishStatus()].icon }} publishstatus_pulse">
+    </span>
+    {{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}
 </div>

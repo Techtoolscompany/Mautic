@@ -37,7 +37,7 @@
 {% block publishStatus %}
 {{- include('@MauticCore/Helper/publishstatus_badge.html.twig', {
     'entity': sms,
-    'status': 'available'
+    'status': sms.getPublishUp() is not null ? 'sending' : 'available'
 }) -}}
 {% set tags = [
     {
