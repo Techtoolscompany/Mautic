@@ -18,6 +18,7 @@ use Mautic\LeadBundle\Form\DataTransformer\FieldToOrderTransformer;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -487,6 +488,9 @@ class FieldType extends AbstractType
                     'label'         => 'mautic.core.order.field',
                     'class'         => LeadField::class,
                     'choice_label'  => 'label',
+                    'choice_filter' => ChoiceList::filter($this, function (LeadField $field) use ($options) {
+                        return !$field->isFixed() && $field->getObject() === $options['data']->getObject();
+                    }),
                     'label_attr'    => ['class' => 'control-label'],
                     'attr'          => ['class' => 'form-control', 'tooltip' => 'mautic.core.order.field.tooltip'],
                     'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('f')->orderBy('f.order', \Doctrine\Common\Collections\Criteria::ASC),
