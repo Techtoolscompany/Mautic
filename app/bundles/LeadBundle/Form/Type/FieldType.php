@@ -488,8 +488,8 @@ class FieldType extends AbstractType
                     'label'         => 'mautic.core.order.field',
                     'class'         => LeadField::class,
                     'choice_label'  => 'label',
-                    'choice_filter' => ChoiceList::filter($this, function (LeadField $field) use ($options) {
-                        return !$field->isFixed() && $field->getObject() === $options['data']->getObject();
+                    'choice_filter' => ChoiceList::filter($this, function ($field) use ($options) {
+                        return $field && !$field->isFixed() && $field->getObject() === $options['data']->getObject();
                     }),
                     'label_attr'    => ['class' => 'control-label'],
                     'attr'          => ['class' => 'form-control', 'tooltip' => 'mautic.core.order.field.tooltip'],
@@ -630,7 +630,10 @@ class FieldType extends AbstractType
                 'multiple'    => false,
                 'label'       => 'mautic.lead.field.object',
                 'placeholder' => false,
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => [
+                    'class'    => 'form-control',
+                    'onchange' => 'Mautic.updateLeadFieldOrderChoiceList(this.value);',
+                ],
                 'required'    => false,
                 'disabled'    => ($disabled || !$new),
             ]
