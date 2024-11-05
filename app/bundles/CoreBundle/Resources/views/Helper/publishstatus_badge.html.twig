@@ -19,7 +19,7 @@
         'expired': 'mautic.core.form.sending_expired',
         'unpublished': 'mautic.core.form.unavailable'
     },
-    'default': {
+    'active': {
         'published': 'mautic.core.form.active',
         'pending': 'mautic.core.form.pending',
         'expired': 'mautic.core.form.expired',
@@ -27,10 +27,12 @@
     }
 } %}
 
+{% set labelTextKey = (labelMappings[status|default('active')][entity.getPublishStatus()]) %}
+
 <div class="label label-{{ statusColors[entity.getPublishStatus()].text }} d-flex ai-center gap-xs fw-b">
-    <span title="{{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}"
-          aria-label="{{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}"
+    <span title="{{ labelTextKey|trans }}"
+          aria-label="{{ labelTextKey|trans }}"
           class="bg-{{ statusColors[entity.getPublishStatus()].icon }} publishstatus_pulse">
     </span>
-    {{ labelMappings[status][entity.getPublishStatus()]|default(labelMappings['default'][entity.getPublishStatus()])|trans }}
+    {{ labelTextKey|trans }}
 </div>
