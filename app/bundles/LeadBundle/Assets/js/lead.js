@@ -887,6 +887,7 @@ Mautic.updateLeadFieldOrderChoiceList = function () {
         if (response) {
             mQuery('#leadfield_order_container').html(response);
             Mautic.activateChosenSelect('#leadfield_order');
+            mQuery('label[for=leadfield_order]').tooltip({html: true});
         }
     });
 }
