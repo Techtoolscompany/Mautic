@@ -446,7 +446,7 @@ class FieldType extends AbstractType
             return $cleaningRules;
         };
 
-        $setupOrderField = function (FormInterface $form, string $object = null, string $group = null) use ($builder, $disabled) {
+        $setupOrderField = function (FormInterface $form, string $object = null, string $group = null) use ($builder, $disabled): void {
             /** @var LeadFieldRepository $leadFieldRepository */
             $leadFieldRepository = $this->em->getRepository(LeadField::class);
 
