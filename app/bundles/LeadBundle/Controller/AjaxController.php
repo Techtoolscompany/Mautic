@@ -982,8 +982,10 @@ class AjaxController extends CommonAjaxController
     public function updateLeadFieldOrderChoiceListAction(Request $request): Response
     {
         $object = InputHelper::clean($request->request->get('object'));
+        $group  = InputHelper::clean($request->request->get('group'));
         $field  = new LeadField();
         $field->setObject($object);
+        $field->setGroup($group);
         $form = $this->createForm(FieldType::class, $field);
 
         return $this->render(

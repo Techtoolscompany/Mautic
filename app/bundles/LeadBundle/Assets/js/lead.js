@@ -878,8 +878,12 @@ Mautic.updateLeadFieldBooleanLabels = function(el, label) {
     );
 };
 
-Mautic.updateLeadFieldOrderChoiceList = function (selectedVal, onload = false) {
-    Mautic.ajaxActionRequest('lead:updateLeadFieldOrderChoiceList', {'object': selectedVal}, function(response) {
+Mautic.updateLeadFieldOrderChoiceList = function () {
+    formData = {
+        'object': mQuery('#leadfield_object').val(),
+        'group': mQuery('#leadfield_group').val()
+    };
+    Mautic.ajaxActionRequest('lead:updateLeadFieldOrderChoiceList', formData, function(response) {
         if (response) {
             mQuery('#leadfield_order_container').html(response);
             Mautic.activateChosenSelect('#leadfield_order');
