@@ -551,7 +551,8 @@ class FieldType extends AbstractType
             [
                 'label' => 'mautic.lead.field.form.isshortvisible',
                 'attr'  => [
-                    'tooltip' => 'mautic.lead.field.form.isshortvisible.tooltip',
+                    'tooltip'         => 'mautic.lead.field.form.isshortvisible.tooltip',
+                    'data-disable-on' => '{"leadfield_object":"company"}',
                 ],
             ]
         );
@@ -576,6 +577,8 @@ class FieldType extends AbstractType
             [
                 'label'      => 'mautic.lead.field.indexable',
                 'label_attr' => ['class' => 'control-label'],
+                'yes_label'  => 'mautic.lead.field.indexable.yes',
+                'no_label'   => 'mautic.lead.field.indexable.no',
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => $this->translator->trans('mautic.lead.field.form.isIndex.tooltip', ['%indexCount%' => $this->indexHelper->getIndexCount(), '%maxCount%' => $this->indexHelper->getMaxCount()]),
@@ -593,8 +596,9 @@ class FieldType extends AbstractType
             [
                 'label' => 'mautic.lead.field.form.isuniqueidentifer',
                 'attr'  => [
-                    'tooltip'  => 'mautic.lead.field.form.isuniqueidentifer.tooltip',
-                    'onchange' => 'Mautic.displayUniqueIdentifierWarning(this)',
+                    'tooltip'         => 'mautic.lead.field.form.isuniqueidentifer.tooltip',
+                    'onchange'        => 'Mautic.displayUniqueIdentifierWarning(this);',
+                    'data-disable-on' => '{"leadfield_object":"company"}',
                 ],
                 'data' => (!empty($data)),
             ]
