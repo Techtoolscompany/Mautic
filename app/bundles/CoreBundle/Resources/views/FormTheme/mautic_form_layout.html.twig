@@ -498,6 +498,9 @@ id="{{ id|escape }}" name="{{ full_name|escape }}"
         {{ '%s="%s"'|format(k|escape, v|escape)|raw }}
     {% elseif v is same as true %}
         {{ '%s="%s" '|format(k|escape, k|escape)|raw }}
+    {% elseif v is iterable %}
+        {% set v = formFieldFormatList(constant('Mautic\\FormBundle\\Helper\\FormFieldHelper::FORMAT_BAR'), v) %}
+        {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
     {% elseif v is not same as false %}
         {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
     {% endif %}
