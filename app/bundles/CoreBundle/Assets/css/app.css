@@ -9914,6 +9914,18 @@ code:hover > .copy-icon {
     display: none;
   }
 }
+.list-toolbar .form-control.search,
+.list-toolbar .input-group .input-group-btn button,
+.list-toolbar .btn {
+  height: 48px;
+  border-radius: unset;
+}
+.list-toolbar .input-group .input-group-btn button {
+  aspect-ratio: 1/1;
+}
+.list-toolbar .input-group-btn {
+  width: auto;
+}
 .toggle {
   display: inline-block;
   -webkit-user-select: none;
