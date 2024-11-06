@@ -492,8 +492,10 @@ id="{{ id|escape }}" name="{{ full_name|escape }}"
 {% for k,v in attr|filter((v,k) => k not in ['tooltip', 'preaddon', 'preaddon_attr', 'postaddon_attr', 'help_icon']) %}
     {% if k in ['placeholder', 'title'] %}
         {{ '%s="%s" '|format(k|escape, v|trans({}, translation_domain)|escape)|raw }}
-    {% elseif k starts with 'data-' %}
-        {{ '%s="%s" '|format(k|escape, v|escape)|raw }}
+    {% elseif k is same as 'data-order' and v is string %}
+        {{ k }}="{{ v|raw }}"
+    {% elseif k starts with 'data-' and (k matches '/data-(none|start|both|end)/') %}
+        {{ '%s="%s"'|format(k|escape, v|escape)|raw }}
     {% elseif v is same as true %}
         {{ '%s="%s" '|format(k|escape, k|escape)|raw }}
     {% elseif v is not same as false %}
