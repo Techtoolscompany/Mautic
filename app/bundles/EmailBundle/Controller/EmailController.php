@@ -23,8 +23,8 @@ use Mautic\CoreBundle\Twig\Helper\SlotsHelper;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Form\Type\BatchSendType;
 use Mautic\EmailBundle\Form\Type\ExampleSendType;
-use Mautic\EmailBundle\Helper\PlainTextHelper;
 use Mautic\EmailBundle\Form\Type\ScheduleSendType;
+use Mautic\EmailBundle\Helper\PlainTextHelper;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Mautic\LeadBundle\Model\FieldModel;
@@ -404,13 +404,13 @@ class EmailController extends FormController
                     ]
                 ),
                 'viewParameters' => [
-                    'email'        => $email,
-                    'emailPreview' => $emailPreview,
-                    'trackables'   => $trackableLinks,
-                    'logs'         => $logs,
-                    'isEmbedded'   => $request->get('isEmbedded') ?: false,
+                    'email'          => $email,
+                    'emailPreview'   => $emailPreview,
+                    'trackables'     => $trackableLinks,
+                    'logs'           => $logs,
+                    'isEmbedded'     => $request->get('isEmbedded') ?: false,
                     'publishStatus'  => $model->getPublishStatus($email),
-                    'variants'     => [
+                    'variants'       => [
                         'parent'     => $parent,
                         'children'   => $children,
                         'properties' => $properties,
@@ -580,6 +580,7 @@ class EmailController extends FormController
 
             if ($cancelled || ($valid && $this->getFormButton($form, ['buttons', 'save'])->isClicked())) {
                 $entityManager->clear();
+
                 return $this->postActionRedirect(
                     [
                         'returnUrl'       => $returnUrl,
@@ -1569,7 +1570,7 @@ class EmailController extends FormController
                     'form' => $form->createView(),
                 ],
                 'contentTemplate' => '@MauticEmail/Email/schedule.html.twig',
-                ]
+            ]
         );
     }
 
