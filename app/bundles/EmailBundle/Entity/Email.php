@@ -217,6 +217,8 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $clonedId;
 
+    private ?bool $continueSending = false;
+
     public function __clone()
     {
         $this->isCloned          = true;
@@ -233,6 +235,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
         $this->plainText         = null;
         $this->publishUp         = null;
         $this->publishDown       = null;
+        $this->continueSending   = false;
         $this->clearTranslations();
         $this->clearVariants();
         $this->clearStats();
@@ -281,6 +284,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
         $builder->addNullableField('customHtml', Types::TEXT, 'custom_html');
         $builder->addNullableField('emailType', Types::TEXT, 'email_type');
         $builder->addPublishDates();
+        $builder->addNullableField('continueSending', Types::BOOLEAN, 'continue_sending');
         $builder->addNamedField('readCount', Types::INTEGER, 'read_count');
         $builder->addNamedField('sentCount', Types::INTEGER, 'sent_count');
         $builder->addNamedField('variantSentCount', Types::INTEGER, 'variant_sent_count');
@@ -824,6 +828,10 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     public function getPublishDown()
     {
+        if ($this->isSegmentEmail() && !$this->isContinueSending()) {
+            return null;
+        }
+
         return $this->publishDown;
     }
 
@@ -971,6 +979,24 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public function setPlainText($plainText)
     {
         $this->plainText = $plainText;
+
+        return $this;
+    }
+
+    public function isContinueSending(): ?bool
+    {
+        return $this->continueSending;
+    }
+
+    public function getContinueSending(): ?bool
+    {
+        return $this->continueSending;
+    }
+
+    public function setContinueSending(?bool $continueSending): self
+    {
+        $this->isChanged('continueSending', $continueSending);
+        $this->continueSending = $continueSending;
 
         return $this;
     }
@@ -1288,5 +1314,10 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
         }
 
         return $keys;
+    }
+
+    public function isSegmentEmail(): bool
+    {
+        return 'list' === $this->getEmailType();
     }
 }
