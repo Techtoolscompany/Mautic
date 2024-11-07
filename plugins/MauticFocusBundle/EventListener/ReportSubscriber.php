@@ -4,6 +4,7 @@ namespace MauticPlugin\MauticFocusBundle\EventListener;
 
 use Mautic\ReportBundle\Event\ReportBuilderEvent;
 use Mautic\ReportBundle\Event\ReportGeneratorEvent;
+use Mautic\ReportBundle\Event\ReportDataEvent;
 use Mautic\ReportBundle\ReportEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,6 +22,7 @@ class ReportSubscriber implements EventSubscriberInterface
         return [
             ReportEvents::REPORT_ON_BUILD    => ['onReportBuilder', 0],
             ReportEvents::REPORT_ON_GENERATE => ['onReportGenerate', 0],
+            ReportEvents::REPORT_ON_DISPLAY  => ['onReportDisplay', 0],
         ];
     }
 
@@ -57,10 +59,31 @@ class ReportSubscriber implements EventSubscriberInterface
             self::PREFIX_TRACKABLES.'.hits' => [
                 'label' => 'pagehits',
                 'type'  => 'html',
+                'formula' => 'CASE 
+                    WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
+                        SELECT COUNT(fs2.id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        INNER JOIN '.MAUTIC_TABLE_PREFIX.'focus f2 
+                        ON f2.id = fs2.focus_id 
+                        WHERE fs2.type = "view" 
+                        AND f2.id = '.self::PREFIX_FOCUS.'.id
+                        GROUP BY f2.id
+                    )
+                    ELSE '.self::PREFIX_TRACKABLES.'.hits 
+                END'
             ],
             self::PREFIX_TRACKABLES.'.unique_hits' => [
                 'label' => 'uniquehits',
                 'type'  => 'html',
+                'formula' => 'CASE 
+                    WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
+                        SELECT COUNT(DISTINCT fs2.lead_id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        WHERE fs2.type = "view" 
+                        AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
+                    )
+                    ELSE '.self::PREFIX_TRACKABLES.'.unique_hits 
+                END'
             ],
             self::PREFIX_REDIRECTS.'.url' => [
                 'label' => 'url',
@@ -83,18 +106,36 @@ class ReportSubscriber implements EventSubscriberInterface
      */
     public function onReportGenerate(ReportGeneratorEvent $event): void
     {
-        if ($event->checkContext([self::CONTEXT_FOCUS_STATS])) {
-            $queryBuilder = $event->getQueryBuilder();
-            $queryBuilder->from(MAUTIC_TABLE_PREFIX.'focus_stats', self::PREFIX_STATS)
-                ->innerJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS,
-                    self::PREFIX_FOCUS.'.id = '.self::PREFIX_STATS.'.focus_id')
-                ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'channel_url_trackables', self::PREFIX_TRACKABLES,
-                    self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
-                    self::PREFIX_TRACKABLES.'.channel = "focus"')
-                ->leftJoin(self::PREFIX_TRACKABLES, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
-                    self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
-            $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
-            $event->setQueryBuilder($queryBuilder);
+        if (!$event->checkContext([self::CONTEXT_FOCUS_STATS])) {
+            return;
+        }
+
+        $queryBuilder = $event->getQueryBuilder();
+        $queryBuilder->from(MAUTIC_TABLE_PREFIX.'focus_stats', self::PREFIX_STATS)
+            ->innerJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS,
+                self::PREFIX_FOCUS.'.id = '.self::PREFIX_STATS.'.focus_id')
+            ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'channel_url_trackables', self::PREFIX_TRACKABLES,
+                self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
+                self::PREFIX_TRACKABLES.'.channel = "focus"')
+            ->leftJoin(self::PREFIX_TRACKABLES, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
+                self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
+
+        $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
+        $event->setQueryBuilder($queryBuilder);
+    }
+
+    public function onReportDisplay(ReportDataEvent $event): void
+    {
+        if (!$event->checkContext([self::CONTEXT_FOCUS_STATS])) {
+            return;
+        }
+
+        $data = $event->getData();
+        if ($data) {
+            $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
+            $event->setData(array_values($data));
         }
     }
+
+    
 }
