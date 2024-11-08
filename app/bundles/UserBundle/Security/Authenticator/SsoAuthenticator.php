@@ -8,7 +8,6 @@ use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Event\AuthenticationEvent;
 use Mautic\UserBundle\Security\Authentication\Token\PluginToken;
-use Mautic\UserBundle\Security\Authenticator\Passport\Badge\PasswordStrengthBadge;
 use Mautic\UserBundle\UserEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,7 +146,7 @@ final class SsoAuthenticator extends AbstractAuthenticator implements Interactiv
                 return $user;
             }),
             new PasswordCredentials($credentials['password'] ?? null),
-            [new RememberMeBadge(), new PasswordStrengthBadge($credentials['password'] ?? null)]
+            [new RememberMeBadge()]
         );
 
         if ($this->options['enable_csrf']) {

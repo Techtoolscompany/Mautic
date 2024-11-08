@@ -108,7 +108,7 @@ final class ExportControllerTest extends MauticMysqlTestCase
         $this->loginUser($user->getUsername());
         /** @phpstan-ignore-next-line  */
         $this->client->setServerParameter('PHP_AUTH_USER', $user->getUsername());
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         return $user;
     }
@@ -145,7 +145,7 @@ final class ExportControllerTest extends MauticMysqlTestCase
         $user->setEmail('john.doe@email.com');
         $hasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
         \assert($hasher instanceof PasswordHasherInterface);
-        $user->setPassword($hasher->hash('mautic'));
+        $user->setPassword($hasher->hash('Maut1cR0cks!'));
         $user->setRole($role);
 
         $this->em->persist($user);

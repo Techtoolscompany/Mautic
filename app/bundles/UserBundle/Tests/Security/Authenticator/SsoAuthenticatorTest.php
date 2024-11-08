@@ -261,7 +261,7 @@ class SsoAuthenticatorTest extends TestCase
 
         $passport = $authenticator->authenticate($request);
         $badges   = $passport->getBadges();
-        self::assertCount($enableCsrf ? 5 : 4, $badges);
+        self::assertCount($enableCsrf ? 4 : 3, $badges);
 
         $userBadge = $passport->getBadge(UserBadge::class);
         \assert($userBadge instanceof UserBadge);
@@ -273,9 +273,9 @@ class SsoAuthenticatorTest extends TestCase
 
         self::assertTrue($passport->hasBadge(RememberMeBadge::class));
 
+        // Badge will be added later by PasswordStrengthSubscriber
         $passwordStrengthBadge = $passport->getBadge(PasswordStrengthBadge::class);
-        \assert($passwordStrengthBadge instanceof PasswordStrengthBadge);
-        self::assertSame($password, $passwordStrengthBadge->getPresentedPassword());
+        self::assertNull($passwordStrengthBadge);
 
         if (!$enableCsrf) {
             self::assertFalse($passport->hasBadge(CsrfTokenBadge::class));

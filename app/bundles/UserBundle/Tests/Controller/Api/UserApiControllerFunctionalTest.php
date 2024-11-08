@@ -56,7 +56,7 @@ class UserApiControllerFunctionalTest extends MauticMysqlTestCase
         // Login newly created non-admin user
         $this->loginUser($user->getUserIdentifier());
         $this->client->setServerParameter('PHP_AUTH_USER', $user->getUserIdentifier());
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         $this->client->request(Request::METHOD_PATCH, "/api/users/{$user->getId()}/edit", ['role' => $role->getId()]);
         $clientResponse = $this->client->getResponse();
@@ -79,7 +79,7 @@ class UserApiControllerFunctionalTest extends MauticMysqlTestCase
         // Login newly created admin user
         $this->loginUser($user->getUserIdentifier());
         $this->client->setServerParameter('PHP_AUTH_USER', $user->getUserIdentifier());
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         $this->client->request(Request::METHOD_PATCH, "/api/users/{$user->getId()}/edit", ['role' => $role->getId()]);
         $clientResponse = $this->client->getResponse();
@@ -100,12 +100,33 @@ class UserApiControllerFunctionalTest extends MauticMysqlTestCase
 
         $this->loginUser($user->getUserIdentifier());
         $this->client->setServerParameter('PHP_AUTH_USER', $user->getUserIdentifier());
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         $this->client->request(Request::METHOD_PATCH, "/api/users/{$user->getId()}/edit", ['role' => $role->getId()]);
         $clientResponse = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $clientResponse->getStatusCode());
         Assert::assertStringContainsString('"username":"'.$user->getUserIdentifier().'"', $clientResponse->getContent());
+    }
+
+    public function testWeakPasswordGivesUnauthorizedResponse(): void
+    {
+        // Create non-admin role
+        $role = $this->createRole();
+        // Create permissions to update user for the role
+        $this->createPermission('user:users:edit', $role, 52);
+        // Create non-admin user with weak password.
+        $weakPassword = 'mautic';
+        $user         = $this->createUser($role, $weakPassword);
+        $this->em->flush();
+        $this->em->clear();
+
+        $this->loginUser($user->getUserIdentifier());
+        $this->client->setServerParameter('PHP_AUTH_USER', $user->getUserIdentifier());
+        $this->client->setServerParameter('PHP_AUTH_PW', $weakPassword);
+
+        $this->client->request(Request::METHOD_PATCH, "/api/users/{$user->getId()}/edit", ['role' => $role->getId()]);
+        $clientResponse = $this->client->getResponse();
+        Assert::assertSame(Response::HTTP_UNAUTHORIZED, $clientResponse->getStatusCode());
     }
 
     /**
@@ -159,7 +180,7 @@ class UserApiControllerFunctionalTest extends MauticMysqlTestCase
         $this->em->persist($permission);
     }
 
-    private function createUser(Role $role): User
+    private function createUser(Role $role, string $password = 'Maut1cR0cks!'): User
     {
         $user = new User();
         $user->setFirstName('John');
@@ -168,7 +189,7 @@ class UserApiControllerFunctionalTest extends MauticMysqlTestCase
         $user->setEmail('john.doe@email.com');
         $hasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
         \assert($hasher instanceof PasswordHasherInterface);
-        $user->setPassword($hasher->hash('mautic'));
+        $user->setPassword($hasher->hash($password));
         $user->setRole($role);
         $this->em->persist($user);
 

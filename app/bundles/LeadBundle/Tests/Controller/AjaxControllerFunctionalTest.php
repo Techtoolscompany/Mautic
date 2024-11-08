@@ -477,7 +477,7 @@ class AjaxControllerFunctionalTest extends MauticMysqlTestCase
         /** @var PasswordHasherInterface $hasher */
         $hasher = static::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
 
-        $passwordNonAdmin = 'mautic';
+        $passwordNonAdmin = 'Maut1cR0cks!';
         $user->setPassword($hasher->hash($passwordNonAdmin));
         $userRepository->saveEntity($user);
 

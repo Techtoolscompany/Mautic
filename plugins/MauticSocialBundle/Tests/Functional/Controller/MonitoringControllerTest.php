@@ -68,7 +68,7 @@ class MonitoringControllerTest extends MauticMysqlTestCase
 
         $this->loginUser(self::USERNAME);
         $this->client->setServerParameter('PHP_AUTH_USER', self::USERNAME);
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         return $user;
     }
@@ -93,7 +93,7 @@ class MonitoringControllerTest extends MauticMysqlTestCase
         $user->setEmail('john.doe@email.com');
         $hasher = self::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
         \assert($hasher instanceof PasswordHasherInterface);
-        $user->setPassword($hasher->hash('mautic'));
+        $user->setPassword($hasher->hash('Maut1cR0cks!'));
         $user->setRole($role);
 
         $this->em->persist($user);

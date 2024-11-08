@@ -29,7 +29,7 @@ class UserLogoutFunctionalTest extends MauticMysqlTestCase
         $user->setRole($role);
         $hasher = static::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
         \assert($hasher instanceof PasswordHasherInterface);
-        $user->setPassword($hasher->hash('mautic'));
+        $user->setPassword($hasher->hash('Maut1cR0cks!'));
         $this->em->persist($user);
 
         $this->em->flush();
@@ -38,7 +38,7 @@ class UserLogoutFunctionalTest extends MauticMysqlTestCase
         // Login newly created non-admin user
         $this->loginUser($user->getUserIdentifier());
         $this->client->setServerParameter('PHP_AUTH_USER', $user->getUserIdentifier());
-        $this->client->setServerParameter('PHP_AUTH_PW', 'mautic');
+        $this->client->setServerParameter('PHP_AUTH_PW', 'Maut1cR0cks!');
 
         $this->client->request(Request::METHOD_GET, '/s/logout');
         $clientResponse = $this->client->getResponse();

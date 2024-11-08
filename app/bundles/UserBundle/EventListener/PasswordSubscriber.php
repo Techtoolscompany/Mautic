@@ -41,5 +41,7 @@ final class PasswordSubscriber implements EventSubscriberInterface
         if (!$this->passwordStrengthEstimatorModel->validate($presentedPassword)) {
             throw new WeakPasswordException();
         }
+
+        $badge->setResolved();
     }
 }

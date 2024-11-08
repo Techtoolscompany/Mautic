@@ -757,6 +757,6 @@ final class SubmissionFunctionalTest extends MauticMysqlTestCase
 
     private function getUserPlainPassword(): string
     {
-        return 'test-pass';
+        return 'test-pass!23';
     }
 }
