@@ -4669,6 +4669,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
   border-right: 1px solid var(--layer);
   border-top: 1px solid var(--layer);
   color: var(--text-secondary);
+  border-radius: var(--border-radius-md);
 }
 .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default,
 .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current,
@@ -6472,6 +6473,15 @@ input[style] {
 input[style]:hover {
   background-color: var(--field-hover) !important;
 }
+.btn-datepicker + input,
+.btn-datepicker + input:hover {
+  background-color: transparent;
+  border-color: transparent;
+  padding-left: 6px;
+  color: var(--text-secondary);
+  cursor: default;
+  font-size: 92%;
+}
 .form-control,
 .chosen-container .chosen-single,
 .form-control.search.tt-input {
@@ -6535,6 +6545,10 @@ input[style]:hover {
 .form-control[readonly],
 fieldset[disabled] .form-control {
   color: var(--text-disabled);
+}
+.form-control[disabled] {
+  cursor: not-allowed;
+  border-bottom-color: transparent;
 }
 .search-container {
   display: flex;
