@@ -7310,6 +7310,9 @@ ul.line-legend li {
 .input-group .input-group-btn:first-child .btn {
   border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
 }
+.input-group .input-group-btn:last-child .btn {
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
 .img-wrapper {
   display: inline-block;
   position: relative;
