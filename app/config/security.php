@@ -147,7 +147,7 @@ $container->loadFromExtension(
 );
 
 $container->setParameter('mautic.saml_idp_entity_id', '%env(MAUTIC_SAML_ENTITY_ID)%');
-$container->setParameter('mautic.saml_enabled', '%env(MAUTIC_SAML_ENABLED)%');
+$container->setParameter('mautic.saml_enabled', '%env(bool:MAUTIC_SAML_ENABLED)%');
 $container->loadFromExtension(
     'light_saml_symfony_bridge',
     [
