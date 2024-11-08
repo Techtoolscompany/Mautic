@@ -253,7 +253,6 @@
   --border-tile-02: #a6a190;
   --border-inverse: #073642;
   --border-disabled: #bfb7a3;
-  --border-transparent: transparent;
   --text-primary: #002b36;
   --text-secondary: #586e75;
   --text-placeholder: #93a1a1;
@@ -701,7 +700,6 @@
   --border-tile-02: #2A2A40;
   --border-inverse: #F7B84B;
   --border-disabled: #3A3A52;
-  --border-transparent: transparent;
   --text-primary: #FFFFFF;
   --text-secondary: #A0A0B0;
   --text-placeholder: #6E6E80;
@@ -1373,20 +1371,20 @@
 .tile > *,
 .nav-tabs-contained + .tab-content > *,
 .nav-tabs-contained + form > .tab-content > * {
-  --layer: var(--layer-alternate);
-  --layer-hover: var(--layer-hover-alternate);
-  --layer-active: var(--layer-active-alternate);
-  --layer-selected: var(--layer-selected-alternate);
-  --layer-selected-hover: var(--layer-selected-hover-alternate);
-  --layer-accent: var(--layer-accent-alternate);
-  --layer-accent-hover: var(--layer-accent-hover-alternate);
-  --layer-accent-active: var(--layer-accent-active-alternate);
-  --field: var(--field-alternate);
-  --field-hover: var(--field-hover-alternate);
-  --border-subtle: var(--border-subtle-alternate);
-  --border-subtle-selected: var(--border-subtle-selected-alternate);
-  --border-strong: var(--border-strong-alternate);
-  --border-tile: var(--border-tile-alternate);
+  --layer: var(--layer-02);
+  --layer-hover: var(--layer-hover-02);
+  --layer-active: var(--layer-active-02);
+  --layer-selected: var(--layer-selected-02);
+  --layer-selected-hover: var(--layer-selected-hover-02);
+  --layer-accent: var(--layer-accent-02);
+  --layer-accent-hover: var(--layer-accent-hover-02);
+  --layer-accent-active: var(--layer-accent-active-02);
+  --field: var(--field-02);
+  --field-hover: var(--field-hover-02);
+  --border-subtle: var(--border-subtle-02);
+  --border-subtle-selected: var(--border-subtle-selected-02);
+  --border-strong: var(--border-strong-02);
+  --border-tile: var(--border-tile-02);
 }
 .ri-spin {
   -webkit-animation: ri-spin 2s infinite linear;
@@ -4201,7 +4199,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus {
   width: 130px;
 }
 .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div {
-  background: var(--layer-alternate);
+  background: var(--layer-02);
   border-top: none;
   height: 32px;
   line-height: 32px;
@@ -5602,10 +5600,10 @@ ul.dropdown-menu-form {
 .notes > .note-single .icon-wrapper {
   width: 50px;
   aspect-ratio: 1 / 1;
-  background-color: var(--layer-alternate);
+  background-color: var(--layer-02);
 }
 .notes > .note-single .tile {
-  background-color: var(--layer-alternate);
+  background-color: var(--layer-02);
 }
 .bullet {
   display: inline-block;
@@ -6814,7 +6812,7 @@ ul.line-legend li {
 }
 .panel:hover,
 .panel2:hover {
-  border-color: var(--border-subtle-alternate);
+  border-color: var(--border-subtle-02);
 }
 .panel-heading {
   padding: 0 15px;
@@ -9626,11 +9624,11 @@ a.inline-token .text-muted {
   width: auto;
 }
 .nav-tabs-contained + .tab-content .tile {
-  background-color: var(--layer-alternate);
+  background-color: var(--layer-02);
 }
 .nav-tabs-contained + .tab-content .tile.tile-clickable:hover,
 .nav-tabs-contained + .tab-content .tile.tile-selectable:hover {
-  background: var(--layer-hover-alternate);
+  background: var(--layer-hover-02);
 }
 @media (min-width: 992px) {
   .modal-xl {
