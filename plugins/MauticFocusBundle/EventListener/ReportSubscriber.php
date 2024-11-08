@@ -3,8 +3,8 @@
 namespace MauticPlugin\MauticFocusBundle\EventListener;
 
 use Mautic\ReportBundle\Event\ReportBuilderEvent;
-use Mautic\ReportBundle\Event\ReportGeneratorEvent;
 use Mautic\ReportBundle\Event\ReportDataEvent;
+use Mautic\ReportBundle\Event\ReportGeneratorEvent;
 use Mautic\ReportBundle\ReportEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -57,8 +57,8 @@ class ReportSubscriber implements EventSubscriberInterface
                 'type'  => 'html',
             ],
             self::PREFIX_TRACKABLES.'.hits' => [
-                'label' => 'pagehits',
-                'type'  => 'html',
+                'label'   => 'mautic.page.graph.line.hits',
+                'type'    => 'html',
                 'formula' => 'CASE 
                     WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(fs2.id) 
@@ -70,11 +70,11 @@ class ReportSubscriber implements EventSubscriberInterface
                         GROUP BY f2.id
                     )
                     ELSE '.self::PREFIX_TRACKABLES.'.hits 
-                END'
+                END',
             ],
             self::PREFIX_TRACKABLES.'.unique_hits' => [
-                'label' => 'uniquehits',
-                'type'  => 'html',
+                'label'   => 'mautic.report.focus.uniquehits',
+                'type'    => 'html',
                 'formula' => 'CASE 
                     WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(DISTINCT fs2.lead_id) 
@@ -83,7 +83,7 @@ class ReportSubscriber implements EventSubscriberInterface
                         AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
                     )
                     ELSE '.self::PREFIX_TRACKABLES.'.unique_hits 
-                END'
+                END',
             ],
             self::PREFIX_REDIRECTS.'.url' => [
                 'label' => 'url',
@@ -112,12 +112,12 @@ class ReportSubscriber implements EventSubscriberInterface
 
         $queryBuilder = $event->getQueryBuilder();
         $queryBuilder->from(MAUTIC_TABLE_PREFIX.'focus_stats', self::PREFIX_STATS)
-            ->innerJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS,
+            ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'focus', self::PREFIX_FOCUS,
                 self::PREFIX_FOCUS.'.id = '.self::PREFIX_STATS.'.focus_id')
             ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'channel_url_trackables', self::PREFIX_TRACKABLES,
                 self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
                 self::PREFIX_TRACKABLES.'.channel = "focus"')
-            ->leftJoin(self::PREFIX_TRACKABLES, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
+            ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
                 self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
 
         $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
@@ -132,10 +132,8 @@ class ReportSubscriber implements EventSubscriberInterface
 
         $data = $event->getData();
         if ($data) {
-            $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
+            $data = array_map('unserialize', array_unique(array_map('serialize', $data)));
             $event->setData(array_values($data));
         }
     }
-
-    
 }

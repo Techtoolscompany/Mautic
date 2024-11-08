@@ -102,7 +102,8 @@ class ReportSubscriberTest extends TestCase
                     ReportSubscriber::PREFIX_STATS,
                     MAUTIC_TABLE_PREFIX.'channel_url_trackables',
                     ReportSubscriber::PREFIX_TRACKABLES,
-                    ReportSubscriber::PREFIX_TRACKABLES.'.channel_id = '.ReportSubscriber::PREFIX_STATS.'.focus_id',
+                    ReportSubscriber::PREFIX_TRACKABLES.'.channel_id = '.ReportSubscriber::PREFIX_STATS.'.focus_id AND '.
+                    ReportSubscriber::PREFIX_TRACKABLES.'.channel = "focus"',
                 ],
                 [
                     ReportSubscriber::PREFIX_STATS,
@@ -117,11 +118,40 @@ class ReportSubscriberTest extends TestCase
     }
 
     /**
-     * @return array<string, array{label: string, type: string}>
+     * @return array<string, array{label: string, type: string, formula?: string}>
      */
     private function getExpectedColumns(): array
     {
         return [
+            ReportSubscriber::PREFIX_TRACKABLES.'.hits' => [
+                'label'   => 'mautic.page.graph.line.hits',
+                'type'    => 'html',
+                'formula' => 'CASE 
+                    WHEN '.ReportSubscriber::PREFIX_STATS.'.type = "view" THEN (
+                        SELECT COUNT(fs2.id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        INNER JOIN '.MAUTIC_TABLE_PREFIX.'focus f2 
+                        ON f2.id = fs2.focus_id 
+                        WHERE fs2.type = "view" 
+                        AND f2.id = '.ReportSubscriber::PREFIX_FOCUS.'.id
+                        GROUP BY f2.id
+                    )
+                    ELSE '.ReportSubscriber::PREFIX_TRACKABLES.'.hits 
+                END',
+            ],
+            ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits' => [
+                'label'   => 'mautic.report.focus.uniquehits',
+                'type'    => 'html',
+                'formula' => 'CASE 
+                    WHEN '.ReportSubscriber::PREFIX_STATS.'.type = "view" THEN (
+                        SELECT COUNT(DISTINCT fs2.lead_id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        WHERE fs2.type = "view" 
+                        AND fs2.focus_id = '.ReportSubscriber::PREFIX_STATS.'.focus_id
+                    )
+                    ELSE '.ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits 
+                END',
+            ],
             ReportSubscriber::PREFIX_FOCUS.'.name' => [
                 'label' => 'mautic.core.name',
                 'type'  => 'html',
@@ -140,14 +170,6 @@ class ReportSubscriberTest extends TestCase
             ],
             ReportSubscriber::PREFIX_STATS.'.type' => [
                 'label' => 'mautic.focus.interaction',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_TRACKABLES.'.hits' => [
-                'label' => 'pagehits',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits' => [
-                'label' => 'uniquehits',
                 'type'  => 'html',
             ],
             ReportSubscriber::PREFIX_REDIRECTS.'.url' => [
