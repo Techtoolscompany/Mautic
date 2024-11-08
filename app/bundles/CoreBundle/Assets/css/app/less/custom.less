@@ -398,3 +398,21 @@ code:hover > .copy-icon {
     display: none;
   }
 }
+
+.well {box-shadow: none;}
+
+.arrow.collapsed {
+  transform: scaleY(-1);
+}
+
+.description {
+  width: 410px;
+  max-width: 410px;
+  transition-delay: 2s;
+  .transition(var(--transition-all-expressive));
+}
+.description:has(.collapsed) {
+  width: 140px;
+  .transition(all 1.5s var(--easing-standard-expressive));
+}
+.description-content { width: 388px; }
