@@ -74,8 +74,8 @@ class ContactPage
     public static $clearSearch = '#btn-filter';
 
     // Do Not Contact
-    public static $firstContactDoNotContact  = '#leadTable > tbody > tr:nth-child(1) > td:nth-child(2) > a > div';
-    public static $secondContactDoNotContact = '#leadTable > tbody > tr:nth-child(1) > td:nth-child(2) > a > div';
+    public static $firstContactDoNotContact  = '#leadTable > tbody > tr:nth-child(1) > td:nth-child(2) > a > div.pull-right > span';
+    public static $secondContactDoNotContact = '#leadTable > tbody > tr:nth-child(1) > td:nth-child(2) > a > div.pull-right > span';
     public static $doNotContactSaveButton    = '//*[@id="MauticSharedModal"]/div/div/div[3]/div/button[1]';
 
     /**
