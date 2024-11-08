@@ -8,6 +8,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Mautic\ChannelBundle\Entity\MessageQueue;
 use Mautic\CoreBundle\Entity\CommonRepository;
+use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\LeadBundle\Entity\DoNotContact;
 
 /**
@@ -170,7 +171,8 @@ class EmailRepository extends CommonRepository
         $countWithMaxMin = false,
         $maxDate = null,
         int $maxThreads = null,
-        int $threadId = null
+        int $threadId = null,
+        ?\DateTimeInterface $sendStopDate = null
     ) {
         // Do not include leads in the do not contact table
         $dncQb = $this->getEntityManager()->getConnection()->createQueryBuilder();
@@ -227,6 +229,9 @@ class EmailRepository extends CommonRepository
             $listIds = [$listIds];
         }
 
+        // Main query
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
         // Only include those in associated segments
         $segmentQb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $segmentQb->select('ll.lead_id')
@@ -243,8 +248,11 @@ class EmailRepository extends CommonRepository
             $segmentQb->setParameter('max_date', $maxDate, \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE);
         }
 
-        // Main query
-        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        if ($sendStopDate) {
+            $segmentQb->andWhere($segmentQb->expr()->lt('ll.date_added', ':sendStopDate'));
+            $q->setParameter('sendStopDate', (new DateTimeHelper($sendStopDate))->toUtcString());
+        }
+
         if ($countOnly) {
             $q->select('count(*) as count');
             if ($countWithMaxMin) {
@@ -319,7 +327,8 @@ class EmailRepository extends CommonRepository
         $maxContactId = null,
         $countWithMaxMin = false,
         int $maxThreads = null,
-        int $threadId = null
+        int $threadId = null,
+        ?\DateTimeInterface $sendStopDate = null,
     ) {
         $q = $this->getEmailPendingQuery(
             $emailId,
@@ -332,7 +341,8 @@ class EmailRepository extends CommonRepository
             $countWithMaxMin,
             null,
             $maxThreads,
-            $threadId
+            $threadId,
+            $sendStopDate
         );
 
         if (!($q instanceof QueryBuilder)) {

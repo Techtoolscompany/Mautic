@@ -2,6 +2,7 @@
 
 namespace Mautic\EmailBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Mautic\AssetBundle\Model\AssetModel;
 use Mautic\CampaignBundle\Entity\Lead;
 use Mautic\CoreBundle\Controller\BuilderControllerTrait;
@@ -22,6 +23,7 @@ use Mautic\CoreBundle\Twig\Helper\SlotsHelper;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Form\Type\BatchSendType;
 use Mautic\EmailBundle\Form\Type\ExampleSendType;
+use Mautic\EmailBundle\Form\Type\ScheduleSendType;
 use Mautic\EmailBundle\Helper\PlainTextHelper;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
@@ -402,14 +404,23 @@ class EmailController extends FormController
                     ]
                 ),
                 'viewParameters' => [
-                    'email'        => $email,
-                    'emailPreview' => $emailPreview,
-                    'trackables'   => $trackableLinks,
-                    'logs'         => $logs,
-                    'isEmbedded'   => $request->get('isEmbedded') ?: false,
-                    'variants'     => $variants,
-                    'translations' => $translations,
-                    'permissions'  => $security->isGranted(
+                    'email'          => $email,
+                    'emailPreview'   => $emailPreview,
+                    'trackables'     => $trackableLinks,
+                    'logs'           => $logs,
+                    'isEmbedded'     => $request->get('isEmbedded') ?: false,
+                    'publishStatus'  => $model->getPublishStatus($email),
+                    'variants'       => [
+                        'parent'     => $parent,
+                        'children'   => $children,
+                        'properties' => $properties,
+                        'criteria'   => $criteria['criteria'],
+                    ],
+                    'translations' => [
+                        'parent'   => $translationParent,
+                        'children' => $translationChildren,
+                    ],
+                    'permissions' => $security->isGranted(
                         [
                             'email:emails:viewown',
                             'email:emails:viewother',
@@ -466,7 +477,7 @@ class EmailController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, $entity = null)
+    public function newAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EntityManager $entityManager, $entity = null)
     {
         $model = $this->getModel('email');
         \assert($model instanceof EmailModel);
@@ -568,6 +579,8 @@ class EmailController extends FormController
             }
 
             if ($cancelled || ($valid && $this->getFormButton($form, ['buttons', 'save'])->isClicked())) {
+                $entityManager->clear();
+
                 return $this->postActionRedirect(
                     [
                         'returnUrl'       => $returnUrl,
@@ -1153,7 +1166,7 @@ class EmailController extends FormController
      *
      * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function abtestAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, $objectId)
+    public function abtestAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EntityManager $entityManager, $objectId)
     {
         $model  = $this->getModel('email');
         $entity = $model->getEntity($objectId);
@@ -1181,7 +1194,7 @@ class EmailController extends FormController
             $clone->setVariantParent($entity);
         }
 
-        return $this->newAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $clone);
+        return $this->newAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $entityManager, $clone);
     }
 
     /**
@@ -1472,6 +1485,92 @@ class EmailController extends FormController
                     'flashes' => $flashes,
                 ]
             )
+        );
+    }
+
+    public function scheduleSendAction(CorePermissions $security, EmailModel $model, Request $request, int $objectId): JsonResponse|Response
+    {
+        /** @var Email $entity */
+        $entity = $model->getEntity($objectId);
+
+        // not found or not allowed
+        if (null === $entity
+            || (!$security->hasEntityAccess(
+                'email:emails:viewown',
+                'email:emails:viewother',
+                $entity->getCreatedBy()
+            ))
+        ) {
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
+
+        // Get the quick add form
+        $action = $this->generateUrl('mautic_email_action', ['objectAction' => 'scheduleSend', 'objectId' => $objectId]);
+
+        $data = [
+            'publishUp'       => $entity->getPublishUp(),
+            'publishDown'     => $entity->getPublishDown(),
+            'continueSending' => $entity->getContinueSending(),
+        ];
+
+        $form = $this->createForm(ScheduleSendType::class, $data, ['action' => $action]);
+
+        if ('POST' == $request->getMethod()) {
+            $isCancelled = $this->isFormCancelled($form);
+            $isValid     = $this->isFormValid($form);
+            if (!$isCancelled && $isValid) {
+                $data = $form->getData();
+                if ($form->get('buttons')->has('apply') && $this->getFormButton($form, ['buttons', 'apply'])->isClicked()) {
+                    $entity->setPublishUp(null);
+                    $entity->setPublishDown(null);
+                    $entity->setContinueSending(null);
+
+                    $this->addFlashMessage('mautic.email.notice.schedule.cancel');
+                } else {
+                    $entity->setPublishUp($data['publishUp']);
+                    $entity->setPublishDown($data['publishDown']);
+                    $entity->setContinueSending($data['continueSending']);
+
+                    $this->addFlashMessage('mautic.email.notice.schedule.sent');
+                }
+
+                $model->saveEntity($entity);
+            }
+
+            if ($isValid || $isCancelled) {
+                $viewParameters = [
+                    'objectAction' => 'view',
+                    'objectId'     => $objectId,
+                ];
+
+                return $this->postActionRedirect(
+                    [
+                        'returnUrl'       => $this->generateUrl('mautic_email_action', $viewParameters),
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => 'Mautic\EmailBundle\Controller\EmailController::viewAction',
+                        'passthroughVars' => [
+                            'mauticContent' => 'email',
+                            'closeModal'    => 1,
+                        ],
+                    ]
+                );
+            }
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form' => $form->createView(),
+                ],
+                'contentTemplate' => '@MauticEmail/Email/schedule.html.twig',
+            ]
         );
     }
 

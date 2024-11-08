@@ -158,7 +158,7 @@
                 {% if isVariant %}
                     {{ form_row(form.variantSettings) }}
                     {{ form_row(form.isPublished) }}
-                    <div id="scheduleOptions"{{ (('template' == emailType) ? ' class="hide"' : '') }}>
+                    <div id="scheduleOptions" class="hide">
                         {{ form_row(form.publishUp, {'label': 'mautic.core.form.sending.start_at'}) }}
                         {{ form_row(form.publishDown, {'label': 'mautic.core.form.sending.stop_at'}) }}
                     </div>
@@ -179,11 +179,11 @@
 
                 {% if not isVariant %}
                     {{ form_row(form.isPublished) }}
-                    <div id="scheduleOptions"{{ (('template' == emailType) ? ' class="hide"' : '') }}>
+                    <div id="scheduleOptions">
                         {{ form_row(form.publishUp, {'label': 'mautic.core.form.sending.start_at'}) }}
                         {{ form_row(form.publishDown, {'label': 'mautic.core.form.sending.stop_at'}) }}
                     </div>
-                    
+
                 {% endif %}
 
                 {{ form_row(form.unsubscribeForm) }}

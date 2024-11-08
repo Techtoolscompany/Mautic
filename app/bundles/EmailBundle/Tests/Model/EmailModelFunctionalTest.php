@@ -22,6 +22,8 @@ use Mautic\PageBundle\Entity\Trackable;
 
 class EmailModelFunctionalTest extends MauticMysqlTestCase
 {
+    protected $useCleanupRollback = true;
+
     protected function beforeBeginTransaction(): void
     {
         $this->resetAutoincrement(['leads']);
@@ -79,13 +81,13 @@ class EmailModelFunctionalTest extends MauticMysqlTestCase
     /**
      * @param Lead[] $contacts
      */
-    private function addContactsToSegment(array $contacts, LeadList $segment): void
+    private function addContactsToSegment(array $contacts, LeadList $segment, ?\DateTime $dateAdded = null): void
     {
         foreach ($contacts as $contact) {
             $reference = new ListLead();
             $reference->setLead($contact);
             $reference->setList($segment);
-            $reference->setDateAdded(new \DateTime());
+            $reference->setDateAdded($dateAdded ?? new \DateTime());
             $this->em->persist($reference);
         }
 
@@ -100,6 +102,7 @@ class EmailModelFunctionalTest extends MauticMysqlTestCase
         $email->setCustomHtml('Email content');
         $email->setEmailType('list');
         $email->setPublishUp(new \DateTime('-1 day'));
+        $email->setContinueSending(true);
         $email->setIsPublished(true);
         $email->addList($segment);
         $this->em->persist($email);
