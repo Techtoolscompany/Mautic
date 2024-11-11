@@ -500,7 +500,7 @@ Mautic.reorderSegmentFilters = function() {
             $element.attr('id', prefix + '_filters_'+counter+'_'+suffix);
 
             // Destroy the chosen and recreate
-            if ($element.is('select') && suffix == "filter") {
+            if ($element.is('select') && suffix === 'properties_filter') {
                 Mautic.destroyChosen($element);
                 Mautic.activateChosenSelect($element);
             }
