@@ -178,7 +178,14 @@
                 {% endif %}
 
                 {% if not isVariant %}
-                    {{ form_row(form.isPublished) }}
+                    {{ form_row(form.isPublished, {
+                        'attr': {
+                            'data-none': 'mautic.core.form.sending_paused',
+                            'data-start': 'mautic.core.form.sending_on_scheduled_start',
+                            'data-both': 'mautic.core.form.sending_during_scheduled_period',
+                            'data-end': 'mautic.core.form.available_until_scheduled_end'
+                        }
+                    }) }}
                     <div id="scheduleOptions"{{ (('template' == emailType) ? ' class="hide"' : '') }}>
                         {{ form_row(form.publishUp, {'label': 'mautic.core.form.sending.start_at'}) }}
                         {{ form_row(form.publishDown, {'label': 'mautic.core.form.sending.stop_at'}) }}
@@ -191,11 +198,8 @@
                     {{ form_row(form.preferenceCenter) }}
                 {% endif %}
                 <hr/>
-                <h5>{{ 'mautic.email.utm_tags'|trans }}</h5>
-                <br/>
-                {% for i, utmTag in form.utmTags %}
-                    {{ form_row(utmTag) }}
-                {% endfor %}
+                {% include '@MauticCore/FormTheme/Fields/_utm_tags_fields.html.twig' %}
+
             </div>
             <div class="hide">
                 {{ form_rest(form) }}
