@@ -8,7 +8,8 @@
       "phone": "447308164475",
       "description": "Mautic is the world's first open source marketing automation platform. Based on the Symfony framework and used by over 40,000 businesses worldwide to power their digital experience, Mautic became a fully independent open source project in April 2023 after spinning off from ownership by Acquia.",
       "webpageUrl": {
-        "url": "https://www.mautic.org"
+        "url": "https://www.mautic.org",
+        "wellKnown": "https://www.mautic.org/.well-known/funding-manifest-urls"
       }
     },
     "projects": [
@@ -17,7 +18,8 @@
         "name": "Mautic",
         "description": "Mautic is the world's first open source marketing automation platform. Based on the Symfony framework and used by over 40,000 businesses worldwide to power their digital experience, Mautic became a fully independent open source project in April 2023 after spinning off from ownership by Acquia.",
         "webpageUrl": {
-          "url": "https://www.mautic.org"
+          "url": "https://www.mautic.org",
+          "wellKnown": "https://www.mautic.org/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
           "url": "https://github.com/mautic/mautic"
@@ -38,7 +40,8 @@
         "name": "Mautic's API library",
         "description": "The Mautic API library provides developers with a comprehensive tool to interact programmatically with Mautic's marketing automation platform. Hosted on GitHub, this official PHP library supports REST API operations. \n\nIt facilitates a wide range of actions from managing contacts to controlling campaigns and accessing analytical data, enabling developers to seamlessly integrate and automate marketing workflows. The API library requires authentication via OAuth 2 or Basic Auth, depending on the Mautic installation settings.\n\nExtensive documentation accompanying the API library can be found directly within the GitHub repository or via Mautic's official developer docs at https://devdocs.mautic.org (legacy docs at https://developer.mautic.org), ensuring developers have guidance on setting up and utilizing the library effectively. \n\nThere is not currently 100% API coverage however it's a long term goal to work towards this, such that the front-end of Mautic could be entirely decoupled, enabling it to run headless if desired.",
         "webpageUrl": {
-          "url": "https://github.com/mautic/api-library"
+          "url": "https://github.com/mautic/api-library",
+          "wellKnown": "https://github.com/mautic/api-library/blob/main/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
           "url": "https://github.com/mautic/api-library"
@@ -58,7 +61,8 @@
         "name": "Mautic's User Documentation",
         "description": "The Mautic user documentation at https://docs.mautic.org provides a thorough guide specifically designed to assist end users in navigating and maximizing the capabilities of Mautic. \n\nThe End User Documentation is rich with detailed explanations on how to set up and manage campaigns, create and utilize marketing channels like emails and SMS, and analyze results through reports and dashboards. \n\nIt is regularly updated to reflect the latest functionalities introduced in new releases of Mautic, ensuring users have up-to-date information to operate the software proficiently.",
         "webpageUrl": {
-          "url": "https://docs.mautic.org"
+          "url": "https://docs.mautic.org",
+          "wellKnown": "https://github.com/mautic/user-documentation/blob/5.x/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
           "url": "https://github.com/mautic/user-documentation"
@@ -76,7 +80,8 @@
         "name": "Developer Documentation",
         "description": "The Mautic Developer Documentation, accessible at https://devdocs.mautic.org, is a comprehensive resource designed to aid developers in understanding and using the Mautic platform effectively. \n\nIt covers various aspects of Mautic’s open-source marketing automation system, offering detailed guides on APIs, plugin development, and core contributions. \n\nThis documentation is crucial for developers looking to integrate or extend Mautic’s functionalities. It includes a structured overview of Mautic's architecture, API endpoints, webhook implementations, and practical examples of how to create and customize plugins.\n\nAdditionally, the documentation provides insights into the development environment setup, covering system requirements and installation steps to ensure a smooth start for new developers. \n\nNote: The old dev docs are at https://developer.mautic.org as some sections are yet to be migrated.",
         "webpageUrl": {
-          "url": "https://devdocs.mautic.org"
+          "url": "https://devdocs.mautic.org",
+          "wellKnown": "https://github.com/mautic/developer-documentation-new/blob/5.x/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
           "url": "https://github.com/mautic/developer-documentation-new"
@@ -97,7 +102,8 @@
         "name": "GrapesJS Builder Preset",
         "description": "At the heart of Mautic is the email and landing page builder, used by every marketer to create stunning resources using a drag-and-drop builder powered by the open source framework, GrapesJS.\n\nMautic's implementation of GrapesJS is made through a preset, which allows us to add our own custom blocks.\n\nThis is an area of Mautic that needs a lot of attention because we have several shortcomings and people are asking for a lot more functionality.",
         "webpageUrl": {
-          "url": "https://github.com/mautic/grapesjs-preset-mautic"
+          "url": "https://github.com/mautic/grapesjs-preset-mautic",
+          "wellKnown": "https://github.com/mautic/grapesjs-preset-mautic/blob/5.x/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
           "url": "https://github.com/mautic/grapesjs-preset-mautic"
