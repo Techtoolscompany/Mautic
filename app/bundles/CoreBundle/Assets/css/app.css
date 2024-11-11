@@ -1331,6 +1331,8 @@
 :root[reduce-motion="true"] {
   --duration-productive: 0;
   --duration-expressive: 0;
+  --easing-standard-productive: none;
+  --easing-standard-expressive: none;
 }
 :root[contrast-borders="true"] {
   --outline-style: dashed;
@@ -9979,7 +9981,7 @@ code:hover > .copy-icon {
 .well {
   box-shadow: none;
 }
-.arrow.collapsed {
+.collapsed .arrow {
   transform: scaleY(-1);
 }
 .description {
