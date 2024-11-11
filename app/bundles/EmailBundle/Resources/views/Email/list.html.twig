@@ -17,7 +17,7 @@
 
 {% block content %}
     {% if isIndex %}
-        <div id="page-list-wrapper">
+        <div class="panel">
             {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
                 'searchValue' : searchValue,
                 'searchHelp'  : 'mautic.email.help.searchcommands',
