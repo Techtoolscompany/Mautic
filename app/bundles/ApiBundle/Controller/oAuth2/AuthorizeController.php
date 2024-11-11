@@ -7,10 +7,12 @@ use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use OAuth2\OAuth2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -18,6 +20,8 @@ use Twig\Error\SyntaxError;
 
 class AuthorizeController extends \FOS\OAuthServerBundle\Controller\AuthorizeController
 {
+    private TokenStorageInterface $tokenStorage;
+
     /**
      * This constructor must be duplicated from the extended class so our custom code could access the properties.
      */
@@ -43,6 +47,8 @@ class AuthorizeController extends \FOS\OAuthServerBundle\Controller\AuthorizeCon
             $clientManager,
             $eventDispatcher
         );
+
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -60,5 +66,15 @@ class AuthorizeController extends \FOS\OAuthServerBundle\Controller\AuthorizeCon
         );
 
         return new Response($response);
+    }
+
+    public function authorizeAction(Request $request): Response
+    {
+        // The parent bundle does not care about token being empty.
+        if (null === $this->tokenStorage->getToken()) {
+            throw new AccessDeniedException('This user does not have access to this section. No token.');
+        }
+
+        return parent::authorizeAction($request);
     }
 }

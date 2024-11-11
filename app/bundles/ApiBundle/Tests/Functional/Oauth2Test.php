@@ -8,6 +8,7 @@ use Mautic\CoreBundle\Test\IsolatedTestTrait;
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * This test must run in a separate process because it sets the global constant
@@ -28,9 +29,32 @@ final class Oauth2Test extends MauticMysqlTestCase
         parent::setUp();
     }
 
-    protected function beforeTearDown(): void
+    /**
+     * @dataProvider provideMethods
+     */
+    public function testAuthorize(string $method): void
     {
-        $this->client->enableReboot();
+        // Disable the default logging in via username and password.
+        $this->clientServer = [];
+        $this->setUpSymfony($this->configParams);
+        $this->client->followRedirects(false);
+
+        $this->client->request(
+            $method,
+            '/oauth/v2/authorize'
+        );
+
+        $this->client->followRedirects(true);
+
+        $response = $this->client->getResponse();
+        Assert::assertSame(Response::HTTP_FOUND, $response->getStatusCode(), $response->getContent());
+        Assert::assertSame('https://localhost/oauth/v2/authorize_login', $response->headers->get('Location'));
+    }
+
+    public static function provideMethods(): \Generator
+    {
+        yield 'GET' => [Request::METHOD_GET];
+        yield 'POST' => [Request::METHOD_POST];
     }
 
     public function testAuthWithInvalidCredentials(): void
