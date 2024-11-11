@@ -524,6 +524,11 @@ Mautic.reorderSegmentFilters = function() {
     const $firstPanel = $filters.first();
     $firstPanel.find(panelClass).addClass('hide');
     $firstPanel.find('.copy-filter-group').removeClass('hide');
+
+    const $tooltips = $filters.find("*[data-toggle='tooltip']");
+    $tooltips.each(function() {
+        mQuery(this).tooltip({html: true, container: 'body'});
+    });
 };
 
 Mautic.convertLeadFilterInput = function(el) {
