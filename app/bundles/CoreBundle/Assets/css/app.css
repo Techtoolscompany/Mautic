@@ -6683,6 +6683,10 @@ ul.line-legend li {
 .input-group .input-group-btn button {
   height: 32px;
   width: 100%;
+  background-color: var(--field);
+}
+.input-group .input-group-btn button:hover {
+  background-color: var(--field-hover);
 }
 .input-group .input-group-btn:last-child .btn {
   border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
