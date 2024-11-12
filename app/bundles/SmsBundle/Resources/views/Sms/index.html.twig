@@ -12,7 +12,7 @@
 ) -}}
 {% endblock %}
 {% block content %}
-<div class="panel">
+<div id="page-list-wrapper">
     {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
         'searchValue' : searchValue,
         'searchHelp'  : 'mautic.sms.help.searchcommands',

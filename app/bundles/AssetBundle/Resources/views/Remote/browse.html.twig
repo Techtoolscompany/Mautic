@@ -7,9 +7,9 @@
 
 {% block content %}
     {% if isIndex %}
-        <div class="panel">
+        <div id="page-list-wrapper">
             <div class="page-list">
-                {{ block('mainContent') }}
+                {{ block('mainContent') }}        
             </div>
         </div>
     {% else %}
