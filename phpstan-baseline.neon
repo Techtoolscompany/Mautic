@@ -33542,6 +33542,16 @@ parameters:
 			path: app/bundles/UserBundle/Config/config.php
 
 		-
+			message: "#^Function Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\abstract_arg not found\\.$#"
+			count: 4
+			path: app/bundles/UserBundle/Config/services.php
+
+		-
+			message: "#^Used function Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\abstract_arg not found\\.$#"
+			count: 1
+			path: app/bundles/UserBundle/Config/services.php
+
+		-
 			message: "#^Method Mautic\\\\UserBundle\\\\Controller\\\\Api\\\\RoleApiController\\:\\:preSaveEntity\\(\\) has parameter \\$form with no type specified\\.$#"
 			count: 1
 			path: app/bundles/UserBundle/Controller/Api/RoleApiController.php
@@ -33699,20 +33709,20 @@ parameters:
 			path: app/bundles/UserBundle/Controller/RoleController.php
 
 		-
-			message: """
-				#^Call to deprecated method get\\(\\) of class Symfony\\\\Bundle\\\\FrameworkBundle\\\\Controller\\\\AbstractController\\:
-				since Symfony 5\\.4, use method or constructor injection in your controller instead$#
-			"""
-			count: 1
-			path: app/bundles/UserBundle/Controller/SecurityController.php
-
-		-
 			message: "#^Method Mautic\\\\UserBundle\\\\Controller\\\\SecurityController\\:\\:ssoLoginAction\\(\\) has parameter \\$integration with no type specified\\.$#"
 			count: 1
 			path: app/bundles/UserBundle/Controller/SecurityController.php
 
 		-
 			message: "#^Method Mautic\\\\UserBundle\\\\Controller\\\\SecurityController\\:\\:ssoLoginCheckAction\\(\\) has parameter \\$integration with no type specified\\.$#"
+			count: 1
+			path: app/bundles/UserBundle/Controller/SecurityController.php
+
+		-
+			message: """
+				#^Parameter \\$factory of method Mautic\\\\UserBundle\\\\Controller\\\\SecurityController\\:\\:__construct\\(\\) has typehint with deprecated class Mautic\\\\CoreBundle\\\\Factory\\\\MauticFactory\\:
+				2\\.0 to be removed in 3\\.0$#
+			"""
 			count: 1
 			path: app/bundles/UserBundle/Controller/SecurityController.php
 
