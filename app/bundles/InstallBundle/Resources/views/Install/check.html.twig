@@ -28,14 +28,14 @@
                 </h3>
             </div>
             <div class="panel-body alert-warning">
-                {{ 'mautic.install.sentence.major.problems'|trans ({'%majors%' : majors|length}) }}
+                {{ 'mautic.install.sentence.major.problems'|trans ({'%majors%' : majors|length})|purify }}
             </div>
             <ul class="list-group">
                 {% for message in majors %}
                     {% if message == 'mautic.install.cache.unwritable' %}
-                        <li class="list-group-item">{{ 'mautic.install.directory.unwritable'|trans ({'%path%' : cacheDir}) }}</li>
+                        <li class="list-group-item">{{ 'mautic.install.directory.unwritable'|trans ({'%path%' : cacheDir})|purify }}</li>
                     {% elseif message == 'mautic.install.config.unwritable' %}
-                        <li class="list-group-item">{{ message|trans ({'%path%' : configFile}) }}</li>
+                        <li class="list-group-item">{{ message|trans ({'%path%' : configFile})|purify }}</li>
                     {% elseif message == 'mautic.install.logs.unwritable' %}
                         <li class="list-group-item">{{ 'mautic.install.directory.unwritable'|trans ({'%path%' : logDir}) }}</li>
                     {% elseif message == 'mautic.install.apc.version' %}
@@ -67,20 +67,20 @@
             </div>
             <div id="minorDetails" class="panel-collapse collapse">
                 <div class="panel-body alert-warning">
-                    <p>{{ 'mautic.install.sentence.minor.problems'|trans }}</p>
+                    <p>{{ 'mautic.install.sentence.minor.problems'|trans|purify }}</p>
                 </div>
                  <ul class="list-group">
                      {% for message in minors %}
                          {% if message == 'mautic.install.pcre.version' %}
-                            <li class="list-group-item">{{ message|trans ({'%pcreversion%' : constant('PCRE_VERSION')}) }}</li>
+                            <li class="list-group-item">{{ message|trans ({'%pcreversion%' : constant('PCRE_VERSION')})|purify }}</li>
                          {% elseif message == 'mautic.install.php.version.not.supported' %}
-                             <li class="list-group-item">{{ message|trans ({'%phpversion%' : constant('PHP_VERSION')}) }}</li>
+                             <li class="list-group-item">{{ message|trans ({'%phpversion%' : constant('PHP_VERSION')})|purify }}</li>
                          {% elseif message == 'mautic.install.php.version.has.only.security.support' %}
-                             <li class="list-group-item">{{ message|trans ({'%phpversion%' : constant('PHP_VERSION')}) }}</li>
+                             <li class="list-group-item">{{ message|trans ({'%phpversion%' : constant('PHP_VERSION')})|purify }}</li>
                          {% elseif message == 'mautic.install.memory.limit' %}
-                             <li class="list-group-item">{{ message|trans ({'%min_memory_limit%' : constant('Mautic\\InstallBundle\\Configurator\\Step\\CheckStep::RECOMMENDED_MEMORY_LIMIT')}) }}</li>
+                             <li class="list-group-item">{{ message|trans ({'%min_memory_limit%' : constant('Mautic\\InstallBundle\\Configurator\\Step\\CheckStep::RECOMMENDED_MEMORY_LIMIT')})|purify }}</li>
                          {% else %}
-                             <li class="list-group-item">{{ message|trans }}</li>
+                             <li class="list-group-item">{{ message|trans|purify }}</li>
                          {% endif %}
                      {% endfor %}
                 </ul>
