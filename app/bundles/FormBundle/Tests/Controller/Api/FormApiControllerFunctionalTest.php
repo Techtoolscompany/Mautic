@@ -640,4 +640,95 @@ final class FormApiControllerFunctionalTest extends MauticMysqlTestCase
         $this->assertSame('Form Field ID 123 not found', $responseContent->errors[0]->message);
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode(), 'Return code must be 404.');
     }
+
+    public function testFormChangeTypeField(): void
+    {
+        $createPayload = [
+            'name'        => 'Form API test',
+            'formType'    => 'standalone',
+            'isPublished' => true,
+            'description' => 'Functional API test',
+            'fields'      => [
+                [
+                    'label'               => 'country',
+                    'showLabel'           => true,
+                    'alias'               => 'country',
+                    'type'                => 'select',
+                    'defaultValue'        => null,
+                    'isRequired'          => false,
+                    'validationMessage'   => null,
+                    'helpMessage'         => null,
+                    'order'               => 0,
+                    'properties'          => [
+                        'list' => [
+                            'list' => [
+                                [
+                                    'label' => 'poland',
+                                    'value' => 'Poland',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'labelAttributes'     => null,
+                    'inputAttributes'     => null,
+                    'containerAttributes' => null,
+                    'leadField'           => null,
+                    'mappedField'         => null,
+                    'mappedObject'        => null,
+                ],
+            ],
+        ];
+
+        $this->client->request(Request::METHOD_POST, '/api/forms/new', $createPayload);
+
+        $createResponse = $this->client->getResponse();
+        $this->assertNotNull($createResponse, 'No response received from the server.');
+        $this->assertSame(
+            Response::HTTP_CREATED,
+            $createResponse->getStatusCode(),
+            sprintf(
+                'Form creation failed. Expected status code %d, got %d. Response: %s',
+                Response::HTTP_CREATED,
+                $createResponse->getStatusCode(),
+                $createResponse->getContent()
+            )
+        );
+
+        $responseContent = $createResponse->getContent();
+        $this->assertJson($responseContent, 'Response is not a valid JSON.');
+        $createdForm = json_decode($responseContent, true);
+
+        $editPayload = [
+            'name'        => 'Form API test',
+            'formType'    => 'standalone',
+            'isPublished' => true,
+            'description' => 'Functional API test',
+            'fields'      => [
+                [
+                    'id'                  => $createdForm['form']['fields'][0]['id'],
+                    'label'               => 'country',
+                    'showLabel'           => true,
+                    'alias'               => 'country',
+                    'type'                => 'text',
+                    'defaultValue'        => null,
+                    'isRequired'          => false,
+                    'validationMessage'   => null,
+                    'helpMessage'         => null,
+                    'order'               => 0,
+                    'properties'          => [],
+                    'labelAttributes'     => null,
+                    'inputAttributes'     => null,
+                    'containerAttributes' => null,
+                    'leadField'           => null,
+                    'mappedField'         => null,
+                    'mappedObject'        => null,
+                ],
+            ],
+        ];
+
+        $this->client->request(Request::METHOD_PUT, '/api/forms/'.$createdForm['form']['id'].'/edit', $editPayload);
+        $clientResponse = $this->client->getResponse();
+        $response       = json_decode($clientResponse->getContent(), true);
+        $this->assertSame(Response::HTTP_OK, $clientResponse->getStatusCode(), 'Return code must be 200.');
+    }
 }
