@@ -28,10 +28,25 @@
             <input type="checkbox" id="customcheckbox-one0" value="1" data-toggle="checkall" data-target="{{ target }}">
         </span>
 
-        <div class="input-group-btn">
-            <button type="button" disabled class="btn btn-default btn-sm dropdown-toggle btn-nospin" data-toggle="dropdown">
-                <i class="ri-more-2-line"></i>
-            </button>
+        <div class="ml-xs">
+            {% include '@MauticCore/Helper/button.html.twig' with {
+                buttons: [
+                    {
+                        label: 'mautic.core.options',
+                        size: 'sm',
+                        variant: 'ghost',
+                        icon: 'ri-more-2-line',
+                        icon_only: true,
+                        spin: false,
+                        attributes: {
+                            'class': 'dropdown-toggle',
+                            'data-toggle': 'dropdown',
+                            'type': 'button',
+                            'disabled': ''
+                        }
+                    }
+                ]
+            } %}
             <ul class="pull-{{ pull }} page-list-actions dropdown-menu" role="menu">
                 {{ buttonsRender() }}
             </ul>
@@ -75,7 +90,7 @@
             />
             <span class="input-group-btn">
                 <button
-                    class="btn btn-default btn-xs"
+                    class="btn btn-ghost btn-icon btn-xs"
                     onclick="Mautic.filterTableData('{{ sessionVar }}','{{ filterBy }}',{{ value is defined and value is not empty ? "''," : "mQuery(this).parent().prev().val()," }}'{{ tmpl }}','{{ target }}'{% if baseUrl is defined and baseUrl is not empty %},'{{ baseUrl }}'{% endif %});"                >
                     <i class="ri-fw ri-lg {{ value is defined and value is not empty ? 'ri-close-line' : 'ri-filter-2-fill' }}"></i>
                 </button>
