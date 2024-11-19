@@ -4525,6 +4525,7 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
 }
 .footer-buttons .btn {
   align-items: flex-start;
+  min-width: 0;
   width: var(--spacing-13);
   border-radius: 0;
 }
