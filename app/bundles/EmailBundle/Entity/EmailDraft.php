@@ -9,9 +9,6 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 
-/**
- * Class EmailDraft.
- */
 class EmailDraft
 {
     private int $id;

@@ -19,36 +19,39 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class EmailTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var MockObject|TranslatorInterface
+     * @var MockObject&TranslatorInterface
      */
     private MockObject $translator;
 
     /**
-     * @var MockObject|EntityManager
+     * @var MockObject&EntityManager
      */
     private MockObject $entityManager;
 
     /**
-     * @var MockObject|StageModel
+     * @var MockObject&StageModel
      */
     private MockObject $stageModel;
 
     /**
-     * @var MockObject|FormBuilderInterface
+     * @var MockObject&FormBuilderInterface
      */
     private MockObject $formBuilder;
 
     private EmailType $form;
 
     /**
-     * @var CoreParametersHelper|MockObject
+     * @var CoreParametersHelper&MockObject
      */
     private MockObject $coreParametersHelper;
 
+    /**
+     * @var EmailConfigInterface&MockObject
+     */
     private MockObject $emailConfig;
 
     /**
-     * @var ThemeHelperInterface|MockObject
+     * @var ThemeHelperInterface&MockObject
      */
     private MockObject $themeHelper;
 

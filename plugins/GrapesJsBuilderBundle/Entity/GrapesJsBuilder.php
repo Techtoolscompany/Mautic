@@ -26,7 +26,7 @@ class GrapesJsBuilder
      */
     private $customMjml;
 
-    private ?string $draftCustomMjml;
+    private ?string $draftCustomMjml = null;
 
     public static function loadMetadata(ORM\ClassMetadata $metadata): void
     {

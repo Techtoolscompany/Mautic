@@ -1277,21 +1277,12 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
 
     public function hasDraft(): bool
     {
-        if (is_null($this->getDraft())) {
-            return false;
-        }
-
-        return true;
+        return null !== $this->getDraft();
     }
 
     public function getDraftContent(): ?string
     {
-        $content = null;
-        if (true === $this->hasDraft()) {
-            $content = $this->getDraft()->getHtml();
-        }
-
-        return $content;
+        return $this->getDraft()?->getHtml();
     }
 
     /**

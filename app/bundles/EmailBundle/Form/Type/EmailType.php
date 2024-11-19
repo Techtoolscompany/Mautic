@@ -256,7 +256,7 @@ class EmailType extends AbstractType
                     'data-token-activator' => '{',
                     'rows'                 => '15',
                 ],
-                'data'       => $html,
+                'data' => $html,
             ]
         );
 

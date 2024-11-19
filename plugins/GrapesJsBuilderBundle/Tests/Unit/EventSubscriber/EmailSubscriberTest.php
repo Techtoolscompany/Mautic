@@ -17,15 +17,17 @@ use MauticPlugin\GrapesJsBuilderBundle\Model\GrapesJsBuilderModel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class EmailSubscriberTest extends TestCase
+final class EmailSubscriberTest extends TestCase
 {
-    private Config|MockObject $config;
-    private GrapesJsBuilderModel|MockObject $grapesJsBuilderModel;
+    /** @var MockObject&Config */
+    private MockObject $config;
+    /** @var MockObject&GrapesJsBuilderModel */
+    private MockObject $grapesJsBuilderModel;
     /** @var MockObject&GrapesJsBuilderRepository */
     private MockObject $grapesJsBuilderRepo;
     private EmailModel|MockObject $emailModel;
     private EmailConfigInterface|MockObject $emailConfig;
-    private EmailSubscriber|MockObject $subscriber;
+    private EmailSubscriber $subscriber;
 
     public function setUp(): void
     {

@@ -10,7 +10,7 @@ use Mautic\EmailBundle\Entity\EmailDraft;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
-class EmailDraftFunctionalTest extends MauticMysqlTestCase
+final class EmailDraftFunctionalTest extends MauticMysqlTestCase
 {
     protected function setUp(): void
     {

@@ -12,9 +12,10 @@ final class Version20240611103824 extends PreUpAssertionMigration
 {
     protected function preUpAssertions(): void
     {
-        $this->skipAssertion(function (Schema $schema) {
-            return $schema->getTable("{$this->prefix}bundle_grapesjsbuilder")->hasColumn('draft_custom_mjml');
-        }, sprintf('Column %s already exists', 'draft_custom_mjml'));
+        $this->skipAssertion(
+            fn (Schema $schema) => $schema->getTable("{$this->prefix}bundle_grapesjsbuilder")->hasColumn('draft_custom_mjml'),
+            'Column draft_custom_mjml already exists'
+        );
     }
 
     public function up(Schema $schema): void

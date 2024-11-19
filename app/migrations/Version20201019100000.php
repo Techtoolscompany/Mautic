@@ -26,31 +26,21 @@ final class Version20201019100000 extends AbstractMauticMigration
     {
         $emailsTable = $schema->getTable($this->getPrefixedTableName('emails'));
         $idColumn    = $emailsTable->getColumn('id');
-        $idDataType  = 'SIGNED';
+        $idDataType  = $idColumn->getUnsigned() ? 'UNSIGNED' : 'SIGNED';
         $fkName      = $this->generatePropertyName('emails_draft', 'fk', ['email_id']);
         $ukName      = $this->generatePropertyName('emails_draft', 'uniq', ['email_id']);
 
-        if (true === $idColumn->getUnsigned()) {
-            $idDataType = 'UNSIGNED';
-        }
         $this->addSql(
-            sprintf(
-                'CREATE TABLE `%s` (
-                      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                      `email_id` int(10) %s NOT NULL,
-                      `html` longtext,
-                      `template` varchar(191) DEFAULT NULL,
-                      `public_preview` tinyint(1) DEFAULT 1 NOT NULL,
-                      PRIMARY KEY (`id`),
-                      UNIQUE KEY `%s` (`email_id`),
-                      CONSTRAINT `%s` FOREIGN KEY (`email_id`) REFERENCES `%s` (`id`)
-                    )DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB ROW_FORMAT = DYNAMIC;',
-                $this->getPrefixedTableName(),
-                $idDataType,
-                $ukName,
-                $fkName,
-                $this->getPrefixedTableName('emails')
-            )
+            "CREATE TABLE `{$this->getPrefixedTableName()}` (
+                `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                `email_id` int(10) {$idDataType} NOT NULL,
+                `html` longtext,
+                `template` varchar(191) DEFAULT NULL,
+                `public_preview` tinyint(1) DEFAULT 1 NOT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `{$ukName}` (`email_id`),
+                CONSTRAINT `{$fkName}` FOREIGN KEY (`email_id`) REFERENCES `{$this->getPrefixedTableName('emails')}` (`id`)
+            )DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB ROW_FORMAT = DYNAMIC;"
         );
     }
 

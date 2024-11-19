@@ -5,7 +5,6 @@ namespace Mautic\CoreBundle\Doctrine;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\Exception\AbortMigration;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,10 +37,6 @@ abstract class AbstractMauticMigration extends AbstractMigration implements Cont
      * @var string
      */
     protected $platform;
-
-    protected EntityManagerInterface $entityManager;
-
-    protected static string $tableName;
 
     /**
      * @throws \Doctrine\DBAL\Exception

@@ -478,13 +478,9 @@ class EmailController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EmailConfig $emailConfig, $entity = null)
+    public function newAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EmailConfig $emailConfig, EmailModel $model, $entity = null)
     {
-        $model = $this->getModel('email');
-        \assert($model instanceof EmailModel);
-
         if (!($entity instanceof Email)) {
-            /** @var Email $entity */
             $entity = $model->getEntity();
         }
 
@@ -549,7 +545,7 @@ class EmailController extends FormController
                         $template  = 'Mautic\EmailBundle\Controller\EmailController::viewAction';
                     } else {
                         // return edit view so that all the session stuff is loaded
-                        return $this->editAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $emailConfig, $entity->getId(), true);
+                        return $this->editAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $emailConfig, $model, $entity->getId(), true);
                     }
                 }
             } else {
@@ -650,14 +646,12 @@ class EmailController extends FormController
         RouterInterface $routerHelper,
         CoreParametersHelper $coreParametersHelper,
         EmailConfig $emailConfig,
+        EmailModel $model,
         $objectId,
         $ignorePost = false,
         $forceTypeSelection = false
     ) {
-        /** @var EmailModel $model */
-        $model  = $this->getModel('email');
-        $method = $request->getMethod();
-
+        $method  = $request->getMethod();
         $entity  = $model->getEntity($objectId);
         $session = $request->getSession();
         $page    = $request->getSession()->get('mautic.email.page', 1);
@@ -1166,6 +1160,7 @@ class EmailController extends FormController
         // merge any existing changes
         $newContent = $request->getSession()->get('mautic.emailbuilder.'.$objectId.'.content', []);
         $content    = $entity->getContent();
+
         if (is_array($newContent)) {
             $content = array_merge($content, $newContent);
             // Update the content for processSlots
@@ -1194,9 +1189,8 @@ class EmailController extends FormController
      *
      * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function abtestAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EmailConfig $emailConfig, $objectId)
+    public function abtestAction(Request $request, AssetsHelper $assetsHelper, Translator $translator, RouterInterface $routerHelper, CoreParametersHelper $coreParametersHelper, EmailConfig $emailConfig, EmailModel $model, $objectId)
     {
-        $model  = $this->getModel('email');
         $entity = $model->getEntity($objectId);
 
         if (null != $entity) {
@@ -1222,7 +1216,7 @@ class EmailController extends FormController
             $clone->setVariantParent($entity);
         }
 
-        return $this->newAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $emailConfig, $clone);
+        return $this->newAction($request, $assetsHelper, $translator, $routerHelper, $coreParametersHelper, $emailConfig, $model, $clone);
     }
 
     /**
