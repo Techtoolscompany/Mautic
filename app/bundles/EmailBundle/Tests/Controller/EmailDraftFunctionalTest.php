@@ -42,10 +42,10 @@ final class EmailDraftFunctionalTest extends MauticMysqlTestCase
     {
         $email   = $this->createNewEmail();
         $crawler = $this->client->request(Request::METHOD_GET, '/s/emails');
-        $this->assertStringNotContainsString('Has draft', $crawler->filter('#app-content a[href="/s/emails/view/'.$email->getId().'"]')->html());
+        $this->assertStringNotContainsString('Has Draft', $crawler->filter('#app-content a[href="/s/emails/view/'.$email->getId().'"]')->html());
         $this->saveDraft($email);
         $crawler = $this->client->request(Request::METHOD_GET, '/s/emails');
-        $this->assertStringContainsString('Has draft', $crawler->filter('#app-content a[href="/s/emails/view/'.$email->getId().'"]')->html());
+        $this->assertStringContainsString('Has Draft', $crawler->filter('#app-content a[href="/s/emails/view/'.$email->getId().'"]')->html());
     }
 
     public function testPreviewDraft(): void
