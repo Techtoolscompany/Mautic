@@ -24,18 +24,6 @@
                 overlayDisabled: overlayDisabled is defined ? overlayDisabled : null
             }) -}}
             {% endif %}
-            {% if quickFilters is defined and quickFilters is not empty %}
-            {{ include('@MauticCore/Helper/list_quickfilters.html.twig', {
-                'quickFilters': quickFilters
-            }) }}
-            {% endif %}
-            {% if filters is defined and filters is not empty %}
-            {{- include('@MauticCore/Helper/list_filters.html.twig', {
-                filters: filters,
-                target: target|default(null),
-                tmpl: tmpl|default(null)
-            }) -}}
-            {% endif %}
 
             {{ buttonsRender() }}
             </div>
