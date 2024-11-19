@@ -18,12 +18,18 @@
 
 {% block content %}
     {% if isIndex %}
-        {{- include('@MauticCore/Helper/list_toolbar.html.twig',
-            {
-                'searchValue' : searchValue,
-                'action'      : currentRoute,
-            }
-        ) -}}
+    {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
+        'searchValue' : searchValue,
+        'action'      : currentRoute,
+        'quickFilters': [
+                {
+                    'search': 'mautic.user.user.searchcommand.isadmin',
+                    'label': 'mautic.user.role.form.isadmin',
+                    'tooltip': 'mautic.core.search.quickfilter.is_admin',
+                    'icon': 'ri-admin-line'
+                }
+            ]
+        }) -}}
         <div class="page-list">
             {{ block('listResults') }}
         </div>
@@ -106,7 +112,7 @@
                         </a>
                     {% else %}
                         {{ item.getName() }}
-                    
+
                     {% endif %}
                 </td>
                 <td class="visible-md visible-lg">
