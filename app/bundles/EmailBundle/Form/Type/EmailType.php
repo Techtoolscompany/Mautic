@@ -580,7 +580,7 @@ class EmailType extends AbstractType
                 'label' => 'mautic.core.applydraft',
                 'type'  => SubmitType::class,
                 'attr'  => [
-                    'class'   => 'btn btn-default text-primary btn-apply-draft',
+                    'class'   => 'btn btn-primary btn-apply-draft',
                     'icon'    => 'fa fa-files-o text-success',
                 ],
             ];
@@ -589,7 +589,7 @@ class EmailType extends AbstractType
                 'label' => 'mautic.core.discarddraft',
                 'type'  => SubmitType::class,
                 'attr'  => [
-                    'class'   => 'btn btn-default text-primary btn-discard-draft',
+                    'class'   => 'btn btn-primary btn-discard-draft',
                     'icon'    => 'fa fa-trash text-danger',
                 ],
             ];
@@ -599,7 +599,7 @@ class EmailType extends AbstractType
                 'label' => 'mautic.core.saveasdraft',
                 'type'  => SubmitType::class,
                 'attr'  => [
-                    'class'   => 'btn btn-default text-primary btn-save-draft',
+                    'class'   => 'btn btn-primary btn-save-draft',
                     'icon'    => 'fa fa-file text-success',
                 ],
             ];
