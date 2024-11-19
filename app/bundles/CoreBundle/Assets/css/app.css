@@ -2550,7 +2550,6 @@ kbd {
 }
 .popover {
   border-radius: 10px;
-  overflow: hidden;
   padding: 0;
   border: 0;
 }
@@ -2566,6 +2565,7 @@ kbd {
 }
 .popover-content {
   padding: 12px 16px 16px;
+  border-radius: var(--border-radius-md);
   background-color: var(--layer-02);
 }
 @media (min-width: 768px) {
@@ -4518,6 +4518,30 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
 }
 .modal-footer .modal-form-buttons:has(.btn:nth-child(3)) .btn {
   min-width: 25%;
+}
+.footer-buttons {
+  margin-bottom: -15px;
+}
+.footer-buttons .btn {
+  align-items: flex-start;
+  width: var(--spacing-13);
+  border-radius: 0;
+}
+.footer-buttons .btn:first-child {
+  border-radius: 0 0 0 var(--border-radius-md);
+}
+.footer-buttons .btn:last-child {
+  border-radius: 0 0 var(--border-radius-md) 0;
+}
+.footer-buttons .btn:only-child {
+  border-radius: 0 0 calc(var(--border-radius-md) + 3px) calc(var(--border-radius-md) + 3px);
+  flex-grow: 1;
+}
+.footer-buttons .btn + .btn {
+  margin: 0;
+}
+.footer-buttons:has(.btn:nth-child(2)):not(:has(.btn:nth-child(3))) .btn {
+  flex-grow: 0.5;
 }
 .btn-group .btn ~ .btn,
 .btn-group .btn ~ .btn-group,
