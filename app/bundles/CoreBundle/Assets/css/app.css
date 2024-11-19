@@ -3973,6 +3973,7 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
   justify-content: space-between;
   gap: var(--spacing-07);
   width: 100%;
+  height: 100%;
 }
 .btn-ghost {
   background-color: transparent;
