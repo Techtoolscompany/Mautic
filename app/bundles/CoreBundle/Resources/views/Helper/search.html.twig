@@ -26,39 +26,4 @@
         } %}
     </div>
     <input type="search" class="form-control search" id="{{ id }}" name="search" placeholder="{% trans %}mautic.core.search.placeholder{% endtrans %}" value="{{ searchValue|escape }}" autocomplete="false" data-toggle="livesearch" data-target="{{ target }}" data-tmpl="{{ tmpl }}" data-action="{{ action }}" data-overlay="{{ overlayEnabled }}" data-overlay-text="{% trans %}mautic.core.search.livesearch{% endtrans %}" data-overlay-target="{{ overlayTarget }}" />
-
-    {% set filtering %}
-    <div class="{% if filters is defined and filters is not empty %}col-xs-6{% endif %}">
-        {% if quickFilters is defined and quickFilters is not empty %}
-        {{ include('@MauticCore/Helper/list_quickfilters.html.twig', {
-            'quickFilters': quickFilters
-        }) }}
-        {% endif %}
-
-    </div>
-    <div class="{% if filters is defined and filters is not empty %}col-xs-6{% endif %}">
-        {% if filters is defined and filters is not empty %}
-                {{- include('@MauticCore/Helper/list_filters.html.twig', {
-                    filters: filters,
-                    target: target|default(null),
-                    tmpl: tmpl|default(null)
-                }) -}}
-                {% endif %}
-
-    </div>
-    {% endset %}
-
-    <button
-      type="button"
-      class="btn btn-ghost btn-icon btn-nospin"
-      data-container="body"
-      data-toggle="popover"
-      data-html="true"
-      data-placement="left"
-      title="Detailed Information"
-      data-content="{{ filtering|e('html_attr') }}"
-    >
-    <i class="ri-filter-line ri-1x"></i>
-    </button>
-
 </div>

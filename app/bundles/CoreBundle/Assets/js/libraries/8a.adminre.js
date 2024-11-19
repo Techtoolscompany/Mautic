@@ -248,9 +248,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
             // Per call
             // ================================
             BsPopover: function () {
-                $("[data-toggle~=popover]").popover({
-                    sanitize: false
-                });
+                $("[data-toggle~=popover]").popover();
             },
 
             // @MISC: IE9 input placeholder support
