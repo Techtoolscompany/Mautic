@@ -2568,6 +2568,12 @@ kbd {
   padding: 12px 16px 16px;
   background-color: var(--layer-02);
 }
+@media (min-width: 768px) {
+  .popover:has([class^="col-"]) {
+    max-width: 450px;
+    width: 450px;
+  }
+}
 .touchevents .scroll-content {
   height: 100%;
   overflow-y: auto;
