@@ -21,7 +21,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper" class="panel">
+    <div id="page-list-wrapper" class="panel panel-default">
       {%- set pageButtons = [] %}
 {% if permissions['lead:leads:create'] %}
     {% set pageButtons = pageButtons|merge([
