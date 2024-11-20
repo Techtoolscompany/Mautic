@@ -399,6 +399,7 @@ code:hover > .copy-icon {
 
 .list-toolbar {
   .input-group .twitter-typeahead:last-child .tt-input, .input-group .twitter-typeahead:last-child .tt-hint,
+  .form-control.search,
   .input-group .input-group-btn button,
   .btn {
     height: 48px;
@@ -407,7 +408,7 @@ code:hover > .copy-icon {
   }
 
   .btn {
-    &:last-child { border-radius: 0 var(--border-radius-lg) 0 0; }
+    &:last-child, &:only-of-type + .input-group > input { border-radius: 0 var(--border-radius-lg) 0 0; }
     &:first-child { border-radius: var(--border-radius-lg) 0 0 0; }
   }
 }
