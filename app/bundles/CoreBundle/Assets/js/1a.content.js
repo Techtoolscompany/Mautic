@@ -1818,16 +1818,190 @@ Mautic.processCsvContactExport = function (route) {
 };
 
 /**
- * Applies a quick filter to a list based on the selected element's data-filter attribute
+ * Quick Filters
+ * This module handles the quick filtering functionality in Mautic's list views.
+ * Includes initialization, toggling, applying, and resetting.
+ * @namespace Mautic
+ */
+
+/**
+ * Initializes the filter commands by collecting them from the DOM.
+ */
+Mautic.initFilterCommands = function () {
+    const filterElements = document.querySelectorAll('.label[data-filter]');
+    Mautic.filterCommands = Array.from(filterElements).map(function (el) {
+        return el.dataset.filter;
+    });
+};
+
+/**
+ * Toggles the active state of a filter label and manages conflicting filters.
  *
  * @param {HTMLElement} element
  */
-Mautic.listQuickFilter = function (element) {
+Mautic.toggleFilter = function (element) {
     const filterValue = element.dataset.filter;
+    const conflictGroup = element.dataset.conflictGroup || null;
+
+    // If the filter is in a conflict group, deactivate other filters in the same group
+    if (conflictGroup) {
+        // Get all filters in the same conflict group
+        const filtersInGroup = document.querySelectorAll(`.label[data-conflict-group="${conflictGroup}"]`);
+        filtersInGroup.forEach(function (filterElement) {
+            if (filterElement !== element) {
+                filterElement.classList.remove('active');
+            }
+        });
+    }
+
+    // Toggle active class on the clicked element
+    element.classList.toggle('active');
+};
+
+/**
+ * Applies the selected filters when the "Apply filters" button is clicked.
+ */
+Mautic.applyFilters = function () {
     const searchInput = document.getElementById('list-search');
-    searchInput.value = filterValue;
+    let currentSearchValue = searchInput.value || '';
+
+    // Remove existing filter commands from the search input value
+    currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
+
+    // Collect active filters
+    const activeFilters = document.querySelectorAll('.label.active');
+
+    // Build filter commands
+    const filterCommands = Array.from(activeFilters).map(function (filterElement) {
+        return filterElement.dataset.filter;
+    });
+
+    // Add filter commands to the search input value
+    const newSearchValue = (currentSearchValue + ' ' + filterCommands.join(' ')).trim();
+
+    searchInput.value = newSearchValue;
+
+    // Trigger search (simulate Enter key)
     const enterKeyEvent = new KeyboardEvent('keyup', {
-        keyCode: 13
+        key: 'Enter',
+        keyCode: 13,
+        which: 13,
+        bubbles: true
     });
     searchInput.dispatchEvent(enterKeyEvent);
-}
+};
+
+/**
+ * Resets the filters when the "Reset filters" button is clicked.
+ */
+Mautic.resetFilters = function () {
+    const searchInput = document.getElementById('list-search');
+    let currentSearchValue = searchInput.value || '';
+
+    // Remove filter commands from the search input value
+    currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
+
+    searchInput.value = currentSearchValue.trim();
+
+    // Deselect all active filters
+    const activeFilters = document.querySelectorAll('.label.active');
+    activeFilters.forEach(function (filterElement) {
+        filterElement.classList.remove('active');
+    });
+
+    // Trigger search
+    const enterKeyEvent = new KeyboardEvent('keyup', {
+        key: 'Enter',
+        keyCode: 13,
+        which: 13,
+        bubbles: true
+    });
+    searchInput.dispatchEvent(enterKeyEvent);
+};
+
+/**
+ * Removes existing filter commands from the search input value.
+ *
+ * @param {string} searchValue
+ * @returns {string}
+ */
+Mautic.removeFilterCommands = function (searchValue) {
+    if (!Mautic.filterCommands || Mautic.filterCommands.length === 0) {
+        Mautic.initFilterCommands();
+    }
+
+    // Escape special characters in filter commands for regex
+    const escapedCommands = Mautic.filterCommands.map(cmd => cmd.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+
+    // Create a regex to match filter commands as whole words
+    const regex = new RegExp('\\b(' + escapedCommands.join('|') + ')\\b', 'g');
+
+    // Remove filter commands and extra spaces
+    return searchValue.replace(regex, '').replace(/\s{2,}/g, ' ').trim();
+};
+
+/**
+ * Parses the search input value and returns an array of active filter commands.
+ *
+ * @returns {Array<string>}
+ */
+Mautic.getActiveFilterCommands = function () {
+    const searchInput = document.getElementById('list-search');
+    const searchValue = searchInput.value || '';
+
+    if (!Mautic.filterCommands || Mautic.filterCommands.length === 0) {
+        Mautic.initFilterCommands();
+    }
+
+    // Escape special characters in filter commands for regex
+    const escapedCommands = Mautic.filterCommands.map(cmd => cmd.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+
+    // Create a regex to match filter commands as whole words
+    const regex = new RegExp('\\b(' + escapedCommands.join('|') + ')\\b', 'g');
+
+    const matches = searchValue.match(regex);
+    return matches ? matches : [];
+};
+
+/**
+ * Initializes the active states of filter labels based on the current search input.
+ *
+ * @param {HTMLElement} popoverElement
+ */
+Mautic.initializePopoverFilters = function (popoverElement) {
+    // Get active filter commands from the search input
+    const activeFilterCommands = Mautic.getActiveFilterCommands();
+
+    // Iterate over active filter commands and activate corresponding labels
+    activeFilterCommands.forEach(function (filterCommand) {
+        // Find the label within the popover that matches the filter command
+        const label = popoverElement.querySelector(`.label[data-filter="${filterCommand}"]`);
+        if (label) {
+            label.classList.add('active');
+        }
+    });
+};
+
+/**
+ * Handles the insertion of the popover and initializes active filter labels.
+ */
+Mautic.handlePopoverInsertion = function () {
+    // Use jQuery (assuming mQuery is a reference to jQuery)
+    mQuery('[data-toggle="popover"]').on('inserted.bs.popover', function () {
+        // Get the popover's DOM element
+        const popoverId = mQuery(this).attr('aria-describedby');
+        if (!popoverId) return;
+
+        const popoverElement = document.getElementById(popoverId);
+        if (!popoverElement) return;
+
+        // Initialize active filter labels within the popover
+        Mautic.initializePopoverFilters(popoverElement);
+    });
+};
+
+// Initialize filter commands on page load
+document.addEventListener('DOMContentLoaded', function () {
+    Mautic.initFilterCommands();
+    Mautic.handlePopoverInsertion();
+});
