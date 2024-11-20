@@ -5,26 +5,25 @@
 {% set id = searchId|default('list-search') %}
 {% set tmpl = tmpl|default('list') %}
 
+{% include '@MauticCore/Helper/button.html.twig' with {
+    buttons: [
+        {
+            label: 'mautic.core.search.clear',
+            variant: 'ghost',
+            icon: 'ri-search-line ri-fw',
+            icon_only: true,
+            size: 'sm',
+            attributes: {
+                'type': 'button',
+                'id': 'btn-filter',
+                'data-livesearch-parent': id,
+                'class': 'input-group-btn btn-search'
+            }
+        }
+    ]
+} %}
 <div class="input-group d-flex fg-1">
-    <div class="input-group-btn">
-        {% include '@MauticCore/Helper/button.html.twig' with {
-            buttons: [
-                {
-                    label: 'mautic.core.search.clear',
-                    variant: 'ghost',
-                    icon: 'ri-search-line ri-fw',
-                    icon_only: true,
-                    size: 'sm',
-                    attributes: {
-                        'type': 'button',
-                        'id': 'btn-filter',
-                        'data-livesearch-parent': id,
-                        'class': 'input-group-btn btn-search'
-                    }
-                }
-            ]
-        } %}
-    </div>
+
     <input type="search" class="form-control search" id="{{ id }}" name="search" placeholder="{% trans %}mautic.core.search.placeholder{% endtrans %}" value="{{ searchValue|escape }}" autocomplete="false" data-toggle="livesearch" data-target="{{ target }}" data-tmpl="{{ tmpl }}" data-action="{{ action }}" data-overlay="{{ overlayEnabled }}" data-overlay-text="{% trans %}mautic.core.search.livesearch{% endtrans %}" data-overlay-target="{{ overlayTarget }}" />
     {% if (filters is defined and filters is not empty) or (quickFilters is defined and quickFilters is not empty) %}
     {% set filtering %}
@@ -74,24 +73,24 @@
     </div>
     {% endset %}
 
-    {% include '@MauticCore/Helper/button.html.twig' with {
-        buttons: [
-            {
-                variant: 'ghost',
-                icon_only: true,
-                icon: 'ri-filter-line ri-1x',
-                attributes: {
-                    'type': 'button',
-                    'data-container': 'body',
-                    'data-toggle': 'popover',
-                    'data-html': 'true',
-                    'data-placement': 'left',
-                    'data-content': filtering|raw
-                },
-                label: 'mautic.core.quick_filters'
-            }
-        ]
-    } %}
 
     {% endif %}
 </div>
+{% include '@MauticCore/Helper/button.html.twig' with {
+    buttons: [
+        {
+            variant: 'ghost',
+            icon_only: true,
+            icon: 'ri-filter-line ri-1x',
+            attributes: {
+                'type': 'button',
+                'data-container': 'body',
+                'data-toggle': 'popover',
+                'data-html': 'true',
+                'data-placement': 'left',
+                'data-content': filtering|raw
+            },
+            label: 'mautic.core.quick_filters'
+        }
+    ]
+} %}
