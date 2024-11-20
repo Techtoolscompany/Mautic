@@ -10700,7 +10700,8 @@ code:hover > .copy-icon {
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-hint,
 .list-toolbar .form-control.search,
 .list-toolbar .input-group .input-group-btn button,
-.list-toolbar .btn {
+.list-toolbar .btn,
+.list-toolbar div {
   height: 48px;
   border-radius: unset;
 }
@@ -10711,11 +10712,11 @@ code:hover > .copy-icon {
 .list-toolbar .btn-ghost:hover {
   background-color: var(--field-hover);
 }
-.list-toolbar .btn:last-child,
-.list-toolbar .btn:only-of-type + .input-group > input {
+.list-toolbar > .btn:last-child,
+.list-toolbar > .btn:only-of-type + .input-group > input {
   border-radius: 0 var(--border-radius-lg) 0 0;
 }
-.list-toolbar .btn:first-child {
+.list-toolbar > .btn:first-child {
   border-radius: var(--border-radius-lg) 0 0 0;
 }
 .well {
