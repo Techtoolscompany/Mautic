@@ -6438,13 +6438,21 @@ a.label:focus,
   background-color: var(--label-background-brand);
   color: var(--label-color-brand);
 }
-.label-outline {
+.label-outline,
+.label-selectable {
   background-color: transparent;
   color: var(--text-primary);
 }
 .label-outline,
-.label-outline:hover {
-  outline: 1px solid var(--background-inverse);
+.label-selectable,
+.label-outline:hover,
+.label-selectable:hover {
+  border: 1px solid var(--background-inverse);
+}
+.label-selectable.active {
+  background-color: var(--layer-selected-inverse);
+  color: var(--text-inverse);
+  border-color: var(--layer-selected-inverse);
 }
 .label-high-contrast {
   background-color: var(--background-inverse);
