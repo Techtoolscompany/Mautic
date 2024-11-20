@@ -57,15 +57,15 @@
             {% include '@MauticCore/Helper/button.html.twig' with {
                 buttons: [
                     {
-                        label: 'mautic.core.apply_filter',
-                        variant: 'primary',
-                        onclick: 'Mautic.applyFilters()',
-                        size: 'lg'
-                    },
-                    {
                         label: 'mautic.core.reset_filter',
                         variant: 'secondary',
                         onclick: 'Mautic.resetFilters()',
+                        size: 'lg'
+                    },
+                    {
+                        label: 'mautic.core.apply_filter',
+                        variant: 'primary',
+                        onclick: 'Mautic.applyFilters()',
                         size: 'lg'
                     }
                 ]
