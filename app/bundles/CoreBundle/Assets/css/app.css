@@ -7336,15 +7336,16 @@ ul.line-legend li {
   background-color: transparent;
   padding: 5px 8px;
 }
-.input-group .input-group-btn button {
+.input-group .input-group-btn .btn.btn-ghost {
   height: 32px;
   width: 100%;
   background-color: var(--field);
 }
-.input-group .input-group-btn button:hover {
+.input-group .input-group-btn .btn.btn-ghost:hover {
   background-color: var(--field-hover);
 }
-.input-group .input-group-btn:last-child .btn {
+.input-group .input-group-btn:last-child .btn,
+.input-group .input-group-btn:only-of-type .btn {
   border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
 }
 .input-group .input-group-btn:first-child .btn {
@@ -10697,6 +10698,7 @@ code:hover > .copy-icon {
 }
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-input,
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-hint,
+.list-toolbar .form-control.search,
 .list-toolbar .input-group .input-group-btn button,
 .list-toolbar .btn {
   height: 48px;
@@ -10704,11 +10706,13 @@ code:hover > .copy-icon {
 }
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-input:hover,
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-hint:hover,
+.list-toolbar .form-control.search:hover,
 .list-toolbar .input-group .input-group-btn button:hover,
 .list-toolbar .btn:hover {
   background-color: var(--field-hover);
 }
-.list-toolbar .btn:last-child {
+.list-toolbar .btn:last-child,
+.list-toolbar .btn:only-of-type + .input-group > input {
   border-radius: 0 var(--border-radius-lg) 0 0;
 }
 .list-toolbar .btn:first-child {
