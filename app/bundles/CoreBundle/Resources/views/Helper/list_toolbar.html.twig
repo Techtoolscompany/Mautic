@@ -26,6 +26,9 @@
             {% endif %}
 
             {{ buttonsRender() }}
+            {% if list_actions is defined %}
+            {{ list_actions|raw }}
+            {% endif %}
             </div>
         </div>
     </div>
