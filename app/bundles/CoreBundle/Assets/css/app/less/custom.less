@@ -398,18 +398,17 @@ code:hover > .copy-icon {
 }
 
 .list-toolbar {
-  .form-control.search,
+  .input-group .twitter-typeahead:last-child .tt-input, .input-group .twitter-typeahead:last-child .tt-hint,
   .input-group .input-group-btn button,
   .btn {
     height: 48px;
     border-radius: unset;
+    &:hover {background-color: var(--field-hover);}
   }
 
-  .input-group .input-group-btn button {
-    aspect-ratio: 1/1;
-  }
-  .input-group-btn {
-    width: auto;
+  .btn {
+    &:last-child { border-radius: 0 var(--border-radius-lg) 0 0; }
+    &:first-child { border-radius: var(--border-radius-lg) 0 0 0; }
   }
 }
 .well { box-shadow: none; }
