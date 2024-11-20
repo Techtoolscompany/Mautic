@@ -16,7 +16,6 @@
 {% set standardButtons = buttons|filter(button => 'btn' in button)|map(button => button ~ '</a>')|join %}
 {% set dropdownItems = buttons|filter(button => 'btn' not in button)|map(button => '<li>' ~ button ~ '</a></li>')|join %}
 
-<div class="std-toolbar btn-group">
     {% if dropdownItems %}
     {% include '@MauticCore/Helper/button.html.twig' with {
         buttons: [
@@ -37,5 +36,4 @@
         <ul class="dropdown-menu" role="menu">{{ dropdownItems|raw }}</ul>
     {% endif %}
     {{ standardButtons|raw }}
-</div>
 {{ extraHtml|raw }}

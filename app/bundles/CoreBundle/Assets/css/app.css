@@ -10708,7 +10708,7 @@ code:hover > .copy-icon {
 .list-toolbar .input-group .twitter-typeahead:last-child .tt-hint:hover,
 .list-toolbar .form-control.search:hover,
 .list-toolbar .input-group .input-group-btn button:hover,
-.list-toolbar .btn:hover {
+.list-toolbar .btn-ghost:hover {
   background-color: var(--field-hover);
 }
 .list-toolbar .btn:last-child,
