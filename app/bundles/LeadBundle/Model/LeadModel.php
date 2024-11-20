@@ -1478,7 +1478,7 @@ class LeadModel extends FormModel
                     );
                 } else {
                     $lead->addTag(
-Revert                        $this->getTagRepository()->getTagByNameOrCreateNewOne($tag)
+                        $this->getTagRepository()->getTagByNameOrCreateNewOne($tag)
                     );
                 }
             }
