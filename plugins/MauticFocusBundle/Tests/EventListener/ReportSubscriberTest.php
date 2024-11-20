@@ -114,6 +114,11 @@ class ReportSubscriberTest extends TestCase
             )
             ->willReturn($queryBuilder);
 
+        $queryBuilder->expects($this->once())
+            ->method('groupBy')
+            ->with(ReportSubscriber::PREFIX_FOCUS.'.name', ReportSubscriber::PREFIX_STATS.'.type')
+            ->willReturn($queryBuilder);
+
         $this->reportSubscriber->onReportGenerate($this->reportGeneratorEventMock);
     }
 

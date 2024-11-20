@@ -3,7 +3,6 @@
 namespace MauticPlugin\MauticFocusBundle\EventListener;
 
 use Mautic\ReportBundle\Event\ReportBuilderEvent;
-use Mautic\ReportBundle\Event\ReportDataEvent;
 use Mautic\ReportBundle\Event\ReportGeneratorEvent;
 use Mautic\ReportBundle\ReportEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,7 +21,7 @@ class ReportSubscriber implements EventSubscriberInterface
         return [
             ReportEvents::REPORT_ON_BUILD    => ['onReportBuilder', 0],
             ReportEvents::REPORT_ON_GENERATE => ['onReportGenerate', 0],
-            ReportEvents::REPORT_ON_DISPLAY  => ['onReportDisplay', 0],
+            // ReportEvents::REPORT_ON_DISPLAY  => ['onReportDisplay', 0],
         ];
     }
 
@@ -118,22 +117,10 @@ class ReportSubscriber implements EventSubscriberInterface
                 self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
                 self::PREFIX_TRACKABLES.'.channel = "focus"')
             ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
-                self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
+                self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id')
+            ->groupBy(self::PREFIX_FOCUS.'.name', self::PREFIX_STATS.'.type');
 
         $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
         $event->setQueryBuilder($queryBuilder);
-    }
-
-    public function onReportDisplay(ReportDataEvent $event): void
-    {
-        if (!$event->checkContext([self::CONTEXT_FOCUS_STATS])) {
-            return;
-        }
-
-        $data = $event->getData();
-        if ($data) {
-            $data = array_map('unserialize', array_unique(array_map('serialize', $data)));
-            $event->setData(array_values($data));
-        }
     }
 }
