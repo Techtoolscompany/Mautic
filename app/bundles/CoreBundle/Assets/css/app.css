@@ -4322,23 +4322,6 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
   line-height: 1em;
   padding: 2px;
 }
-.btn-group > .btn.btn-yes:first-child:not(:last-child):not(.dropdown-toggle),
-.btn-group > .btn.btn-no:first-child:not(:last-child):not(.dropdown-toggle),
-.btn-group > .btn.btn-yes:not(:first-child):not(:last-child):not(.dropdown-toggle),
-.btn-group > .btn.btn-no:not(:first-child):not(:last-child):not(.dropdown-toggle),
-.btn-group > .btn.btn-yes:last-child:not(:first-child),
-.btn-group > .btn.btn-no:last-child:not(:first-child),
-.btn-group > .btn.btn-yes,
-.btn-group > .btn.btn-no {
-  padding: 5px;
-  aspect-ratio: 1/1;
-  align-items: center;
-  justify-content: center;
-}
-.btn-group > .btn.active.btn-yes,
-.btn-group > .btn.active.btn-no {
-  outline-color: transparent;
-}
 .btn-xs,
 .btn[size="xs"] {
   height: var(--spacing-06);
