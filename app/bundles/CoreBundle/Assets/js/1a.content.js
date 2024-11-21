@@ -1813,34 +1813,26 @@ Mautic.toggleFilter = function (element) {
 Mautic.applyFilters = function () {
     const searchInput = document.getElementById('list-search');
     let currentSearchValue = searchInput.value || '';
-
-    // Remove existing filter commands from the search input value
     currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
 
-    // Collect active filters
     const activeFilters = document.querySelectorAll('.label.active');
-
-    // Build filter commands
     let filterCommands = Array.from(activeFilters).map(function (filterElement) {
         return filterElement.dataset.filter;
     });
 
-    // Collect selected options from select fields within the popover
     const selectFields = document.querySelectorAll('.popover-content select');
-
     selectFields.forEach(function (selectElement) {
         const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
-
-        // Add selected options to the filter commands
         filterCommands.push(...selectedOptions);
     });
 
-    // Add filter commands to the search input value
     const newSearchValue = (currentSearchValue + ' ' + filterCommands.join(' ')).trim();
-
     searchInput.value = newSearchValue;
 
-    // Trigger search (simulate Enter key)
+    // Properly destroy and hide the popover
+    const popoverTrigger = mQuery('[data-toggle="popover"]');
+    popoverTrigger.popover('destroy');
+
     const enterKeyEvent = new KeyboardEvent('keyup', {
         key: 'Enter',
         keyCode: 13,
@@ -1856,30 +1848,26 @@ Mautic.applyFilters = function () {
 Mautic.resetFilters = function () {
     const searchInput = document.getElementById('list-search');
     let currentSearchValue = searchInput.value || '';
-
-    // Remove filter commands from the search input value
     currentSearchValue = Mautic.removeFilterCommands(currentSearchValue);
-
     searchInput.value = currentSearchValue.trim();
 
-    // Deselect all active filters
     const activeFilters = document.querySelectorAll('.label.active');
     activeFilters.forEach(function (filterElement) {
         filterElement.classList.remove('active');
     });
 
-    // Clear selections in select fields within the popover
     const selectFields = document.querySelectorAll('.popover-content select');
-
     selectFields.forEach(function (selectElement) {
-        selectElement.value = null; // Clear selection
-        // Using Chosen, update the UI
+        selectElement.value = null;
         if (typeof mQuery !== 'undefined') {
             mQuery(selectElement).trigger('chosen:updated');
         }
     });
 
-    // Trigger search
+    // Properly destroy the popover instead of hiding it
+    const popoverTrigger = mQuery('[data-toggle="popover"]');
+    popoverTrigger.popover('destroy');
+
     const enterKeyEvent = new KeyboardEvent('keyup', {
         key: 'Enter',
         keyCode: 13,
