@@ -29,7 +29,7 @@
 
 {% block content %}
   {% if isIndex %}
-    <div id="page-list-wrapper">
+    <div id="page-list-wrapper" class="panel">
         {{ include('@MauticCore/Helper/list_toolbar.html.twig', {
                 'searchValue': searchValue,
                 'action': currentRoute,
@@ -42,5 +42,9 @@
   {% if isIndex %}
         </div>
     </div>
+
+    {{ include('@MauticCore/Helper/protip.html.twig', {
+      tip: random(['mautic.protip.pages.mobile', 'mautic.protip.pages.forms'])
+  }) }}
   {% endif %}
 {% endblock %}
