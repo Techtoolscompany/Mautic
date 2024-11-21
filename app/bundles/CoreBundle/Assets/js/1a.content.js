@@ -1470,65 +1470,6 @@ Mautic.activateLiveSearch = function (el, searchStrVar, liveCacheVar) {
 };
 
 /**
- * Filters a list based on select value
- *
- * @param el
- */
-Mautic.activateListFilterSelect = function(el) {
-    var filterName       = mQuery(el).attr('name');
-    var isMultiple       = mQuery(el).attr('multiple') ? true : false;
-    var prefixExceptions = mQuery(el).data('prefix-exceptions');
-
-    if (isMultiple && prefixExceptions) {
-        if (typeof Mautic.listFilterValues == 'undefined') {
-            Mautic.listFilterValues = {};
-        }
-
-        // Store values for comparison on change
-        Mautic.listFilterValues[filterName] = mQuery(el).val();
-    }
-
-    mQuery(el).on('change', function() {
-        var filterVal = mQuery(this).val();
-        if (filterVal == null) {
-            filterVal = [];
-        }
-
-        if (prefixExceptions) {
-            var limited = prefixExceptions.split(',');
-
-            if (filterVal.length > 1) {
-                for (var i=0; i<filterVal.length; i++) {
-                    if (mQuery.inArray(filterVal[i], Mautic.listFilterValues[filterName]) == -1) {
-                        var newOption = mQuery(this).find('option[value="' + filterVal[i] + '"]');
-                        var prefix    = mQuery(newOption).parent().data('prefix');
-
-                        if (mQuery.inArray(prefix, limited) != -1) {
-                            mQuery(newOption).siblings().prop('selected', false);
-
-                            filterVal = mQuery(this).val();
-                            mQuery(this).trigger('chosen:updated');
-                        }
-                    }
-                }
-            }
-
-            Mautic.listFilterValues[filterName] = filterVal;
-        }
-
-        var tmpl = mQuery(this).data('tmpl');
-        if (!tmpl) {
-            tmpl = 'list';
-        }
-
-        var filters   = (isMultiple) ? JSON.stringify(filterVal) : filterVal;
-        var request   = window.location.pathname + '?tmpl=' + tmpl + '&' + filterName + '=' + filters;
-
-        Mautic.loadContent(request, '', 'POST', mQuery(this).data('target'));
-    });
-};
-
-/**
  * Converts an input to a color picker
  * @param el
  */
@@ -1832,6 +1773,14 @@ Mautic.initFilterCommands = function () {
     Mautic.filterCommands = Array.from(filterElements).map(function (el) {
         return el.dataset.filter;
     });
+
+    // Include select field options as filter commands
+    const selectFields = document.querySelectorAll('.popover-content select');
+
+    selectFields.forEach(function (selectElement) {
+        const options = Array.from(selectElement.options).map(option => option.value);
+        Mautic.filterCommands.push(...options);
+    });
 };
 
 /**
@@ -1872,8 +1821,18 @@ Mautic.applyFilters = function () {
     const activeFilters = document.querySelectorAll('.label.active');
 
     // Build filter commands
-    const filterCommands = Array.from(activeFilters).map(function (filterElement) {
+    let filterCommands = Array.from(activeFilters).map(function (filterElement) {
         return filterElement.dataset.filter;
+    });
+
+    // Collect selected options from select fields within the popover
+    const selectFields = document.querySelectorAll('.popover-content select');
+
+    selectFields.forEach(function (selectElement) {
+        const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+
+        // Add selected options to the filter commands
+        filterCommands.push(...selectedOptions);
     });
 
     // Add filter commands to the search input value
@@ -1907,6 +1866,17 @@ Mautic.resetFilters = function () {
     const activeFilters = document.querySelectorAll('.label.active');
     activeFilters.forEach(function (filterElement) {
         filterElement.classList.remove('active');
+    });
+
+    // Clear selections in select fields within the popover
+    const selectFields = document.querySelectorAll('.popover-content select');
+
+    selectFields.forEach(function (selectElement) {
+        selectElement.value = null; // Clear selection
+        // Using Chosen, update the UI
+        if (typeof mQuery !== 'undefined') {
+            mQuery(selectElement).trigger('chosen:updated');
+        }
     });
 
     // Trigger search
@@ -1978,6 +1948,25 @@ Mautic.initializePopoverFilters = function (popoverElement) {
         const label = popoverElement.querySelector(`.label[data-filter="${filterCommand}"]`);
         if (label) {
             label.classList.add('active');
+        }
+    });
+
+    // Initialize select fields based on current search input
+    const selectFields = popoverElement.querySelectorAll('select');
+
+    selectFields.forEach(function (selectElement) {
+        const options = Array.from(selectElement.options);
+        options.forEach(function (option) {
+            // If the option value is in the active filter commands, select it
+            if (activeFilterCommands.includes(option.value)) {
+                option.selected = true;
+            } else {
+                option.selected = false;
+            }
+        });
+        // If using Chosen or another library, update the UI
+        if (typeof mQuery !== 'undefined') {
+            mQuery(selectElement).trigger('chosen:updated');
         }
     });
 };
