@@ -89,8 +89,8 @@ class ContactStep extends \AcceptanceTester
     public function selectOptionFromDropDownContactsPage($option): void
     {
         $I = $this;
-        $I->click('#toolbar > div.std-toolbar.btn-group > button');
-        $I->click("//*[@id='toolbar']/div[1]/ul/li[$option]/a/span");
+        $I->click('#page-list-actions');
+        $I->click("//ul[contains(@class, 'dropdown-menu')]//li[$option]//span");
     }
 
     /**
