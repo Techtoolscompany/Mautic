@@ -3,10 +3,9 @@
 namespace Mautic\CoreBundle\Controller;
 
 use Mautic\CoreBundle\CoreEvents;
-use Mautic\CoreBundle\Event\CommandListEvent;
 use Mautic\CoreBundle\Event\GlobalSearchEvent;
 use Mautic\CoreBundle\Event\UpgradeEvent;
-use Mautic\CoreBundle\Exception\RecordCanNotUnpublishException;
+use Mautic\CoreBundle\Exception\RecordNotUnpublishedException;
 use Mautic\CoreBundle\Factory\IpLookupFactory;
 use Mautic\CoreBundle\Helper\CookieHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
@@ -18,6 +17,8 @@ use Mautic\CoreBundle\IpLookup\AbstractLocalDataLookup;
 use Mautic\CoreBundle\IpLookup\AbstractLookup;
 use Mautic\CoreBundle\IpLookup\IpLookupFormInterface;
 use Mautic\CoreBundle\Model\FormModel;
+use Mautic\CoreBundle\Service\FlashBag;
+use Mautic\CoreBundle\Service\SearchCommandListInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -180,12 +181,9 @@ class AjaxController extends CommonController
         return $this->sendJsonResponse($dataArray);
     }
 
-    public function globalCommandListAction(Request $request): JsonResponse
+    public function globalCommandListAction(SearchCommandListInterface $searchCommandList): JsonResponse
     {
-        $dispatcher = $this->dispatcher;
-        $event      = new CommandListEvent();
-        $dispatcher->dispatch($event, CoreEvents::BUILD_COMMAND_LIST);
-        $allCommands = $event->getCommands();
+        $allCommands = $searchCommandList->getList();
         $translator  = $this->translator;
         $dataArray   = [];
         $dupChecker  = [];
@@ -297,8 +295,8 @@ class AjaxController extends CommonController
                         );
                         $dataArray['statusHtml'] = $html;
                     }
-                } catch (RecordCanNotUnpublishException $e) {
-                    $this->addFlashMessage($e->getMessage());
+                } catch (RecordNotUnpublishedException $exception) {
+                    $this->addFlash(FlashBag::LEVEL_ERROR, $exception->getMessage());
                     $status = Response::HTTP_UNPROCESSABLE_ENTITY;
                 }
             } else {

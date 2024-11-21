@@ -34,7 +34,7 @@ class DsnType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $name     = $builder->getName();
-        $onChange = 'Mautic.configDnsTestDisable(this)';
+        $onChange = 'Mautic.configDsnTestDisable(this)';
         $attr     = [
             'class'    => 'form-control',
             'onchange' => $onChange,
@@ -124,8 +124,8 @@ class DsnType extends AbstractType
                     'label'    => $options['test_button']['label'],
                     'required' => false,
                     'attr'     => [
-                        'class'   => 'btn btn-info config-dsn-test-button',
-                        'onclick' => sprintf('Mautic.configDnsTestExecute(this, "%s", "%s")', $options['test_button']['action'], $name),
+                        'class'   => 'btn btn-tertiary btn-sm config-dsn-test-button',
+                        'onclick' => sprintf('Mautic.configDsnTestExecute(this, "%s", "%s")', $options['test_button']['action'], $name),
                     ],
                 ]
             );
@@ -153,7 +153,7 @@ class DsnType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars['currentDns'] = $this->getCurrentDsn($form->getName());
+        $view->vars['currentDsn'] = $this->getCurrentDsn($form->getName());
     }
 
     private function getCurrentDsn(string $name): ?Dsn

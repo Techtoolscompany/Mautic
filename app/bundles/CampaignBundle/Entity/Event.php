@@ -3,14 +3,19 @@
 namespace Mautic\CampaignBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\ApiBundle\Serializer\Driver\ApiMetadataDriver;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
+use Mautic\CoreBundle\Validator\EntityEvent;
 use Mautic\LeadBundle\Entity\Lead as Contact;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Event implements ChannelInterface
 {
+    public const TABLE_NAME = 'campaign_events';
+
     public const TYPE_DECISION  = 'decision';
 
     public const TYPE_ACTION    = 'action';
@@ -156,6 +161,10 @@ class Event implements ChannelInterface
      */
     private $changes = [];
 
+    private ?\DateTimeInterface $deleted = null;
+
+    private int $failedCount = 0;
+
     public function __construct()
     {
         $this->log      = new ArrayCollection();
@@ -177,8 +186,8 @@ class Event implements ChannelInterface
     {
         $builder = new ClassMetadataBuilder($metadata);
 
-        $builder->setTable('campaign_events')
-            ->setCustomRepositoryClass(\Mautic\CampaignBundle\Entity\EventRepository::class)
+        $builder->setTable(self::TABLE_NAME)
+            ->setCustomRepositoryClass(EventRepository::class)
             ->addIndex(['type', 'event_type'], 'campaign_event_search')
             ->addIndex(['event_type'], 'campaign_event_type')
             ->addIndex(['channel', 'channel_id'], 'campaign_event_channel');
@@ -199,6 +208,8 @@ class Event implements ChannelInterface
             ->build();
 
         $builder->addField('properties', 'array');
+
+        $builder->addNullableField('deleted', 'datetime');
 
         $builder->createField('triggerDate', 'datetime')
             ->columnName('trigger_date')
@@ -272,7 +283,6 @@ class Event implements ChannelInterface
         $builder->createOneToMany('log', 'LeadEventLog')
             ->mappedBy('event')
             ->cascadePersist()
-            ->cascadeRemove()
             ->fetchExtraLazy()
             ->build();
 
@@ -283,6 +293,10 @@ class Event implements ChannelInterface
         $builder->createField('channelId', 'integer')
             ->columnName('channel_id')
             ->nullable()
+            ->build();
+
+        $builder->createField('failedCount', 'integer')
+            ->columnName('failed_count')
             ->build();
     }
 
@@ -347,9 +361,9 @@ class Event implements ChannelInterface
                      'triggerInterval',
                      'triggerIntervalUnit',
                      'triggerHour',
-                    'triggerRestrictedStartHour',
-                    'triggerRestrictedStopHour',
-                    'triggerRestrictedDaysOfWeek',
+                     'triggerRestrictedStartHour',
+                     'triggerRestrictedStopHour',
+                     'triggerRestrictedDaysOfWeek',
                      'triggerMode',
                      'children',
                      'parent',
@@ -390,6 +404,11 @@ class Event implements ChannelInterface
              ->build();
     }
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addConstraint(new EntityEvent());
+    }
+
     /**
      * @param string $prop
      * @param mixed  $val
@@ -418,8 +437,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -433,8 +450,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set order.
-     *
      * @param int $order
      *
      * @return Event
@@ -449,8 +464,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get order.
-     *
      * @return int
      */
     public function getOrder()
@@ -459,8 +472,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set properties.
-     *
      * @param array $properties
      *
      * @return Event
@@ -475,8 +486,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get properties.
-     *
      * @return array
      */
     public function getProperties()
@@ -485,8 +494,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set campaign.
-     *
      * @return Event
      */
     public function setCampaign(Campaign $campaign)
@@ -497,9 +504,7 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get campaign.
-     *
-     * @return \Mautic\CampaignBundle\Entity\Campaign
+     * @return Campaign
      */
     public function getCampaign()
     {
@@ -507,8 +512,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set type.
-     *
      * @param string $type
      *
      * @return Event
@@ -522,8 +525,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get type.
-     *
      * @return string
      */
     public function getType()
@@ -537,8 +538,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set description.
-     *
      * @param string $description
      *
      * @return Event
@@ -552,8 +551,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get description.
-     *
      * @return string
      */
     public function getDescription()
@@ -562,8 +559,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Set name.
-     *
      * @param string $name
      *
      * @return Event
@@ -577,8 +572,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get name.
-     *
      * @return string
      */
     public function getName()
@@ -587,8 +580,6 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Add log.
-     *
      * @return Event
      */
     public function addLog(LeadEventLog $log)
@@ -607,9 +598,7 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get log.
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getLog()
     {
@@ -658,15 +647,17 @@ class Event implements ChannelInterface
     }
 
     /**
-     * @return ArrayCollection|Event[]
+     * @return ArrayCollection<int,Event>|Collection<(int|string), mixed>
      */
     public function getChildren()
     {
-        return $this->children;
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('deleted'));
+
+        return $this->children->matching($criteria);
     }
 
     /**
-     * @return ArrayCollection|Event[]
+     * @return ArrayCollection<int,Event>
      */
     public function getPositiveChildren()
     {
@@ -676,7 +667,7 @@ class Event implements ChannelInterface
     }
 
     /**
-     * @return ArrayCollection|Event[]
+     * @return ArrayCollection<int,Event>
      */
     public function getNegativeChildren()
     {
@@ -686,7 +677,9 @@ class Event implements ChannelInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @param string $type
+     *
+     * @return ArrayCollection<int,Event>
      */
     public function getChildrenByType($type)
     {
@@ -696,7 +689,9 @@ class Event implements ChannelInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @param string $type
+     *
+     * @return ArrayCollection<int,Event>
      */
     public function getChildrenByEventType($type)
     {
@@ -728,9 +723,7 @@ class Event implements ChannelInterface
     }
 
     /**
-     * Get parent.
-     *
-     * @return \Mautic\CampaignBundle\Entity\Event
+     * @return ?Event
      */
     public function getParent()
     {
@@ -746,7 +739,7 @@ class Event implements ChannelInterface
     }
 
     /**
-     * @param mixed $triggerDate
+     * @param \DateTime|null $triggerDate
      */
     public function setTriggerDate($triggerDate): void
     {
@@ -1049,5 +1042,28 @@ class Event implements ChannelInterface
         $this->isChanged('triggerRestrictedDaysOfWeek', $triggerRestrictedDaysOfWeek);
 
         return $this;
+    }
+
+    public function setDeleted(?\DateTimeInterface $deleted): Event
+    {
+        $this->isChanged('deleted', $deleted);
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?\DateTimeInterface
+    {
+        return $this->deleted;
+    }
+
+    public function isDeleted(): bool
+    {
+        return !is_null($this->deleted);
+    }
+
+    public function getFailedCount(): int
+    {
+        return $this->failedCount;
     }
 }

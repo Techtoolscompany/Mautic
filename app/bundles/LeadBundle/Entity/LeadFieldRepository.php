@@ -53,7 +53,7 @@ class LeadFieldRepository extends CommonRepository
 
         if ($includeEntityFields) {
             // add lead main column names to prevent attempt to create a field with the same name
-            $leadRepo = $this->_em->getRepository(\Mautic\LeadBundle\Entity\Lead::class)->getBaseColumns(\Mautic\LeadBundle\Entity\Lead::class, true);
+            $leadRepo = $this->_em->getRepository(Lead::class)->getBaseColumns(Lead::class, true);
             $aliases  = array_merge($aliases, $leadRepo);
         }
 
@@ -263,43 +263,34 @@ class LeadFieldRepository extends CommonRepository
                   ->setParameter('lead', (int) $lead)
                   ->setParameter('value', $value);
             } elseif ('in' === $operatorExpr || 'notIn' === $operatorExpr) {
-                $property  = $this->getPropertyByField($field, $q);
-                $fieldType = $this->findOneBy(['alias' => $field])->getType();
-                $values    = (!is_array($value)) ? [$value] : $value;
+                $values   = (!is_array($value)) ? [$value] : $value;
+                $operator = str_starts_with($operatorExpr, 'not') ? 'NOT REGEXP' : 'REGEXP';
+                $expr     = $q->expr()->and(
+                    $q->expr()->eq('l.id', ':lead')
+                );
 
-                if ('multiselect' == $fieldType) {
-                    // multiselect field values are separated by `|` and must be queried using regexp
-                    $operator = str_starts_with($operatorExpr, 'not') ? 'NOT REGEXP' : 'REGEXP';
-
-                    $expr = $q->expr()->and(
-                        $q->expr()->eq('l.id', ':lead')
+                $innerExpr = [];
+                foreach ($values as $v) {
+                    $v = $q->expr()->literal(
+                        InputHelper::clean($v)
                     );
 
-                    // require all multiselect values in condition
-                    $andExpr = [];
-                    foreach ($value as $v) {
-                        $v = $q->expr()->literal(
-                            InputHelper::clean($v)
-                        );
-
-                        $v         = trim($v, "'");
-                        $andExpr[] = $property." $operator '\\\\|?$v\\\\|?'";
-                    }
-
-                    $expr = $expr->with($q->expr()->and(...$andExpr));
-
-                    $q->where($expr)
-                        ->setParameter('lead', (int) $lead);
-                } else {
-                    $expr = $q->expr()->and(
-                        $q->expr()->eq('l.id', ':lead'),
-                        'in' === $operatorExpr ? $q->expr()->in($property, ':values') : $q->expr()->notIn($property, ':values')
-                    );
-
-                    $q->where($expr)
-                        ->setParameter('lead', (int) $lead)
-                        ->setParameter('values', $values, ArrayParameterType::STRING);
+                    $v           = trim($v, "'");
+                    $innerExpr[] = $property." $operator '\\\\|?$v\\\\|?'";
                 }
+
+                if (str_starts_with($operatorExpr, 'not')) {
+                    $expr = $expr->with($q->expr()->or(
+                        $q->expr()->isNull($property),
+                        $q->expr()->and(...$innerExpr)
+                    ));
+                } else {
+                    $expr = $expr->with($q->expr()->or(...$innerExpr));
+                }
+
+                $q->where($expr)
+                    ->setParameter('lead', (int) $lead)
+                    ->setParameter('values', $values, ArrayParameterType::STRING);
             } else {
                 $expr = $q->expr()->and(
                     $q->expr()->eq('l.id', ':lead')
@@ -424,16 +415,93 @@ class LeadFieldRepository extends CommonRepository
     }
 
     /**
+     * @return string[]
+     */
+    public function getSearchCommands(): array
+    {
+        $commands = [
+            'mautic.core.searchcommand.ispublished',
+            'mautic.core.searchcommand.isunpublished',
+            'mautic.core.searchcommand.ismine',
+            'mautic.lead.field.searchcommand.isindexed',
+            'mautic.lead.field.searchcommand.isunique',
+            'mautic.lead.field.searchcommand.type',
+            'mautic.lead.field.searchcommand.group',
+        ];
+
+        return array_merge($commands, parent::getSearchCommands());
+    }
+
+    /**
      * @return mixed[]
      */
     public function getFieldSchemaData(string $object): array
     {
         return $this->_em->createQueryBuilder()
-            ->select('f.alias, f.label, f.type, f.isUniqueIdentifer')
+            ->select('f.alias, f.label, f.type, f.isUniqueIdentifer, f.charLengthLimit')
             ->from($this->getEntityName(), 'f', 'f.alias')
             ->where('f.object = :object')
             ->setParameter('object', $object)
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @param \Doctrine\ORM\QueryBuilder|\Doctrine\DBAL\Query\QueryBuilder $q
+     * @param \StdClass                                                    $filter
+     *
+     * @return mixed[]
+     */
+    protected function addSearchCommandWhereClause($q, $filter): array
+    {
+        list($expr, $parameters) = $this->addStandardSearchCommandWhereClause($q, $filter);
+        if ($expr) {
+            return [$expr, $parameters];
+        }
+
+        $command         = $filter->command;
+        $unique          = $this->generateRandomParameterName();
+        $returnParameter = false; // returning a parameter that is not used will lead to a Doctrine error
+        $prefix          = $this->getTableAlias();
+
+        switch ($command) {
+            case $this->translator->trans('mautic.lead.field.searchcommand.isindexed'):
+                $expr            = $q->expr()->eq($prefix.'.isIndex', ":$unique");
+                $forceParameters = [$unique => true];
+                $returnParameter = true;
+                break;
+            case $this->translator->trans('mautic.lead.field.searchcommand.isunique'):
+                $expr            = $q->expr()->eq($prefix.'.isUniqueIdentifer', ":$unique");
+                $forceParameters = [$unique => true];
+                $returnParameter = true;
+                break;
+            case $this->translator->trans('mautic.lead.field.searchcommand.type'):
+                $forceParameters = [
+                    $unique     => $filter->string,
+                ];
+                $expr            = $q->expr()->like($prefix.'.type', ":$unique");
+                $returnParameter = true;
+                break;
+            case $this->translator->trans('mautic.lead.field.searchcommand.group'):
+                $forceParameters = [
+                    $unique     => $filter->string,
+                ];
+                $expr            = $q->expr()->like($prefix.'.group', ":$unique");
+                $returnParameter = true;
+                break;
+        }
+
+        if ($expr && $filter->not) {
+            $expr = $q->expr()->not($expr);
+        }
+
+        if (!empty($forceParameters)) {
+            $parameters = $forceParameters;
+        } elseif ($returnParameter) {
+            $string     = ($filter->strict) ? $filter->string : "%{$filter->string}%";
+            $parameters = ["$unique" => $string];
+        }
+
+        return [$expr, $parameters];
     }
 }

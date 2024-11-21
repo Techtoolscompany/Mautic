@@ -43,11 +43,10 @@ class FeatureSettingsType extends AbstractType
             );
             $page        = $session->get('mautic.plugin.'.$integrationName.'.lead.page', 1);
             $companyPage = $session->get('mautic.plugin.'.$integrationName.'.company.page', 1);
-
-            $settings = [
+            $settings    = [
                 'silence_exceptions' => false,
                 'feature_settings'   => $data,
-                'ignore_field_cache' => (1 == $page && !empty($_SERVER['REQUEST_METHOD']) && 'POST' !== $_SERVER['REQUEST_METHOD']) ? true : false,
+                'ignore_field_cache' => (1 == $page && !empty($_SERVER['REQUEST_METHOD']) && 'POST' !== strtoupper($method)) ? true : false,
             ];
 
             try {

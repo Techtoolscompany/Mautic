@@ -9,6 +9,7 @@
 .ddev/mautic-preference
 /.ddev/docker-compose.host-docker-internal.yaml
 !/.ddev/.env.*.dist
+/.ddev/docker-compose.phpmyadmin_norouter.yaml
 !.gitpod.Dockerfile
 !.gitpod.yml
 !.ddev/commands/web/dd
@@ -36,6 +37,8 @@
 !/app/cache/.gitkeep
 /var/cache/*
 !/var/cache/.gitkeep
+
+/var/phpstan-cache/*
 
 /app/logs/*
 !/app/logs/.gitkeep
@@ -118,6 +121,8 @@
 !/plugins/MauticTagManagerBundle
 !/plugins/index.html
 !/plugins/.gitkeep
+
+tests/**/*.sql
 
 /themes/*
 !/themes/aurora
