@@ -1829,9 +1829,13 @@ Mautic.applyFilters = function () {
     const newSearchValue = (currentSearchValue + ' ' + filterCommands.join(' ')).trim();
     searchInput.value = newSearchValue;
 
-    // Properly destroy and hide the popover
+    // Properly destroy and reinitialize popover
     const popoverTrigger = mQuery('[data-toggle="popover"]');
     popoverTrigger.popover('destroy');
+    popoverTrigger.popover({
+        html: true,
+        container: 'body'
+    });
 
     const enterKeyEvent = new KeyboardEvent('keyup', {
         key: 'Enter',
@@ -1927,35 +1931,36 @@ Mautic.getActiveFilterCommands = function () {
  * @param {HTMLElement} popoverElement
  */
 Mautic.initializePopoverFilters = function (popoverElement) {
-    // Get active filter commands from the search input
     const activeFilterCommands = Mautic.getActiveFilterCommands();
 
-    // Iterate over active filter commands and activate corresponding labels
+    // Handle regular filter labels
     activeFilterCommands.forEach(function (filterCommand) {
-        // Find the label within the popover that matches the filter command
         const label = popoverElement.querySelector(`.label[data-filter="${filterCommand}"]`);
         if (label) {
             label.classList.add('active');
         }
-    });
 
-    // Initialize select fields based on current search input
-    const selectFields = popoverElement.querySelectorAll('select');
+        // Handle select fields
+        const selectFields = popoverElement.querySelectorAll('select');
+        selectFields.forEach(function (selectElement) {
+            // Check if the value matches either the raw value or a category format
+            Array.from(selectElement.options).forEach(function (option) {
+                const isSelected = activeFilterCommands.some(cmd =>
+                    cmd === option.value ||
+                    cmd === `category:${option.value}`
+                );
+                option.selected = isSelected;
+            });
 
-    selectFields.forEach(function (selectElement) {
-        const options = Array.from(selectElement.options);
-        options.forEach(function (option) {
-            // If the option value is in the active filter commands, select it
-            if (activeFilterCommands.includes(option.value)) {
-                option.selected = true;
-            } else {
-                option.selected = false;
-            }
-        });
-        // If using Chosen or another library, update the UI
-        if (typeof mQuery !== 'undefined') {
+            // Initialize chosen
+            mQuery(selectElement).chosen({
+                width: '100%',
+                allow_single_deselect: true
+            });
+
+            // Update the UI
             mQuery(selectElement).trigger('chosen:updated');
-        }
+        });
     });
 };
 
@@ -1963,17 +1968,20 @@ Mautic.initializePopoverFilters = function (popoverElement) {
  * Handles the insertion of the popover and initializes active filter labels.
  */
 Mautic.handlePopoverInsertion = function () {
-    // Use jQuery (assuming mQuery is a reference to jQuery)
-    mQuery('[data-toggle="popover"]').on('inserted.bs.popover', function () {
-        // Get the popover's DOM element
+    mQuery(document).on('inserted.bs.popover', '[data-toggle="popover"]', function () {
         const popoverId = mQuery(this).attr('aria-describedby');
         if (!popoverId) return;
 
         const popoverElement = document.getElementById(popoverId);
         if (!popoverElement) return;
 
-        // Initialize active filter labels within the popover
         Mautic.initializePopoverFilters(popoverElement);
+
+        // Initialize Chosen after popover content is inserted
+        mQuery('.popover-content select').chosen({
+            width: '100%',
+            allow_single_deselect: true
+        });
     });
 };
 
