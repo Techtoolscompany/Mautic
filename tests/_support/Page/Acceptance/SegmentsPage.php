@@ -7,7 +7,11 @@ namespace Page\Acceptance;
 class SegmentsPage
 {
     public static $URL                   = '/s/segments';
-    public static $NEW_BUTTON            = '#toolbar > div.std-toolbar.btn-group > a > span > i';
-    public static $SEGMENT_NAME          = '#leadlist_name';
-    public static $SAVE_AND_CLOSE_BUTTON = '#leadlist_buttons_save_toolbar';
+
+    // Create Segment Form
+    public static $newButton            = '#toolbar > div.std-toolbar.btn-group > a > span > i';
+    public static $segmentName          = '#leadlist_name';
+    public static $saveAndCloseButton   = '#leadlist_buttons_save_toolbar';
+    public static $detailsTab           = '//*[@href="#details"]';
+    public static $filtersTab           = '//*[@href="#filters"]';
 }
