@@ -33,8 +33,8 @@ class ContactPage
     public static $delete     = '#toolbar > div.std-toolbar.btn-group.open > ul > li:nth-child(5) > a';
 
     // Contact Page
-    public static $quickAddButton     = '#toolbar .quickadd';
-    public static $newContactButton   = '#toolbar a:nth-child(2)';
+    public static $quickAddButton     = '.quickadd';
+    public static $newContactButton   = '#new';
 
     // Import
     public static $chooseFileButton       = '#lead_import_file';
