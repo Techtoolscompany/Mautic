@@ -14,7 +14,7 @@
 
 {% set buttons = buttonsRender()|raw|split('</a>')|slice(0, -1) %}
 {% set standardButtons = buttons|filter(button => 'btn' in button)|map(button => button ~ '</a>')|join %}
-{% set dropdownItems = buttons|filter(button => 'btn' not in button)|map(button => '<li>' ~ button ~ '</a></li>')|join %}
+{% set dropdownItems = buttons|filter(button => 'btn' not in button)|map(button => button ~ '</a>')|join %}
 
 <div class="dropdown">
     {% if dropdownItems %}
@@ -39,5 +39,5 @@
         <ul class="dropdown-menu" role="menu">{{ dropdownItems|raw }}</ul>
     {% endif %}
 </div>
-    {{ standardButtons|raw }}
+{{ standardButtons|raw }}
 {{ extraHtml|raw }}
