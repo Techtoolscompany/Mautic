@@ -3,7 +3,6 @@
 namespace Mautic\PageBundle\EventListener;
 
 use Doctrine\DBAL\Connection;
-use DOMElement;
 use Mautic\CoreBundle\Form\Type\SlotButtonType;
 use Mautic\CoreBundle\Form\Type\SlotCategoryListType;
 use Mautic\CoreBundle\Form\Type\SlotChannelFrequencyType;
