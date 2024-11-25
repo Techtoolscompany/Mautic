@@ -25,7 +25,6 @@ class BuildJsSubscriber implements EventSubscriberInterface
             CoreEvents::BUILD_MAUTIC_JS => [
                 // onBuildJs must always needs to be last to ensure setup before delivering the event
                 ['onBuildJs', -255],
-                ['onBuildJsForVideo', 256],
                 ['onBuildJsForTrackingEvent', 256],
             ],
         ];
@@ -185,20 +184,6 @@ class BuildJsSubscriber implements EventSubscriberInterface
 JS;
 
         $event->appendJs($js, 'Mautic Tracking Pixel');
-    }
-
-    public function onBuildJsForVideo(BuildJsEvent $event): void
-    {
-        $mauticBaseUrl   = $this->router->generate('mautic_base_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $jQueryUrl       = $this->assetsHelper->getUrl(
-            'app/bundles/CoreBundle/Assets/js/libraries/2.jquery.js',
-            null,
-            null,
-            true
-        );
-
-        $mauticBaseUrl   = str_replace('/index_dev.php', '', $mauticBaseUrl);
-        $jQueryUrl       = str_replace('/index_dev.php', '', $jQueryUrl);
     }
 
     public function onBuildJsForTrackingEvent(BuildJsEvent $event): void
