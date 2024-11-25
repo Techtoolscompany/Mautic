@@ -4,7 +4,6 @@ namespace Mautic\PageBundle\EventListener;
 
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\BuildJsEvent;
-use Mautic\CoreBundle\Twig\Helper\AssetsHelper;
 use Mautic\PageBundle\Helper\TrackingHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -13,7 +12,6 @@ use Symfony\Component\Routing\RouterInterface;
 class BuildJsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private AssetsHelper $assetsHelper,
         private TrackingHelper $trackingHelper,
         private RouterInterface $router
     ) {
