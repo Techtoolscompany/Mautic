@@ -1347,7 +1347,8 @@
   outline: 2px var(--outline-style) transparent;
 }
 :root[contrast-borders="true"] a:focus,
-:root[contrast-borders="true"] a.focus {
+:root[contrast-borders="true"] a.focus,
+:root[contrast-borders="true"] a:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 :root[reduce-transparency="true"] {
@@ -2590,7 +2591,8 @@ kbd {
   outline: 2px var(--outline-style) transparent;
 }
 .btn:focus,
-.btn.focus {
+.btn.focus,
+.btn:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn:hover {
@@ -2670,6 +2672,12 @@ kbd {
 .btn.btn-block {
   width: 100%;
 }
+.btn ~ .btn,
+.btn ~ .btn-group,
+.btn-group ~ .btn,
+.btn-group ~ .btn-group {
+  margin-left: 5px;
+}
 .btn-primary,
 .btn-primary + .dropdown-toggle {
   background-color: var(--button-primary);
@@ -2685,7 +2693,9 @@ kbd {
 .btn-primary:focus,
 .btn-primary + .dropdown-toggle:focus,
 .btn-primary.focus,
-.btn-primary + .dropdown-toggle.focus {
+.btn-primary + .dropdown-toggle.focus,
+.btn-primary:focus-visible,
+.btn-primary + .dropdown-toggle:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-primary i,
@@ -2846,7 +2856,9 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.focus i {
 .btn-primary.btn-danger:focus,
 .btn-primary + .dropdown-toggle.btn-danger:focus,
 .btn-primary.btn-danger.focus,
-.btn-primary + .dropdown-toggle.btn-danger.focus {
+.btn-primary + .dropdown-toggle.btn-danger.focus,
+.btn-primary.btn-danger:focus-visible,
+.btn-primary + .dropdown-toggle.btn-danger:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-primary.btn-danger i,
@@ -3003,7 +3015,8 @@ fieldset[disabled] .btn-primary + .dropdown-toggle.btn-danger.focus i {
   outline: 2px var(--outline-style) transparent;
 }
 .btn-secondary:focus,
-.btn-secondary.focus {
+.btn-secondary.focus,
+.btn-secondary:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-secondary i {
@@ -3125,7 +3138,13 @@ fieldset[disabled] .btn-secondary.focus i {
 .btn-primary + .btn-primary:not(.dropdown-toggle).focus,
 .btn-primary + .btn-primary + .btn-primary.focus,
 .btn-primary + .btn-primary + .btn-secondary.focus,
-.open > .btn-tertiary + .dropdown-toggle.btn-primary.focus {
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.focus,
+.btn-tertiary:focus-visible,
+.btn-tertiary + .dropdown-toggle:focus-visible,
+.btn-primary + .btn-primary:not(.dropdown-toggle):focus-visible,
+.btn-primary + .btn-primary + .btn-primary:focus-visible,
+.btn-primary + .btn-primary + .btn-secondary:focus-visible,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-tertiary i,
@@ -3522,7 +3541,13 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.focus i 
 .btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger.focus,
 .btn-primary + .btn-primary + .btn-primary.btn-danger.focus,
 .btn-primary + .btn-primary + .btn-secondary.btn-danger.focus,
-.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger.focus {
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger.focus,
+.btn-tertiary.btn-danger:focus-visible,
+.btn-tertiary + .dropdown-toggle.btn-danger:focus-visible,
+.btn-primary + .btn-primary:not(.dropdown-toggle).btn-danger:focus-visible,
+.btn-primary + .btn-primary + .btn-primary.btn-danger:focus-visible,
+.btn-primary + .btn-primary + .btn-secondary.btn-danger:focus-visible,
+.open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-danger:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-tertiary.btn-danger i,
@@ -3931,7 +3956,8 @@ fieldset[disabled] .open > .btn-tertiary + .dropdown-toggle.btn-primary.btn-dang
   outline: 2px var(--outline-style) transparent;
 }
 .btn-ghost:focus,
-.btn-ghost.focus {
+.btn-ghost.focus,
+.btn-ghost:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-ghost i {
@@ -4040,7 +4066,9 @@ fieldset[disabled] .btn-ghost.focus i {
 .btn-ghost.btn-danger:focus,
 .btn-ghost.btn-danger.btn-icon:focus,
 .btn-ghost.btn-danger.focus,
-.btn-ghost.btn-danger.btn-icon.focus {
+.btn-ghost.btn-danger.btn-icon.focus,
+.btn-ghost.btn-danger:focus-visible,
+.btn-ghost.btn-danger.btn-icon:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-ghost.btn-danger i,
@@ -4197,7 +4225,8 @@ fieldset[disabled] .btn-ghost.btn-danger.btn-icon.focus i {
   outline: 2px var(--outline-style) transparent;
 }
 .btn-ghost.btn-icon:focus,
-.btn-ghost.btn-icon.focus {
+.btn-ghost.btn-icon.focus,
+.btn-ghost.btn-icon:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-ghost.btn-icon i {
@@ -4380,7 +4409,13 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
 .open > a.focus,
 .btn-group .dropdown-toggle.focus,
 .btn-group.open .dropdown-toggle.focus,
-.navbar-toggle.focus {
+.navbar-toggle.focus,
+.dropdown-toggle:focus-visible,
+.dropdown-menu > .active > a:focus-visible,
+.open > a:focus-visible,
+.btn-group .dropdown-toggle:focus-visible,
+.btn-group.open .dropdown-toggle:focus-visible,
+.navbar-toggle:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-link {
@@ -4466,19 +4501,10 @@ fieldset[disabled] .btn-ghost.btn-icon.focus i {
 .btn-group .btn ~ .btn-group,
 .btn-group .btn-group ~ .btn,
 .btn-group .btn-group ~ .btn-group {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 .btn-group > .btn-primary + .dropdown-toggle {
   margin-left: 1px;
-}
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child),
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
 }
 .btn-group.open .dropdown-toggle {
   -webkit-box-shadow: none;
@@ -5770,6 +5796,27 @@ a.media {
   border-radius: clamp(4px, var(--border-radius-md), 12px);
   overflow: hidden;
 }
+.nav-justified .list-group-item.btn {
+  border: 1px solid transparent;
+  outline: 2px var(--outline-style) transparent;
+  outline-offset: -2px;
+}
+.nav-justified .list-group-item.btn:hover {
+  outline: 2px var(--outline-style) transparent;
+}
+.nav-justified .list-group-item.btn:focus,
+.nav-justified .list-group-item.btn.focus,
+.nav-justified .list-group-item.btn:focus-visible {
+  outline: 2px var(--outline-style) var(--focus);
+}
+.nav-justified .list-group-item.btn:first-child {
+  border-top-left-radius: clamp(4px, var(--border-radius-md), 12px);
+  border-bottom-left-radius: clamp(4px, var(--border-radius-md), 12px);
+}
+.nav-justified .list-group-item.btn:last-child {
+  border-top-right-radius: clamp(4px, var(--border-radius-md), 12px);
+  border-bottom-right-radius: clamp(4px, var(--border-radius-md), 12px);
+}
 .list-group-item {
   transition: var(--transition-all-productive);
   border: 0;
@@ -5785,7 +5832,8 @@ a.media {
   border-bottom-right-radius: clamp(4px, var(--border-radius-md), 12px);
 }
 .list-group-item > a,
-.list-group-item > label {
+.list-group-item > label,
+.list-group-item .list-group-item-text {
   position: relative;
   z-index: 1;
   display: block;
@@ -5796,17 +5844,24 @@ a.media {
   outline-offset: -2px;
 }
 .list-group-item > a:hover,
-.list-group-item > label:hover {
+.list-group-item > label:hover,
+.list-group-item .list-group-item-text:hover {
   outline: 2px var(--outline-style) transparent;
 }
 .list-group-item > a:focus,
 .list-group-item > label:focus,
+.list-group-item .list-group-item-text:focus,
 .list-group-item > a.focus,
-.list-group-item > label.focus {
+.list-group-item > label.focus,
+.list-group-item .list-group-item-text.focus,
+.list-group-item > a:focus-visible,
+.list-group-item > label:focus-visible,
+.list-group-item .list-group-item-text:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .list-group-item > a input,
-.list-group-item > label input {
+.list-group-item > label input,
+.list-group-item .list-group-item-text input {
   position: absolute;
   top: 0;
   left: 0;
@@ -5997,7 +6052,8 @@ ul.dropdown-menu-form {
   outline: 2px var(--outline-style) transparent;
 }
 .dropdown-toggle:focus,
-.dropdown-toggle.focus {
+.dropdown-toggle.focus,
+.dropdown-toggle:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .dropdown-header {
@@ -6048,7 +6104,8 @@ ul.dropdown-menu-form {
   outline: 2px var(--outline-style) transparent;
 }
 .nav-tabs > li > a:focus,
-.nav-tabs > li > a.focus {
+.nav-tabs > li > a.focus,
+.nav-tabs > li > a:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .nav-tabs > li > a:hover {
@@ -6546,7 +6603,10 @@ input[style]:hover {
 .form-control.search.tt-input:focus,
 .form-control.focus,
 .chosen-container .chosen-single.focus,
-.form-control.search.tt-input.focus {
+.form-control.search.tt-input.focus,
+.form-control:focus-visible,
+.chosen-container .chosen-single:focus-visible,
+.form-control.search.tt-input:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .form-control.form-control-rounded,
@@ -6731,7 +6791,8 @@ input[type=file]:hover {
   outline: 2px var(--outline-style) transparent;
 }
 input[type=file]:focus,
-input[type=file].focus {
+input[type=file].focus,
+input[type=file]:focus-visible {
   outline: 2px var(--outline-style) var(--focus);
 }
 .btn-file {
