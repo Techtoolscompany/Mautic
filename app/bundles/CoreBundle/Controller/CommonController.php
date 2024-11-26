@@ -474,7 +474,7 @@ class CommonController extends AbstractController implements MauticController
             if (!empty($page) && $page->getIsPublished() && !empty($page->getCustomHtml())) {
                 $slug     = $pageModel->generateSlug($page);
                 $response = $this->forward(
-                    'MauticPageBundle:Public:index',
+                    'Mautic\PageBundle\Controller\PublicController::indexAction',
                     [
                         'slug'            => $slug,
                         'ignore_mismatch' => true,
