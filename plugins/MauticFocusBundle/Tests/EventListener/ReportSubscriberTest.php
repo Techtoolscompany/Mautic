@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MauticPlugin\MauticFocusBundle\Tests\EventListener;
 
 use Mautic\ReportBundle\Event\ReportBuilderEvent;
@@ -8,14 +10,14 @@ use MauticPlugin\MauticFocusBundle\EventListener\ReportSubscriber;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ReportSubscriberTest extends TestCase
+final class ReportSubscriberTest extends TestCase
 {
     /**
-     * @var MockObject|ReportBuilderEvent
+     * @var MockObject&ReportBuilderEvent
      */
     private MockObject $reportBuilderEventMock;
     /**
-     * @var MockObject|ReportGeneratorEvent
+     * @var MockObject&ReportGeneratorEvent
      */
     private MockObject $reportGeneratorEventMock;
     private ReportSubscriber $reportSubscriber;
