@@ -28,9 +28,9 @@ class ContactPage
     public static $ConfirmDelete = 'button.btn.btn-danger';
 
     // Contact Details Page
-    public static $editButton = '#toolbar > div.std-toolbar.btn-group > a:nth-child(1)';
-    public static $dropDown   = '#toolbar .std-toolbar.btn-group > button';
-    public static $delete     = '#toolbar > div.std-toolbar.btn-group.open > ul > li:nth-child(5) > a';
+    public static $editButton = '#toolbar > div.std-toolbar > a:nth-child(1)';
+    public static $dropDown   = '#toolbar .std-toolbar > button';
+    public static $delete     = '#toolbar > div.std-toolbar.open > ul > li:nth-child(5) > a';
 
     // Contact Page
     public static $quickAddButton     = '#toolbar .quickadd';
