@@ -2,7 +2,7 @@
     "subtree-splits": [
         {
             "name": "theme-1-2-column",
-            "directory": "themes/1-2-column",
+            "directory": "themes/_1-2-column",
             "target": "git@github.com:mautic/theme-1-2-column.git"
         }
     ]

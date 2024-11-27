@@ -2,7 +2,7 @@
     "subtree-splits": [
         {
             "name": "theme-showcase",
-            "directory": "themes/showcase",
+            "directory": "themes/_showcase",
             "target": "git@github.com:mautic/theme-showcase.git"
         }
     ]
