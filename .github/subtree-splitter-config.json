@@ -234,6 +234,16 @@
             "name": "theme-welcome",
             "directory": "themes/welcome",
             "target": "git@github.com:mautic/theme-welcome.git"
+        },
+        {
+            "name": "theme-attract",
+            "directory": "themes/attract",
+            "target": "git@github.com:mautic/theme-attract.git"
+        },
+        {
+            "name": "theme-creative",
+            "directory": "themes/creative",
+            "target": "git@github.com:mautic/theme-creative.git"
         }
 
     ]
