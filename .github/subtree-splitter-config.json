@@ -201,9 +201,9 @@
             "target": "git@github.com:mautic/theme-connect-through-content.git"
         },
         {
-            "name": "theme-education",
-            "directory": "themes/education",
-            "target": "git@github.com:mautic/theme-education.git"
+            "name": "theme-educate",
+            "directory": "themes/educate",
+            "target": "git@github.com:mautic/theme-educate.git"
         },
         {
             "name": "theme-gallery",
