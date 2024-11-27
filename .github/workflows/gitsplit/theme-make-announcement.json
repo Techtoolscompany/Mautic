@@ -1,0 +1,9 @@
+{
+    "subtree-splits": [
+        {
+            "name": "theme-make-announcement",
+            "directory": "themes/make-announcement",
+            "target": "git@github.com:mautic/theme-make-announcement.git"
+        }
+    ]
+}
