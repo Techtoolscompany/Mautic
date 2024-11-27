@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1db24c5e79a0d8398336d96b59bae3a0",
+    "content-hash": "98350b36fd1722aa1092d2accdecb2ec",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6160,6 +6160,503 @@
             "transport-options": {
                 "relative": true
             }
+        },
+        {
+            "name": "mautic/theme-1-2-1-2-column",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-1-2-1-2-column.git",
+                "reference": "3ae837caf5ca2aafac29bb5fd74f1895368c7567"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-1-2-1-2-column/zipball/3ae837caf5ca2aafac29bb5fd74f1895368c7567",
+                "reference": "3ae837caf5ca2aafac29bb5fd74f1895368c7567",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "1:2:1:2 Column",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-1-2-1-2-column/issues",
+                "source": "https://github.com/mautic/theme-1-2-1-2-column/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-1-2-1-column",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-1-2-1-column.git",
+                "reference": "a7f2da9baf96bf13f08e70a817aef93951e2b32e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-1-2-1-column/zipball/a7f2da9baf96bf13f08e70a817aef93951e2b32e",
+                "reference": "a7f2da9baf96bf13f08e70a817aef93951e2b32e",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "1:2:1 Column",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-1-2-1-column/issues",
+                "source": "https://github.com/mautic/theme-1-2-1-column/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-1-2-column",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-1-2-column.git",
+                "reference": "c4b45880e56995ddcc5056b9af928002c91f972f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-1-2-column/zipball/c4b45880e56995ddcc5056b9af928002c91f972f",
+                "reference": "c4b45880e56995ddcc5056b9af928002c91f972f",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "1:2 Column",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-1-2-column/issues",
+                "source": "https://github.com/mautic/theme-1-2-column/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-1-3-1-3-column",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-1-3-1-3-column.git",
+                "reference": "4ad266104a98b59a7d5db7d4b6a806994fce92cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-1-3-1-3-column/zipball/4ad266104a98b59a7d5db7d4b6a806994fce92cc",
+                "reference": "4ad266104a98b59a7d5db7d4b6a806994fce92cc",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "1:3:1:3 Column",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-1-3-1-3-column/issues",
+                "source": "https://github.com/mautic/theme-1-3-1-3-column/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-1-3-column",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-1-3-column.git",
+                "reference": "1b103a34c94ec1f8b17b8e7b29da7f0672e79169"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-1-3-column/zipball/1b103a34c94ec1f8b17b8e7b29da7f0672e79169",
+                "reference": "1b103a34c94ec1f8b17b8e7b29da7f0672e79169",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "1:3 Column",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-1-3-column/issues",
+                "source": "https://github.com/mautic/theme-1-3-column/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-attract",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-attract.git",
+                "reference": "5aa49289b0b8da3b543fb2dd6391b4b9c95e7219"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-attract/zipball/5aa49289b0b8da3b543fb2dd6391b4b9c95e7219",
+                "reference": "5aa49289b0b8da3b543fb2dd6391b4b9c95e7219",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Attract email theme",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-attract/issues",
+                "source": "https://github.com/mautic/theme-attract/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-connect-through-content",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-connect-through-content.git",
+                "reference": "2f6ff46d7c36ad6ee52fe5957812fd6d11aad9a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-connect-through-content/zipball/2f6ff46d7c36ad6ee52fe5957812fd6d11aad9a6",
+                "reference": "2f6ff46d7c36ad6ee52fe5957812fd6d11aad9a6",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Connect through content",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-connect-through-content/issues",
+                "source": "https://github.com/mautic/theme-connect-through-content/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-creative",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-creative.git",
+                "reference": "d3435a6e501322da3a8e0dbc835174cfc94e3340"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-creative/zipball/d3435a6e501322da3a8e0dbc835174cfc94e3340",
+                "reference": "d3435a6e501322da3a8e0dbc835174cfc94e3340",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Creative theme",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-creative/issues",
+                "source": "https://github.com/mautic/theme-creative/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-educate",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-educate.git",
+                "reference": "36673beba26abc2662dc7d9e54c46bf61d4904a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-educate/zipball/36673beba26abc2662dc7d9e54c46bf61d4904a5",
+                "reference": "36673beba26abc2662dc7d9e54c46bf61d4904a5",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Educate",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-educate/issues",
+                "source": "https://github.com/mautic/theme-educate/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-gallery",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-gallery.git",
+                "reference": "f5186252e0dd60a9185c719c109278b43d65d021"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-gallery/zipball/f5186252e0dd60a9185c719c109278b43d65d021",
+                "reference": "f5186252e0dd60a9185c719c109278b43d65d021",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Gallery",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-gallery/issues",
+                "source": "https://github.com/mautic/theme-gallery/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-make-announcement",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-make-announcement.git",
+                "reference": "50f544e96000ca7f93165ca14e6ba03cadf80c5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-make-announcement/zipball/50f544e96000ca7f93165ca14e6ba03cadf80c5c",
+                "reference": "50f544e96000ca7f93165ca14e6ba03cadf80c5c",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Make an announcement",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-make-announcement/issues",
+                "source": "https://github.com/mautic/theme-make-announcement/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-showcase",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-showcase.git",
+                "reference": "5677842382584ac0c3472b02dd3bd229bd31567e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-showcase/zipball/5677842382584ac0c3472b02dd3bd229bd31567e",
+                "reference": "5677842382584ac0c3472b02dd3bd229bd31567e",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Showcase",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-showcase/issues",
+                "source": "https://github.com/mautic/theme-showcase/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-simple-text",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-simple-text.git",
+                "reference": "e680d99295e6c11b440fbf8f42e9b31288bd3b9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-simple-text/zipball/e680d99295e6c11b440fbf8f42e9b31288bd3b9c",
+                "reference": "e680d99295e6c11b440fbf8f42e9b31288bd3b9c",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Simple text",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-simple-text/issues",
+                "source": "https://github.com/mautic/theme-simple-text/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-survey",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-survey.git",
+                "reference": "545b4b5a7439e1a1e333479c9fb5453cdca5e3b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-survey/zipball/545b4b5a7439e1a1e333479c9fb5453cdca5e3b4",
+                "reference": "545b4b5a7439e1a1e333479c9fb5453cdca5e3b4",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Survey",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-survey/issues",
+                "source": "https://github.com/mautic/theme-survey/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
+        },
+        {
+            "name": "mautic/theme-trulypersonal",
+            "version": "5.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-trulypersonal.git",
+                "reference": "87fd526ef742bde8c37b4c484f077ffd7b5198ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-trulypersonal/zipball/87fd526ef742bde8c37b4c484f077ffd7b5198ac",
+                "reference": "87fd526ef742bde8c37b4c484f077ffd7b5198ac",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "type": "mautic-theme",
+            "extra": {
+                "install-directory-name": "trulypersonal"
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Mautic Truly Personal Theme",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "source": "https://github.com/mautic/theme-trulypersonal/tree/5.1.1"
+            },
+            "time": "2023-03-28T15:16:40+00:00"
+        },
+        {
+            "name": "mautic/theme-welcome",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mautic/theme-welcome.git",
+                "reference": "0fff41cf28630fbcd0246c97d6ca2788439b9203"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mautic/theme-welcome/zipball/0fff41cf28630fbcd0246c97d6ca2788439b9203",
+                "reference": "0fff41cf28630fbcd0246c97d6ca2788439b9203",
+                "shasum": ""
+            },
+            "require": {
+                "mautic/core-lib": "^5.0"
+            },
+            "default-branch": true,
+            "type": "mautic-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Welcome",
+            "keywords": [
+                "Mautic",
+                "theme"
+            ],
+            "support": {
+                "issues": "https://github.com/mautic/theme-welcome/issues",
+                "source": "https://github.com/mautic/theme-welcome/tree/5.x"
+            },
+            "time": "2024-11-27T14:27:50+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -18562,11 +19059,27 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "mautic/theme-1-2-1-2-column": 20,
+        "mautic/theme-1-2-1-column": 20,
+        "mautic/theme-1-2-column": 20,
+        "mautic/theme-1-3-1-3-column": 20,
+        "mautic/theme-1-3-column": 20,
+        "mautic/theme-attract": 20,
+        "mautic/theme-connect-through-content": 20,
+        "mautic/theme-creative": 20,
+        "mautic/theme-educate": 20,
+        "mautic/theme-gallery": 20,
+        "mautic/theme-make-announcement": 20,
+        "mautic/theme-showcase": 20,
+        "mautic/theme-simple-text": 20,
+        "mautic/theme-survey": 20,
+        "mautic/theme-welcome": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {},
-    "platform-dev": {},
+    "platform": [],
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
