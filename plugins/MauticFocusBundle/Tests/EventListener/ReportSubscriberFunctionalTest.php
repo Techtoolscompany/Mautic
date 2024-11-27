@@ -5,95 +5,61 @@ declare(strict_types=1);
 namespace MauticPlugin\MauticFocusBundle\Tests\EventListener;
 
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
-use Mautic\IntegrationsBundle\Entity\FieldChange;
-use Mautic\IntegrationsBundle\Entity\FieldChangeRepository;
-use Mautic\IntegrationsBundle\Helper\SyncIntegrationsHelper;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\PageBundle\Entity\Redirect;
 use Mautic\PageBundle\Entity\Trackable;
+use Mautic\ReportBundle\Entity\Report;
 Use MauticPlugin\MauticFocusBundle\Entity\Focus;
-use Mautic\LeadBundle\Event\LeadEvent;
-use Mautic\LeadBundle\LeadEvents;
 use MauticPlugin\MauticFocusBundle\Entity\Stat;
-use PHPUnit\Framework\Assert;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use MauticPlugin\MauticFocusBundle\EventListener\ReportSubscriber;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Request;
 
 final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
 {
-    private EventDispatcherInterface $dispatcher;
-
-    private FieldChangeRepository $fieldChangeRepository;
-
+    private ReportSubscriber $reportSubscriber;
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->dispatcher = static::getContainer()->get('event_dispatcher');
-        $this->fieldChangeRepository = $this->em->getRepository(FieldChange::class);
-
-        static::getContainer()->set(
-            'mautic.integrations.helper.sync_integrations',
-            new class() extends SyncIntegrationsHelper {
-                public function __construct()
-                {
-                }
-
-                public function hasObjectSyncEnabled(string $object): bool
-                {
-                    return true;
-                }
-
-                public function getEnabledIntegrations()
-                {
-                    return ['unicorn'];
-                }
-            }
-        );
+        $this->reportSubscriber = new ReportSubscriber();
     }
 
-    public function testFocusItemReportPostSave(): void
+    public function testEmailReportGraphWithMostClickedLinks(): void
     {
-        // The contact must exist in the database in order to create a reference later.
-        //focus, focus_stats, redirects, trackables --> in DB übertragen
-        //Event mit richtigen Daten Dispatchen
-        //Testen, ob korrekte Daten in ReportDataEvent
-        $focusItem1 = new Focus();
-        $focusItem2 = new Focus();
-        $focusItem3 = new Focus();
-        $this->em->persist($focusItem1);
-        $this->em->persist($focusItem2);
-        $this->em->persist($focusItem3);
+        $this->fillDatabase();
+
+        $report = new Report();
+        $report->setName('Focus Stats Report');
+        $report->setSource('focus_stats');
+        $report->setColumns([ReportSubscriber::PREFIX_FOCUS.'.name', ReportSubscriber::PREFIX_FOCUS.'.description', ReportSubscriber::PREFIX_FOCUS.'.focus_type', ReportSubscriber::PREFIX_FOCUS.'.style', ReportSubscriber::PREFIX_STATS.'.type', ReportSubscriber::PREFIX_TRACKABLES.'.hits', ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits', ReportSubscriber::PREFIX_REDIRECTS.'.url'
+        ]);
+        $this->em->persist($report);
         $this->em->flush();
-        $this->em->clear();
 
-        // By getting a reference we'll get a proxy class instead of the real entity class.
-        /** @var Lead $contactProxy */
-        $contactProxy = $this->em->getReference(Lead::class, $contactReal->getId());
-        $contactProxy->__set('email', 'john@doe.email');
-        $contactProxy->setPoints(100);
-        $event = new LeadEvent($contactProxy, true);
+        $crawler      = $this->client->request(Request::METHOD_GET, "/s/reports/view/{$report->getId()}");
+        $this->assertTrue($this->client->getResponse()->isOk());
+        $crawlerTable = $crawler->filter('#reportTable');
+        $table = array_slice($this->domTableToArray($crawlerTable), 1);
+        array_pop($table);
+        dump($crawlerTable, $table);
+/*        $crawlerTable = $crawler->filterXPath('//*[contains(@href,"http://example1.com")]')->closest('table');
+        $crawlerTable =
+        dump($crawlerTable);
 
-        $this->dispatcher->dispatch($event, LeadEvents::LEAD_POST_SAVE);
+        // convert html table to php array
+        $table = array_slice($this->domTableToArray($crawlerTable), 1);
 
-        $fieldChanges = $this->fieldChangeRepository->findChangesForObject('unicorn', Lead::class, $contactReal->getId());
-        Assert::assertCount(2, $fieldChanges, print_r($fieldChanges, true));
-
-        Assert::assertSame('unicorn', $fieldChanges[0]['integration']);
-        Assert::assertSame($contactReal->getId(), (int)$fieldChanges[0]['object_id']);
-        Assert::assertSame(Lead::class, $fieldChanges[0]['object_type']);
-        Assert::assertSame('email', $fieldChanges[0]['column_name']);
-        Assert::assertSame('string', $fieldChanges[0]['column_type']);
-        Assert::assertSame('john@doe.email', $fieldChanges[0]['column_value']);
-
-        Assert::assertSame('unicorn', $fieldChanges[1]['integration']);
-        Assert::assertSame($contactReal->getId(), (int)$fieldChanges[1]['object_id']);
-        Assert::assertSame(Lead::class, $fieldChanges[1]['object_type']);
-        Assert::assertSame('points', $fieldChanges[1]['column_name']);
-        Assert::assertSame('int', $fieldChanges[1]['column_type']);
-        Assert::assertSame('100', $fieldChanges[1]['column_value']);
+        $this->assertSame([
+            ['Email 2', '10', '8', 'example.com/5'],
+            ['Email 1', '5', '2', 'example.com/2'],
+            ['Email 2', '2', '1', 'example.com/4'],
+            ['Email 1', '1', '1', 'example.com/1'],
+            ['Email 2', '0', '0', 'example.com/3'],
+        ], $table);*/
     }
 
-    private function createTrackable(string $url, int $channelId, int $hits = 0, int $uniqueHits = 0): Trackable
+    private function createTrackableAndRedirects(string $url, int $channelId, int $hits = 0, int $uniqueHits = 0): Trackable
     {
         $redirect = new Redirect();
         $redirect->setRedirectId(uniqid());
@@ -104,7 +70,7 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
 
         $trackable = new Trackable();
         $trackable->setChannelId($channelId);
-        $trackable->setChannel('email');
+        $trackable->setChannel('focus');
         $trackable->setHits($hits);
         $trackable->setUniqueHits($uniqueHits);
         $trackable->setRedirect($redirect);
@@ -119,17 +85,19 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
         $focus = new Focus();
         $focus->setName($name);
         $focus->setDescription($description);
-        $focus->setFocusType($focusType);
+        $focus->setType($focusType);
         $focus->setStyle($style);
 
         $this->em->persist($focus);
     }
 
-    public function createFocusStats($type, $focus)
+    public function createFocusStats($type, $focus, $lead, $dateAdded)
     {
         $focusStats = new Stat();
         $focusStats->setType($type);
-        $focusStats->setFocus($focus->getId());
+        $focusStats->setFocus($focus);
+        $focusStats->setLead($lead);
+        $focusStats->setDateAdded($dateAdded);
         $this->em->persist($focusStats);
     }
 
@@ -147,18 +115,37 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
         $this->createContact('abc@example.com');
         $this->createContact('abcd@example.com');
         $this->em->flush();
+        $lead1 = $this->em->getRepository(Lead::class)->findOneBy(['email' => 'abc@example.com']);
+        $lead2 = $this->em->getRepository(Lead::class)->findOneBy(['email' => 'abcd@example.com']);
 
         $this->createFocusItem('FocusItem1', 'doesAbc', 'link', 'modal');
         $this->createFocusItem('FocusItem2', 'doesAbcd', 'link', 'modal');
         $this->em->flush();
-        //Hier ID erhalten
+        $focus1 = $this->em->getRepository(Focus::class)->findOneBy(['name' => 'FocusItem1']);
+        $focus2 = $this->em->getRepository(Focus::class)->findOneBy(['name' => 'FocusItem2']);
 
-        $this->createFocusStats();
+        $date = new \DateTime();
+        $this->createFocusStats('click', $focus1, $lead1, $date);
+        $this->createFocusStats('click', $focus2, $lead2, $date);
+        $this->createFocusStats('view', $focus1, $lead1, $date);
+        $this->createFocusStats('view', $focus1, $lead1, $date);
+        $this->createFocusStats('view', $focus1, $lead2, $date);
+        $this->createFocusStats('view', $focus2, $lead2, $date);
+        $this->em->flush();
 
 
-        $this->createFocusItem('FocusItem3');
+        $this->createTrackableAndRedirects('http://example1.com', $focus1->getId(), 1, 1);
+        $this->createTrackableAndRedirects('http://example2.com', $focus2->getId(), 2, 1);
         $this->em->flush();
         $this->em->clear();
+    }
+
+    /**
+     * @return array<int,array<int,mixed>>
+     */
+    private function domTableToArray(Crawler $crawler): array
+    {
+        return $crawler->filter('tr')->each(fn ($tr) => $tr->filter('td')->each(fn ($td) => trim($td->text())));
     }
 }
 
@@ -170,4 +157,5 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
 //Zwei Focus items
 
 //focus item1 -->
+
 
