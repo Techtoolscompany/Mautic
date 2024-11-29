@@ -80,7 +80,7 @@ class ContactManagementCest
         $contactName = $contact->grabContactNameFromList(1);
 
         // Click on the dropdown caret on the first contact and click on the edit option
-        $contact->selectOptionFromDropDown(1, 1);
+        $contact->selectOptionFromDropDown(ContactPage::$tableName, 1, 1);
 
         // Wait for the edit form to be visible
         $I->waitForElementVisible(ContactPage::$editForm, 30);
@@ -136,7 +136,7 @@ class ContactManagementCest
         $contactName = $contact->grabContactNameFromList(1);
 
         // Click on the dropdown caret on the first contact and click the delete menu option
-        $contact->selectOptionFromDropDown(1, 4);
+        $contact->selectOptionFromDropDown(ContactPage::$tableName, 1, 4);
 
         // Wait for the modal to show and confirm deletion
         $I->waitForElementVisible(ContactPage::$ConfirmDelete, 5);
@@ -193,7 +193,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select delete option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(11);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 11);
 
         // Wait for the modal to become visible and click on the button to confirm delete
         $I->waitForElementVisible(ContactPage::$ConfirmDelete, 5);
@@ -236,7 +236,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select add to campaign option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(1);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 1);
 
         // Add the contacts to the campaign
         $campaign->addContactsToCampaign();
@@ -263,7 +263,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select change campaign option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(1);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 1);
 
         // Add the selected contacts to a campaign (to be removed later)
         $campaign->addContactsToCampaign();
@@ -280,7 +280,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // // Select change campaign option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(1);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 1);
 
         // Wait for the modal to appear and click the "Remove from campaign" option
         $I->waitForElementVisible(ContactPage::$campaignsModalAddOption, 5);
@@ -315,7 +315,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select change owner option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(4);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 4);
 
         // Wait for the modal to appear
         $I->waitForElementClickable(ContactPage::$addToTheFollowing, 5);
@@ -359,7 +359,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select change segment option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(5);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 5);
 
         // Wait for the "Add to the following segment" modal to appear and click it
         $I->waitForElementClickable(ContactPage::$addToTheFollowingSegment, 10);
@@ -392,7 +392,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select change segment option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(5);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 5);
 
         // Wait for the "Remove from the following segment" modal to appear and click it
         $I->waitForElementClickable(ContactPage::$removeFromTheFollowingSegment, 10);
@@ -429,7 +429,7 @@ class ContactManagementCest
         $contact->selectContactFromList(2);
 
         // Select change segment option from dropdown for multiple selections
-        $contact->selectOptionFromDropDownForMultipleSelections(10);
+        $contact->selectOptionFromDropDownForMultipleSelections(ContactPage::$tableName, 10);
 
         $I->waitForElementClickable(ContactPage::$doNotContactSaveButton, 5);
         $I->click(ContactPage::$doNotContactSaveButton);

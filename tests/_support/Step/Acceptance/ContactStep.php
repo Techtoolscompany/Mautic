@@ -48,37 +48,12 @@ class ContactStep extends \AcceptanceTester
     }
 
     /**
-     * Select an option from the dropdown menu for a specific contact.
-     */
-    public function selectOptionFromDropDown($place, $option): void
-    {
-        $I = $this;
-        // Click the dropdown menu
-        $I->click("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/button");
-        // Select the desired option
-        $I->waitForElementClickable("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a", 30);
-        $I->click("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a");
-    }
-
-    /**
      * Select a contact from the contact list.
      */
     public function selectContactFromList($place): void
     {
         $I = $this;
         $I->checkOption("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/span/input");
-    }
-
-    /**
-     * Select an option from the dropdown menu for multiple selected contacts.
-     */
-    public function selectOptionFromDropDownForMultipleSelections($option)
-    {
-        $I = $this;
-        // Click the dropdown button for bulk actions
-        $I->click('//*[@id="leadTable"]/thead/tr/th[1]/div/div/button/i');
-        // Select the desired option from the dropdown menu
-        $I->click("//*[@id='leadTable']/thead/tr/th[1]/div/div/ul/li[$option]/a/span/span");
     }
 
     /**

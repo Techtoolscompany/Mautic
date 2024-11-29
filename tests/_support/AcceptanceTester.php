@@ -51,4 +51,38 @@ class AcceptanceTester extends Codeception\Actor
         $this->fillField(CategoriesPage::$TITLE_FIELD, $name);
         $this->click(CategoriesPage::$SAVE_AND_CLOSE);
     }
+
+    /**
+     * Select an option from the dropdown menu for a specific list element.
+     */
+    public function selectOptionFromDropDown($table, $place, $option): void
+    {
+        $I = $this;
+        // Click the dropdown menu
+        $I->click("//*[@id='$table']/tbody/tr[$place]/td[1]/div/div/button");
+        // Select the desired option
+        $I->waitForElementClickable("//*[@id='$table']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a", 30);
+        $I->click("//*[@id='$table']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a");
+    }
+
+    /**
+     * Select an element from the list.
+     */
+    public function selectElementFromList($table, $place): void
+    {
+        $I = $this;
+        $I->checkOption("//*[@id='$table']/tbody/tr[$place]/td[1]/div/span/input");
+    }
+
+    /**
+     * Select an option from the dropdown menu for multiple selected contacts.
+     */
+    public function selectOptionFromDropDownForMultipleSelections($table, $option)
+    {
+        $I = $this;
+        // Click the dropdown button for bulk actions
+        $I->click("//*[@id='$table']/thead/tr/th[1]/div/div/button/i");
+        // Select the desired option from the dropdown menu
+        $I->click("//*[@id='$table']/thead/tr/th[1]/div/div/ul/li[$option]/a/span/span");
+    }
 }
