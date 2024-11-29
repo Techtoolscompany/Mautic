@@ -41,7 +41,7 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
         $this->assertSame([
             ['1', 'FocusItem1', 'doesAbc', 'link', 'modal', 'click', '1', '1', 'http://example1.com'],
             ['2', 'FocusItem1', 'doesAbc', 'link', 'modal', 'view', '3', '2', 'http://example1.com'],
-            ['3', 'FocusItem2', 'doesAbcd', 'link', 'modal', 'click', '2', '1', 'http://example2.com'],
+            ['3', 'FocusItem2', 'doesAbcd', 'link', 'modal', 'click', '1', '1', 'http://example2.com'],
             ['4', 'FocusItem2', 'doesAbcd', 'link', 'modal', 'view', '1', '1', 'http://example2.com'],
         ], $table);
     }
@@ -53,6 +53,7 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
 
         $focus1 = $this->createFocusItem('FocusItem1', 'doesAbc', 'link', 'modal');
         $focus2 = $this->createFocusItem('FocusItem2', 'doesAbcd', 'link', 'modal');
+        $focus3 = $this->createFocusItem('FocusItem3', 'doesAbcde', 'link', 'modal');
         $this->em->flush();
 
         $date = new \DateTime();
@@ -68,7 +69,8 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
         /** @var int $focusId2 */
         $focusId2 = $focus2->getId();
         $this->createTrackableAndRedirects('http://example1.com', $focusId1, 1, 1);
-        $this->createTrackableAndRedirects('http://example2.com', $focusId2, 2, 1);
+        $this->createTrackableAndRedirects('http://example2.com', $focusId2, 1, 1);
+        $this->createTrackableAndRedirects('http://example2.com', $focusId2);
         $this->em->flush();
         $this->em->clear();
     }
