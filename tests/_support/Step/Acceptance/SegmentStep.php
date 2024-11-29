@@ -20,10 +20,15 @@ class SegmentStep extends \AcceptanceTester
         $I->click(SegmentsPage::$saveAndCloseButton);
     }
 
+    /**
+     * Grab the name of a segment from the segment list.
+     *
+     * @return string the name of the segment
+     */
     public function grabSegmentNameFromList($place)
     {
         $I           = $this;
-        $xpath       = "//*[@id='leadListTable']/tbody/tr[$place]/td[2]/a/div[1]";
+        $xpath       = "//*[@id='leadListTable']/tbody/tr[$place]/td[2]/div/a";
         $segmentName = $I->grabTextFrom($xpath);
         $I->see($segmentName, $xpath);
 
