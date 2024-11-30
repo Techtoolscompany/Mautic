@@ -35,21 +35,12 @@ class EmailManagementCest
         $this->selectChangeCategoryAction($I);
         $newCategoryName = $email->changeEmailCategory();
 
-        $this->ensureNotificationAppears($I, 'emails affected');
+        $I->ensureNotificationAppears('emails affected');
 
         $I->reloadPage();
 
         // Assert
         $this->verifyAllEmailsBelongTo($I, $newCategoryName);
-    }
-
-    /**
-     * Ensures that a notification appears after an action and contains the expected text.
-     */
-    protected function ensureNotificationAppears(AcceptanceTester $I, string $message): void
-    {
-        $I->waitForElementVisible('#flashes .alert', 10);
-        $I->see($message, '#flashes .alert');
     }
 
     public function selectAllEmails(AcceptanceTester $I): void
