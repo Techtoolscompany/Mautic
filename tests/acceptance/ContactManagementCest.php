@@ -435,7 +435,6 @@ class ContactManagementCest
         $I->click(ContactPage::$doNotContactSaveButton);
 
         $I->waitForElementVisible('#flashes .alert', 15);
-        $I->seeElement('#flashes .alert');
         $I->see('2 contacts affected', '#flashes .alert');
 
         $I->reloadPage();
