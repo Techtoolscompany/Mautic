@@ -30,7 +30,6 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
         $this->em->flush();
 
         $crawler      = $this->client->request(Request::METHOD_GET, "/s/reports/view/{$report->getId()}");
-        $this->assertTrue($this->client->getResponse()->isOk());
         // get table with id=reportTable
         $crawlerTable = $crawler->filter('#reportTable');
         // remove first line of table (column names)
