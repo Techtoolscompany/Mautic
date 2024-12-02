@@ -82,9 +82,13 @@ class AcceptanceTester extends Codeception\Actor
     {
         $I = $this;
         // Click the dropdown button for bulk actions
-        $I->click("//*[@id='$table']/thead/tr/th[1]/div/div/button/i");
+        $xpathDropdownButton = "//*[@id='$table']/thead/tr/th[1]/div/div/button/i";
+        $I->waitForElementClickable($xpathDropdownButton, 10);
+        $I->click($xpathDropdownButton);
         // Select the desired option from the dropdown menu
-        $I->click("//*[@id='$table']/thead/tr/th[1]/div/div/ul/li[$option]/a/span/span");
+        $xpathOption = "//*[@id='$table']/thead/tr/th[1]/div/div/ul/li[$option]/a/span";
+        $I->waitForElementClickable($xpathOption, 10);
+        $I->click($xpathOption);
     }
 
     /**

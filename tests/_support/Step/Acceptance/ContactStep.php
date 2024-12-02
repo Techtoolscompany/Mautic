@@ -60,22 +60,6 @@ class ContactStep extends \AcceptanceTester
     }
 
     /**
-     * Select an option from the dropdown menu for multiple selected contacts.
-     */
-    public function selectOptionFromDropDownForMultipleSelections($option)
-    {
-        $I = $this;
-        // Click the dropdown button for bulk actions
-        $xpathDropdownButton = '//*[@id="leadTable"]/thead/tr/th[1]/div/div/button/i';
-        $I->waitForElementClickable($xpathDropdownButton, 10);
-        $I->click($xpathDropdownButton);
-        // Select the desired option from the dropdown menu
-        $xpathOption = "//*[@id='leadTable']/thead/tr/th[1]/div/div/ul/li[$option]/a/span";
-        $I->waitForElementClickable($xpathOption, 10);
-        $I->click($xpathOption);
-    }
-
-    /**
      * Select an option from the dropdown menu (beside the Quick Add, +New button) on the contacts page.
      *
      * @param int $option the option to select (1-> Export to CSV, 2-> Export to Excel, 3-> Import, 4-> Import History)
