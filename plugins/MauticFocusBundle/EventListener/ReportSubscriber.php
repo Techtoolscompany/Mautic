@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MauticPlugin\MauticFocusBundle\EventListener;
 
 use Mautic\ReportBundle\Event\ReportBuilderEvent;
@@ -7,7 +9,7 @@ use Mautic\ReportBundle\Event\ReportGeneratorEvent;
 use Mautic\ReportBundle\ReportEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ReportSubscriber implements EventSubscriberInterface
+final class ReportSubscriber implements EventSubscriberInterface
 {
     public const CONTEXT_FOCUS_STATS = 'focus_stats';
     public const FOCUS_GROUP         = 'focus';
@@ -21,7 +23,6 @@ class ReportSubscriber implements EventSubscriberInterface
         return [
             ReportEvents::REPORT_ON_BUILD    => ['onReportBuilder', 0],
             ReportEvents::REPORT_ON_GENERATE => ['onReportGenerate', 0],
-            // ReportEvents::REPORT_ON_DISPLAY  => ['onReportDisplay', 0],
         ];
     }
 
