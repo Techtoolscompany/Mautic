@@ -310,6 +310,10 @@ class EventType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $resolver->setDefaults([
+            'allow_extra_fields' => true, // Allow extra fields in the form
+        ]);
+
         $resolver->setRequired(['settings']);
     }
 
