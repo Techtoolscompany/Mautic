@@ -37,28 +37,38 @@ final class ReportSubscriber implements EventSubscriberInterface
 
         $columns = [
             self::PREFIX_FOCUS.'.name' => [
-                'label' => 'mautic.core.name',
-                'type'  => 'html',
+                'label'   => 'mautic.core.name',
+                'type'    => 'html',
+                'alias'   => 'focus_name',
+                'formula' => 'MAX('.self::PREFIX_FOCUS.'.name)',
             ],
             self::PREFIX_FOCUS.'.description' => [
-                'label' => 'mautic.core.description',
-                'type'  => 'html',
+                'label'   => 'mautic.core.description',
+                'type'    => 'html',
+                'alias'   => 'focus_desc',
+                'formula' => 'MAX('.self::PREFIX_FOCUS.'.description)',
             ],
             self::PREFIX_FOCUS.'.focus_type' => [
-                'label' => 'mautic.focus.thead.type',
-                'type'  => 'html',
+                'label'   => 'mautic.focus.thead.type',
+                'type'    => 'html',
+                'alias'   => 'focus_type',
+                'formula' => 'MAX('.self::PREFIX_FOCUS.'.focus_type)',
             ],
             self::PREFIX_FOCUS.'.style' => [
-                'label' => 'mautic.focus.tab.focus_style',
-                'type'  => 'html',
+                'label'   => 'mautic.focus.tab.focus_style',
+                'type'    => 'html',
+                'alias'   => 'focus_style',
+                'formula' => 'MAX('.self::PREFIX_FOCUS.'.style)',
             ],
             self::PREFIX_STATS.'.type' => [
                 'label' => 'mautic.focus.interaction',
                 'type'  => 'html',
+                'alias' => 'interaction_type',
             ],
             self::PREFIX_TRACKABLES.'.hits' => [
                 'label'   => 'mautic.page.graph.line.hits',
                 'type'    => 'html',
+                'alias'   => 'hit_count',
                 'formula' => 'CASE 
                     WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(fs2.id) 
@@ -69,12 +79,13 @@ final class ReportSubscriber implements EventSubscriberInterface
                         AND f2.id = '.self::PREFIX_FOCUS.'.id
                         GROUP BY f2.id
                     )
-                    ELSE '.self::PREFIX_TRACKABLES.'.hits 
+                    ELSE MAX('.self::PREFIX_TRACKABLES.'.hits)
                 END',
             ],
             self::PREFIX_TRACKABLES.'.unique_hits' => [
                 'label'   => 'mautic.report.focus.uniquehits',
                 'type'    => 'html',
+                'alias'   => 'unique_hit_count',
                 'formula' => 'CASE 
                     WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(DISTINCT fs2.lead_id) 
@@ -82,12 +93,14 @@ final class ReportSubscriber implements EventSubscriberInterface
                         WHERE fs2.type = "view" 
                         AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
                     )
-                    ELSE '.self::PREFIX_TRACKABLES.'.unique_hits 
+                    ELSE MAX('.self::PREFIX_TRACKABLES.'.unique_hits)
                 END',
             ],
             self::PREFIX_REDIRECTS.'.url' => [
-                'label' => 'url',
-                'type'  => 'html',
+                'label'   => 'url',
+                'type'    => 'html',
+                'alias'   => 'redirect_url',
+                'formula' => 'MAX('.self::PREFIX_REDIRECTS.'.url)',
             ],
         ];
 
@@ -97,7 +110,6 @@ final class ReportSubscriber implements EventSubscriberInterface
         ];
         $context = self::CONTEXT_FOCUS_STATS;
 
-        // Register table
         $event->addTable($context, $data, self::FOCUS_GROUP);
     }
 
@@ -119,7 +131,7 @@ final class ReportSubscriber implements EventSubscriberInterface
                 self::PREFIX_TRACKABLES.'.channel = "focus"')
             ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
                 self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id')
-            ->groupBy(self::PREFIX_FOCUS.'.name', self::PREFIX_STATS.'.type');
+            ->groupBy(self::PREFIX_STATS.'.focus_id', self::PREFIX_STATS.'.type');
 
         $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
         $event->setQueryBuilder($queryBuilder);
