@@ -118,7 +118,7 @@ final class ReportSubscriberTest extends TestCase
 
         $queryBuilder->expects($this->once())
             ->method('groupBy')
-            ->with(ReportSubscriber::PREFIX_FOCUS.'.name', ReportSubscriber::PREFIX_STATS.'.type')
+            ->with(ReportSubscriber::PREFIX_STATS.'.focus_id', ReportSubscriber::PREFIX_STATS.'.type')
             ->willReturn($queryBuilder);
 
         $this->reportSubscriber->onReportGenerate($this->reportGeneratorEventMock);
@@ -130,9 +130,39 @@ final class ReportSubscriberTest extends TestCase
     private function getExpectedColumns(): array
     {
         return [
+            ReportSubscriber::PREFIX_FOCUS.'.name' => [
+                'label'   => 'mautic.core.name',
+                'type'    => 'html',
+                'alias'   => 'focus_name',
+                'formula' => 'MAX('.ReportSubscriber::PREFIX_FOCUS.'.name)',
+            ],
+            ReportSubscriber::PREFIX_FOCUS.'.description' => [
+                'label'   => 'mautic.core.description',
+                'type'    => 'html',
+                'alias'   => 'focus_desc',
+                'formula' => 'MAX('.ReportSubscriber::PREFIX_FOCUS.'.description)',
+            ],
+            ReportSubscriber::PREFIX_FOCUS.'.focus_type' => [
+                'label'   => 'mautic.focus.thead.type',
+                'type'    => 'html',
+                'alias'   => 'focus_type',
+                'formula' => 'MAX('.ReportSubscriber::PREFIX_FOCUS.'.focus_type)',
+            ],
+            ReportSubscriber::PREFIX_FOCUS.'.style' => [
+                'label'   => 'mautic.focus.tab.focus_style',
+                'type'    => 'html',
+                'alias'   => 'focus_style',
+                'formula' => 'MAX('.ReportSubscriber::PREFIX_FOCUS.'.style)',
+            ],
+            ReportSubscriber::PREFIX_STATS.'.type' => [
+                'label' => 'mautic.focus.interaction',
+                'type'  => 'html',
+                'alias' => 'interaction_type',
+            ],
             ReportSubscriber::PREFIX_TRACKABLES.'.hits' => [
                 'label'   => 'mautic.page.graph.line.hits',
                 'type'    => 'html',
+                'alias'   => 'hit_count',
                 'formula' => 'CASE 
                     WHEN '.ReportSubscriber::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(fs2.id) 
@@ -143,12 +173,13 @@ final class ReportSubscriberTest extends TestCase
                         AND f2.id = '.ReportSubscriber::PREFIX_FOCUS.'.id
                         GROUP BY f2.id
                     )
-                    ELSE '.ReportSubscriber::PREFIX_TRACKABLES.'.hits 
+                    ELSE MAX('.ReportSubscriber::PREFIX_TRACKABLES.'.hits)
                 END',
             ],
             ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits' => [
                 'label'   => 'mautic.report.focus.uniquehits',
                 'type'    => 'html',
+                'alias'   => 'unique_hit_count',
                 'formula' => 'CASE 
                     WHEN '.ReportSubscriber::PREFIX_STATS.'.type = "view" THEN (
                         SELECT COUNT(DISTINCT fs2.lead_id) 
@@ -156,32 +187,14 @@ final class ReportSubscriberTest extends TestCase
                         WHERE fs2.type = "view" 
                         AND fs2.focus_id = '.ReportSubscriber::PREFIX_STATS.'.focus_id
                     )
-                    ELSE '.ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits 
+                    ELSE MAX('.ReportSubscriber::PREFIX_TRACKABLES.'.unique_hits)
                 END',
             ],
-            ReportSubscriber::PREFIX_FOCUS.'.name' => [
-                'label' => 'mautic.core.name',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_FOCUS.'.description' => [
-                'label' => 'mautic.core.description',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_FOCUS.'.focus_type' => [
-                'label' => 'mautic.focus.thead.type',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_FOCUS.'.style' => [
-                'label' => 'mautic.focus.tab.focus_style',
-                'type'  => 'html',
-            ],
-            ReportSubscriber::PREFIX_STATS.'.type' => [
-                'label' => 'mautic.focus.interaction',
-                'type'  => 'html',
-            ],
             ReportSubscriber::PREFIX_REDIRECTS.'.url' => [
-                'label' => 'url',
-                'type'  => 'html',
+                'label'   => 'url',
+                'type'    => 'html',
+                'alias'   => 'redirect_url',
+                'formula' => 'MAX('.ReportSubscriber::PREFIX_REDIRECTS.'.url)',
             ],
         ];
     }
