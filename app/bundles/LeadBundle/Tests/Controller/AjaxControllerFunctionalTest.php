@@ -474,10 +474,11 @@ class AjaxControllerFunctionalTest extends MauticMysqlTestCase
         $user->setUsername('non-admin-user');
         $user->setRole($role);
 
-        /** @var PasswordHasherInterface $encoder */
-        $encoder = static::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
+        /** @var PasswordHasherInterface $hasher */
+        $hasher = static::getContainer()->get('security.password_hasher_factory')->getPasswordHasher($user);
 
-        $user->setPassword($encoder->hash('mautic'));
+        $passwordNonAdmin = 'Maut1cR0cks!';
+        $user->setPassword($hasher->hash($passwordNonAdmin));
         $userRepository->saveEntity($user);
 
         /** @var User $nonAdminUser */
@@ -502,6 +503,8 @@ class AjaxControllerFunctionalTest extends MauticMysqlTestCase
         // Check suggestions for a non admin user.
         $this->loginUser('non-admin-user');
         $this->client->setServerParameter('PHP_AUTH_USER', 'non-admin-user');
+        // Set the new password, because new authenticator system checks for it.
+        $this->client->setServerParameter('PHP_AUTH_PW', $passwordNonAdmin);
         $this->client->request(Request::METHOD_GET, '/s/ajax?action=lead:contactList&field=undefined&filter=user');
         $response = $this->client->getResponse();
         self::assertTrue($response->isOk());
@@ -512,6 +515,65 @@ class AjaxControllerFunctionalTest extends MauticMysqlTestCase
         self::assertCount(2, $foundNames);
         self::assertSame('User 3', $foundNames[0]);
         self::assertSame('User 4', $foundNames[1]);
+    }
+
+    /**
+     * @dataProvider leadFieldOrderChoiceListProvider
+     *
+     * @param string[] $expectedOptions
+     */
+    public function testUpdateLeadFieldOrderChoiceListAction(string $object, string $group, array $expectedOptions): void
+    {
+        $payload = [
+            'action' => 'lead:updateLeadFieldOrderChoiceList',
+            'object' => $object,
+            'group'  => $group,
+        ];
+
+        $this->client->request(
+            Request::METHOD_POST,
+            '/s/ajax',
+            $payload,
+            [],
+            $this->createAjaxHeaders()
+        );
+
+        // Get the response HTML
+        $response    = $this->client->getResponse();
+        $htmlContent = $response->getContent();
+
+        // Assert the response is successful
+        $this->assertTrue($response->isOk(), "Response was not OK for object: $object, group: $group");
+        $this->assertStringNotContainsString('<form', $htmlContent, 'Response contains a form instead of just field order.');
+        $this->assertStringContainsString('<select', $htmlContent, 'Response contains select tag.');
+
+        // Parse the HTML content using DOMDocument
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($htmlContent);
+        $select  = $dom->getElementsByTagName('select')->item(0);
+        $options = $select->getElementsByTagName('option');
+
+        $actualOptions = [];
+        foreach ($options as $option) {
+            if ($option->textContent) {
+                // Get the text content of each <option>
+                $actualOptions[] = trim($option->textContent);
+            }
+        }
+        // Assert that the actual options match the expected options
+        if (empty($expectedOptions)) {
+            $this->assertEmpty($actualOptions);
+        }
+        foreach ($expectedOptions as $expectedValue) {
+            $this->assertContains($expectedValue, $actualOptions, "Missing expected option '$expectedValue' for object: $object, group: $group");
+        }
+    }
+
+    public function leadFieldOrderChoiceListProvider(): \Generator
+    {
+        yield ['lead', 'core', ['Fax', 'Website']];
+        yield ['lead', 'social', ['Facebook', 'Foursquare', 'Instagram']];
+        yield ['company', 'core', []];
     }
 
     private function getMembersForCampaign(int $campaignId): array
