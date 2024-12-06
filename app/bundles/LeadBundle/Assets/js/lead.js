@@ -23,7 +23,7 @@ Mautic.leadOnLoad = function (container, response) {
             mQuery('#card-view').click();
         }
     }, 'contact pages');
-    
+
     //Prevent single combo keys from initiating within lead note
     Mousetrap.stopCallback = function(e, element, combo) {
         if (element.id == 'leadnote_text' && combo != 'mod+enter') {
@@ -976,6 +976,20 @@ Mautic.updateLeadFieldBooleanLabels = function(el, label) {
     );
 };
 
+Mautic.updateLeadFieldOrderChoiceList = function () {
+    formData = {
+        'object': mQuery('#leadfield_object').val(),
+        'group': mQuery('#leadfield_group').val()
+    };
+    Mautic.ajaxActionRequest('lead:updateLeadFieldOrderChoiceList', formData, function(response) {
+        if (response) {
+            mQuery('#leadfield_order_container').html(response);
+            Mautic.activateChosenSelect('#leadfield_order');
+            mQuery('label[for=leadfield_order]').tooltip({html: true});
+        }
+    });
+}
+
 Mautic.refreshLeadSocialProfile = function(network, leadId, event) {
     var query = "action=lead:updateSocialProfile&network=" + network + "&lead=" + leadId;
     mQuery.ajax({
@@ -1269,10 +1283,10 @@ Mautic.removeTagFromLead = function (el, leadId, tagId) {
 Mautic.toggleLiveLeadListUpdate = function () {
     if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] == 'undefined') {
         Mautic.setModeratedInterval('leadListLiveUpdate', 'updateLeadList', 5000);
-        mQuery('#liveModeButton').addClass('btn-primary');
+        mQuery('#liveModeButton').addClass('active');
     } else {
         Mautic.clearModeratedInterval('leadListLiveUpdate');
-        mQuery('#liveModeButton').removeClass('btn-primary');
+        mQuery('#liveModeButton').removeClass('active');
     }
 };
 
