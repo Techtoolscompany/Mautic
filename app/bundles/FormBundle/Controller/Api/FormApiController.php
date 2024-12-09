@@ -211,6 +211,11 @@ class FormApiController extends CommonApiController
                         $fieldEntityArray['alias'] = $fieldParams['alias'] = $fieldModel->generateAlias($fieldEntityArray['label'] ?? '', $aliases);
                     }
 
+                    if ('PUT' == $method) {
+                        $fieldEntityArray['properties'] = $fieldParams['properties'] ?? null;
+                        $fieldEntityArray['type']       = $fieldParams['type'] ?? null;
+                    }
+
                     // Check that the alias is not already in use by another field
                     if (in_array($fieldEntityArray['alias'], $requestUsedAliases)) {
                         $msg = $this->translator->trans('mautic.form.field.alias.unique', ['%alias%' => $fieldEntityArray['alias']], 'validators');
