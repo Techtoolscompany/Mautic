@@ -211,8 +211,10 @@ class FormApiController extends CommonApiController
                         $fieldEntityArray['alias'] = $fieldParams['alias'] = $fieldModel->generateAlias($fieldEntityArray['label'] ?? '', $aliases);
                     }
 
-                    $fieldEntityArray['properties'] = $fieldParams['properties'] ?? null;
-                    $fieldEntityArray['type']       = $fieldParams['type'] ?? null;
+                    if ('PUT' == $method) {
+                        $fieldEntityArray['properties'] = $fieldParams['properties'] ?? null;
+                        $fieldEntityArray['type']       = $fieldParams['type'] ?? null;
+                    }
 
                     // Check that the alias is not already in use by another field
                     if (in_array($fieldEntityArray['alias'], $requestUsedAliases)) {
