@@ -30,9 +30,7 @@ class ReportNormalizeSubscriberTest extends MauticMysqlTestCase
         $field->setAlias('field1');
         $field->setName($field->getAlias());
         $field->setProperties($properties);
-
         $fieldModel->saveEntity($field);
-
         $rows = [
             [
                 'field1' => $value,
@@ -42,6 +40,12 @@ class ReportNormalizeSubscriberTest extends MauticMysqlTestCase
         $report = new Report();
         $report->setColumns(['l.firstname' => 'l.firstname']);
         $event      = new ReportDataEvent($report, $rows, [], []);
+
+        $repo      = $fieldModel->getRepository();
+        $reflector = new \ReflectionProperty(get_class($repo), 'fields');
+        $reflector->setAccessible(true);
+        $reflector->setValue($repo, null);
+
         $subscriber = new ReportNormalizeSubscriber($fieldModel);
         $subscriber->onReportDisplay($event);
 
