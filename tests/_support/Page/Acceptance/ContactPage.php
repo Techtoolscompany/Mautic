@@ -6,6 +6,8 @@ class ContactPage
 {
     public static $URL = '/s/contacts';
 
+    // Contact table name
+    public static $tableName = 'leadTable';
     // Form fields
     public static $firstNameField     = '#lead_firstname';
     public static $lastNameField      = '#lead_lastname';

@@ -48,19 +48,6 @@ class ContactStep extends \AcceptanceTester
     }
 
     /**
-     * Select an option from the dropdown menu for a specific contact.
-     */
-    public function selectOptionFromDropDown($place, $option): void
-    {
-        $I = $this;
-        // Click the dropdown menu
-        $I->click("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/button");
-        // Select the desired option
-        $I->waitForElementClickable("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a", 30);
-        $I->click("//*[@id='leadTable']/tbody/tr[$place]/td[1]/div/div/ul/li[$option]/a");
-    }
-
-    /**
      * Select a contact from the contact list.
      */
     public function selectContactFromList($place): void
@@ -70,22 +57,6 @@ class ContactStep extends \AcceptanceTester
         $I->waitForElementClickable($xpath, 10);
         $I->checkOption($xpath);
         $I->seeCheckboxIsChecked($xpath);
-    }
-
-    /**
-     * Select an option from the dropdown menu for multiple selected contacts.
-     */
-    public function selectOptionFromDropDownForMultipleSelections($option)
-    {
-        $I = $this;
-        // Click the dropdown button for bulk actions
-        $xpathDropdownButton = '//*[@id="leadTable"]/thead/tr/th[1]/div/div/button/i';
-        $I->waitForElementClickable($xpathDropdownButton, 10);
-        $I->click($xpathDropdownButton);
-        // Select the desired option from the dropdown menu
-        $xpathOption = "//*[@id='leadTable']/thead/tr/th[1]/div/div/ul/li[$option]/a/span";
-        $I->waitForElementClickable($xpathOption, 10);
-        $I->click($xpathOption);
     }
 
     /**
