@@ -32,9 +32,9 @@ class LeadApiControllerFunctionalTest extends MauticMysqlTestCase
             'session',
             new Session(
                 new class() extends FixedMockFileSessionStorage {
-                    public function start()
+                    public function start(): bool
                     {
-                        Assert::fail('Session cannot be started during API call. It must be stateless.');
+                        throw new \RuntimeException('Session cannot be started during API call. It must be stateless.');
                     }
                 }
             )

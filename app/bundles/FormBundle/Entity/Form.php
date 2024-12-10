@@ -100,8 +100,6 @@ class Form extends FormEntity
     /**
      * @var Collection<int, Submission>
      */
-    #[ORM\OneToMany(targetEntity: Submission::class, mappedBy: 'form', fetch: 'EXTRA_LAZY')]
-    #[ORM\OrderBy(['dateSubmitted' => \Doctrine\Common\Collections\Criteria::DESC])]
     private Collection $submissions;
 
     /**

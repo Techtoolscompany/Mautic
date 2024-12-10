@@ -138,21 +138,11 @@ class MauticFactory
     }
 
     /**
-     * Retrieves twig service.
-     *
-     * @return \Twig\Environment
-     */
-    public function getTwig()
-    {
-        return $this->container->get('twig');
-    }
-
-    /**
      * Retrieves event dispatcher.
      *
      * @return EventDispatcherInterface
      */
-    public function getDispatcher()
+    public function getDispatcher(): ?object
     {
         return $this->container->get('event_dispatcher');
     }
@@ -204,7 +194,7 @@ class MauticFactory
      *
      * @return Router
      */
-    public function getRouter()
+    public function getRouter(): ?object
     {
         return $this->container->get('router');
     }
@@ -377,7 +367,7 @@ class MauticFactory
      *
      * @return \AppKernel
      */
-    public function getKernel()
+    public function getKernel(): ?object
     {
         return $this->container->get('kernel');
     }
@@ -419,10 +409,7 @@ class MauticFactory
         return $this->container->get('mautic.helper.bundle')->getBundleConfig($bundleName, $configKey, $includePlugins);
     }
 
-    /**
-     * @return bool
-     */
-    public function serviceExists($service)
+    public function serviceExists($service): bool
     {
         return $this->container->has($service);
     }

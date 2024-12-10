@@ -186,10 +186,7 @@ class EmailSendType extends AbstractType
         $resolver->setDefined(['update_select', 'with_email_types']);
     }
 
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'emailsend_list';
     }

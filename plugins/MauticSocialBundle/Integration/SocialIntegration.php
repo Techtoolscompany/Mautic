@@ -19,7 +19,6 @@ use Monolog\Logger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,7 +35,6 @@ abstract class SocialIntegration extends AbstractIntegration
         EventDispatcherInterface $eventDispatcher,
         CacheStorageHelper $cacheStorageHelper,
         EntityManager $entityManager,
-        Session $session,
         RequestStack $requestStack,
         Router $router,
         Translator $translator,
@@ -55,7 +53,6 @@ abstract class SocialIntegration extends AbstractIntegration
             $eventDispatcher,
             $cacheStorageHelper,
             $entityManager,
-            $session,
             $requestStack,
             $router,
             $translator,
@@ -250,15 +247,15 @@ abstract class SocialIntegration extends AbstractIntegration
      */
     protected function getContactAccessToken(&$socialCache)
     {
-        if (!$this->session) {
+        if (!$this->requestStack->getCurrentRequest()->hasSession()) {
             return null;
         }
 
-        if (!$this->session->isStarted()) {
+        if (!$this->requestStack->getSession()->isStarted()) {
             return (isset($socialCache['accessToken'])) ? $this->decryptApiKeys($socialCache['accessToken']) : null;
         }
 
-        $accessToken = $this->session->get($this->getName().'_tokenResponse', []);
+        $accessToken = $this->requestStack->getSession()->get($this->getName().'_tokenResponse', []);
         if (!isset($accessToken[$this->getAuthTokenKey()])) {
             if (isset($socialCache['accessToken'])) {
                 $accessToken = $this->decryptApiKeys($socialCache['accessToken']);
@@ -266,7 +263,7 @@ abstract class SocialIntegration extends AbstractIntegration
                 return null;
             }
         } else {
-            $this->session->remove($this->getName().'_tokenResponse');
+            $this->requestStack->getSession()->remove($this->getName().'_tokenResponse');
             $socialCache['accessToken'] = $this->encryptApiKeys($accessToken);
 
             $this->persistNewLead = true;

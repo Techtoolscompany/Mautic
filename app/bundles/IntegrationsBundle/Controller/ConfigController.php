@@ -140,7 +140,7 @@ class ConfigController extends AbstractFormController
         $eventDispatcher->dispatch($configEvent, IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE);
 
         // Show the form if there are errors and the plugin is published or the authorized button was clicked
-        $integrationDetailsPost = $request->request->get('integration_details') ?? [];
+        $integrationDetailsPost = $request->request->all()['integration_details'] ?? [];
         $authorize              = !empty($integrationDetailsPost['in_auth']);
         if ($form->isSubmitted() && !$form->isValid() && ($this->integrationConfiguration->getIsPublished() || $authorize)) {
             return $this->showForm($request, $form, $formExtension);
@@ -168,7 +168,7 @@ class ConfigController extends AbstractFormController
     /**
      * @return FormInterface<mixed>
      */
-    private function getForm(FormFactoryInterface $formFactory)
+    private function getForm(FormFactoryInterface $formFactory): FormInterface
     {
         return $formFactory->create(
             $this->integrationObject->getConfigFormName() ?: IntegrationConfigType::class,

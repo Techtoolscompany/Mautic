@@ -508,7 +508,7 @@ class LeadController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     // get custom field values
-                    $data = $request->request->get('lead');
+                    $data = $request->request->all()['lead'];
 
                     // pull the data from the form in order to apply the form's formatting
                     foreach ($form as $f) {
@@ -719,7 +719,7 @@ class LeadController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
-                    $data = $request->request->get('lead');
+                    $data = $request->request->all()['lead'];
 
                     // pull the data from the form in order to apply the form's formatting
                     foreach ($form as $f) {
@@ -2064,8 +2064,7 @@ class LeadController extends FormController
         ];
 
         $iterator = new IteratorExportDataModel($model, $args, fn ($contact) => $exportHelper->parseLeadToExport($contact));
-
-        $response              = $this->exportResultsAs($iterator, $fileType, 'contacts', $exportHelper);
+        $response = $this->exportResultsAs($iterator, $fileType, 'contacts', $exportHelper);
 
         $details['total'] = $iterator->getTotal();
         $details['args']  = $iterator->getArgs();

@@ -33,10 +33,7 @@ class SlotSegmentListType extends SlotType
         parent::buildForm($builder, $options);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'slot_segmentlist';
     }

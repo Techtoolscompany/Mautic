@@ -291,7 +291,7 @@ class CommonController extends AbstractController implements MauticController
             $ajaxRouteName = false;
 
             try {
-                $routeParams   = $this->get('router')->match($routePath);
+                $routeParams   = $this->container->get('router')->match($routePath);
                 $ajaxRouteName = $routeParams['_route'];
 
                 $request->attributes->set('ajaxRoute',
@@ -321,8 +321,9 @@ class CommonController extends AbstractController implements MauticController
             if ($forward) {
                 // the content is from another controller action so we must retrieve the response from it instead of
                 // directly parsing the template
-                $query              = ['ignoreAjax' => true, 'request' => $request, 'subrequest' => true];
-                $newContentResponse = $this->forward($contentTemplate, $parameters, $query);
+                $query                 = ['ignoreAjax' => true, 'subrequest' => true];
+                $parameters['request'] = $request;
+                $newContentResponse    = $this->forward($contentTemplate, $parameters, $query);
                 if ($newContentResponse instanceof RedirectResponse) {
                     $passthrough['redirect'] = $newContentResponse->getTargetUrl();
                     $passthrough['route']    = false;
